@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import { startPlayback, stopPlayBack } from '../../actions';
+import { startPlayback, stopPlayBack, stopPlaybackAndBeginRecording, stopRecordingAndEnablePlayback } from '../../actions';
 
 class Home extends Component {
   static propTypes = {
@@ -33,6 +33,8 @@ class Home extends Component {
     // props.navigation.setParams({ user: props.user });
     this.startPlayback = this.startPlayback.bind(this);
     this.stopPlayBack = this.stopPlayBack.bind(this);
+    this.stopPlaybackAndBeginRecording = this.stopPlaybackAndBeginRecording.bind(this);
+    this.stopRecordingAndEnablePlayback = this.stopRecordingAndEnablePlayback.bind(this);
   }
 
   startPlayback() {
@@ -41,6 +43,14 @@ class Home extends Component {
 
   stopPlayBack() {
     this.props.stopPlayBack();
+  }
+
+  stopPlaybackAndBeginRecording() {
+    this.props.stopPlaybackAndBeginRecording();
+  }
+
+  stopRecordingAndEnablePlayback() {
+    this.props.stopRecordingAndEnablePlayback();
   }
 
   render() {
@@ -54,6 +64,16 @@ class Home extends Component {
         <Button
           onPress={() => this.stopPlayBack()}
           title="Stop Playback"
+          color="#841584"
+        />
+        <Button
+          onPress={() => this.stopPlaybackAndBeginRecording()}
+          title="Start Recording"
+          color="#841584"
+        />
+        <Button
+          onPress={() => this.stopRecordingAndEnablePlayback()}
+          title="Stop Recording"
           color="#841584"
         />
       </View>
@@ -96,5 +116,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   null,
-  { startPlayback, stopPlayBack },
+  { startPlayback, stopPlayBack, stopPlaybackAndBeginRecording, stopRecordingAndEnablePlayback },
 )(Home);
