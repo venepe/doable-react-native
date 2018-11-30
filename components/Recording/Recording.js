@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 import {
   Button,
   StyleSheet,
+  TouchableOpacity,
   View,
 } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons/index';
 import { connect } from 'react-redux';
 
-import { startPlayback, stopPlayBack, stopPlaybackAndBeginRecording, stopRecordingAndEnablePlayback } from '../../actions';
+import { stopPlaybackAndBeginRecording, stopRecordingAndEnablePlayback } from '../../actions';
 
-class Home extends Component {
+class Recording extends Component {
   static propTypes = {
     navigation: PropTypes.shape({
       navigate: PropTypes.func.isRequired,
@@ -31,43 +33,29 @@ class Home extends Component {
   constructor(props) {
     super(props);
     // props.navigation.setParams({ user: props.user });
-    this.startPlayback = this.startPlayback.bind(this);
-    this.stopPlayBack = this.stopPlayBack.bind(this);
+    this.goBack = this.goBack.bind(this);
     this.stopPlaybackAndBeginRecording = this.stopPlaybackAndBeginRecording.bind(this);
     this.stopRecordingAndEnablePlayback = this.stopRecordingAndEnablePlayback.bind(this);
   }
 
-  startPlayback() {
-    this.props.startPlayback();
-  }
-
-  stopPlayBack() {
-    this.props.stopPlayBack();
-  }
-
   stopPlaybackAndBeginRecording() {
-    const { navigation } = this.props;
-    const { navigate } = navigation;
-    navigate('RecordingModal')
+    this.props.stopPlaybackAndBeginRecording();
   }
 
   stopRecordingAndEnablePlayback() {
     this.props.stopRecordingAndEnablePlayback();
   }
 
+  goBack() {
+    this.props.navigation.goBack();
+  }
+
   render() {
     return (
       <View style={styles.root}>
-        <Button
-          onPress={() => this.startPlayback()}
-          title="Start Playback"
-          color="#841584"
-        />
-        <Button
-          onPress={() => this.stopPlayBack()}
-          title="Stop Playback"
-          color="#841584"
-        />
+        <TouchableOpacity style={styles.closeButton} onPress={this.goBack}>
+          <MaterialIcons name="close" size={50} color="#F5F5F5" />
+        </TouchableOpacity>
         <Button
           onPress={() => this.stopPlaybackAndBeginRecording()}
           title="Start Recording"
@@ -83,7 +71,7 @@ class Home extends Component {
   }
 }
 
-Home.navigationOptions = (props) => {
+Recording.navigationOptions = (props) => {
   return {
     title: 'Doable',
     headerStyle: {
@@ -102,14 +90,13 @@ Home.navigationOptions = (props) => {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: 'white'
   },
 });
 
-Home.defaultProps = {
+Recording.defaultProps = {
 };
 
-Home.propTypes = {
+Recording.propTypes = {
 }
 
 const mapStateToProps = state => ({
@@ -118,5 +105,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   null,
-  { startPlayback, stopPlayBack, stopPlaybackAndBeginRecording, stopRecordingAndEnablePlayback },
-)(Home);
+  { stopPlaybackAndBeginRecording, stopRecordingAndEnablePlayback },
+)(Recording);
