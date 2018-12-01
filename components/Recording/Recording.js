@@ -35,6 +35,7 @@ class Recording extends Component {
     super(props);
     // props.navigation.setParams({ user: props.user });
     this.goBack = this.goBack.bind(this);
+    this.onCancel = this.onCancel.bind(this);
     this.stopPlaybackAndBeginRecording = this.stopPlaybackAndBeginRecording.bind(this);
     this.stopRecordingAndEnablePlayback = this.stopRecordingAndEnablePlayback.bind(this);
 
@@ -50,6 +51,12 @@ class Recording extends Component {
         activeAudioRecord: props.activeAudioRecord,
       });
     }
+  }
+
+  onCancel() {
+    this.setState({
+      isDirty: false,
+    });
   }
 
   stopPlaybackAndBeginRecording() {
@@ -94,7 +101,7 @@ class Recording extends Component {
             <Player />
           </View>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.closeButton} onPress={this.goBack}>
+            <TouchableOpacity style={styles.closeButton} onPress={this.onCancel}>
               <MaterialIcons name="cancel" size={75} color="#FF5252" />
             </TouchableOpacity>
             <TouchableOpacity style={styles.closeButton} onPress={this.goBack}>
