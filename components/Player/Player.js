@@ -8,11 +8,20 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons/index';
 import { connect } from 'react-redux';
+import { getActiveRecord, getIsPlaying } from '../../reducers';
+import { startPlayback, stopPlayBack } from '../../actions';
 
 // import {  } from '../../actions';
 
 class Player extends Component {
   static propTypes = {}
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+        return {
+          activeAudioRecord: nextProps.activeAudioRecord,
+          isPlaying: nextProps.isPlaying,
+        }
+      }
 
   constructor(props) {
     super(props);
@@ -20,19 +29,32 @@ class Player extends Component {
 
     this.state = {
       isPlaying: props.isPlaying,
+      activeAudioRecord: props.activeAudioRecord,
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const props = this.props;
+    if (props.activeAudioRecord !== prevProps.activeAudioRecord) {
+      this.setState({
+        activeAudioRecord: props.activeAudioRecord,
+      });
+    }
+    if (props.isPlaying !== prevProps.isPlaying) {
+      this.setState({
+        isPlaying: props.isPlaying,
+      });
     }
   }
 
   togglePlay() {
     console.log('asdf');
-    const { isPlaying } = this.state;
+    const { isPlaying, activeAudioRecord } = this.state;
     if (isPlaying) {
-      this.setState({
-        isPlaying: false,
-      });
+      this.props.stopPlayBack();
     } else {
-      this.setState({
-        isPlaying: true,
+      this.props.startPlayback({
+        payload: { uri: activeAudioRecord.uri },
       });
     }
   }
@@ -82,6 +104,7 @@ const styles = StyleSheet.create({
 
 Player.defaultProps = {
   isPlaying: false,
+  activeAudioRecord: {},
 };
 
 Player.propTypes = {
@@ -89,10 +112,11 @@ Player.propTypes = {
 }
 
 const mapStateToProps = state => ({
-
+  activeAudioRecord: getActiveRecord(state),
+  isPlaying: getIsPlaying(state),
 });
 
 export default connect(
-  null,
-  { },
+  mapStateToProps,
+  { startPlayback, stopPlayBack },
 )(Player);

@@ -46,9 +46,7 @@ class Home extends Component {
   }
 
   stopPlaybackAndBeginRecording() {
-    const { navigation } = this.props;
-    const { navigate } = navigation;
-    navigate('RecordingModal')
+    this.props.stopPlaybackAndBeginRecording();
   }
 
   stopRecordingAndEnablePlayback() {
@@ -76,6 +74,11 @@ class Home extends Component {
         <Button
           onPress={() => this.stopRecordingAndEnablePlayback()}
           title="Stop Recording"
+          color="#841584"
+        />
+        <Button
+          onPress={() => this.props.navigation.navigate('RecordingModal')}
+          title="Modal"
           color="#841584"
         />
       </View>

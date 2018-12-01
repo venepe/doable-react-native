@@ -2,19 +2,35 @@ import AudioTypes from '../constants/AudioTypes';
 
 const initialState = {
   decks: [],
+  activeAudioRecord: {},
+  isPlaying: false,
+  isRecording: false,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case AudioTypes.USER_LOCATION_CHANGED:
+    case AudioTypes.SET_ACTIVE_RECORD:
     {
-      const { latitude, longitude } = action.payload;
+      const { activeAudioRecord } = action.payload;
       return {
         ...state,
-        userCoordinates: {
-          latitude,
-          longitude,
-        },
+        activeAudioRecord,
+      };
+    }
+    case AudioTypes.START_PLAYBACK:
+    {
+      const { isPlaying } = action.payload;
+      return {
+        ...state,
+        isPlaying,
+      };
+    }
+    case AudioTypes.STOP_PLAYBACK:
+    {
+      const { isPlaying } = action.payload;
+      return {
+        ...state,
+        isPlaying,
       };
     }
     default:
@@ -22,6 +38,8 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export const getUserCoordinates = state => state.userCoordinates;
+export const getActiveRecord = state => state.activeAudioRecord;
+export const getIsPlaying = state => state.isPlaying;
+export const getIsRecording = state => state.isRecording;
 
 export default reducer;

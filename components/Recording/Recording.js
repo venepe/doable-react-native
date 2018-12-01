@@ -9,6 +9,7 @@ import {
 import { MaterialIcons } from '@expo/vector-icons/index';
 import { connect } from 'react-redux';
 import Player from '../Player';
+import { getActiveRecord } from '../../reducers';
 import { stopPlaybackAndBeginRecording, stopRecordingAndEnablePlayback } from '../../actions';
 
 class Recording extends Component {
@@ -42,19 +43,28 @@ class Recording extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    const props = this.props;
+    if (props.activeAudioRecord !== prevProps.activeAudioRecord) {
+      this.setState({
+        activeAudioRecord: props.activeAudioRecord,
+      });
+    }
+  }
+
   stopPlaybackAndBeginRecording() {
     this.setState({
       isDirty: true,
       isRecording: true,
     });
-    // this.props.stopPlaybackAndBeginRecording();
+    this.props.stopPlaybackAndBeginRecording();
   }
 
   stopRecordingAndEnablePlayback() {
     this.setState({
       isRecording: false,
     });
-    // this.props.stopRecordingAndEnablePlayback();
+    this.props.stopRecordingAndEnablePlayback();
   }
 
   goBack() {
@@ -63,8 +73,8 @@ class Recording extends Component {
 
   renderRecording() {
     let { isDirty, isRecording, } = this.state;
-    isDirty = true;
-    isRecording = false;
+    // isDirty = true;
+    // isRecording = false;
     if (!isDirty) {
       return (
         <TouchableOpacity style={styles.closeButton} onPress={this.stopPlaybackAndBeginRecording}>
