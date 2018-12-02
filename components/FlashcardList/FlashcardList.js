@@ -67,6 +67,7 @@ class FlashcardList extends Component {
 
   onPressRow(item) {
     console.log('did press item ', item);
+    this.props.navigation.navigate('FlashcardDetail');
   }
 
   render() {
