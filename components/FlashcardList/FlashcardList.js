@@ -8,10 +8,10 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
-import DeckItem from '../DeckItem';
-import { getDecks } from '../../reducers';
+import FlashcardItem from '../FlashcardItem';
+import { getFlashcards } from '../../reducers';
 
-class DeckList extends Component {
+class FlashcardList extends Component {
   static propTypes = {
     navigation: PropTypes.shape({
       navigate: PropTypes.func.isRequired,
@@ -20,7 +20,7 @@ class DeckList extends Component {
   }
 
   static navigationOptions = {
-    title: 'Decks',
+    title: 'Flashcards',
     headerStyle: {
       backgroundColor: '#3B5998',
     },
@@ -32,7 +32,7 @@ class DeckList extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
         return {
-          decks: nextProps.decks,
+          flashcards: nextProps.flashcards,
         }
       }
 
@@ -41,7 +41,7 @@ class DeckList extends Component {
     this.renderItem = this.renderItem.bind(this);
     this.onPressRow = this.onPressRow.bind(this);
     this.state = {
-      decks: props.decks,
+      flashcards: props.flashcards,
     }
   }
 
@@ -52,30 +52,29 @@ class DeckList extends Component {
 
   componentDidUpdate(prevProps) {
     const props = this.props;
-    if (props.decks !== prevProps.decks) {
+    if (props.flashcards !== prevProps.flashcards) {
       this.setState({
-        decks: props.decks,
+        flashcards: props.flashcards,
       });
     }
   }
 
   renderItem({ item, index }) {
     return (
-      <DeckItem deck={item} key={index} rowID={index} onPress={this.onPressRow} />
+      <FlashcardItem flashcard={item} key={index} rowID={index} onPress={this.onPressRow} />
     )
   }
 
   onPressRow(item) {
     console.log('did press item ', item);
-    this.props.navigation.navigate('FlashcardList');
   }
 
   render() {
     return (
       <View style={styles.root}>
         <FlatList
-          data={this.state.decks}
-          keyExtractor={(deck) => deck.index}
+          data={this.state.flashcards}
+          keyExtractor={(flashcard) => flashcard.index}
           renderItem={this.renderItem}
         />
       </View>
@@ -83,15 +82,16 @@ class DeckList extends Component {
   }
 }
 
-DeckList.navigationOptions = (props) => {
+FlashcardList.navigationOptions = (props) => {
   const { navigation } = props;
   const { navigate } = navigation;
 
   return {
-    title: 'Decks',
+    title: 'Flashcards',
     headerStyle: {
       backgroundColor: '#000D11',
     },
+    headerTintColor: '#FFFFFF',
     headerTitleStyle: {
       color: '#F5F5F5',
     },
@@ -121,15 +121,15 @@ const styles = StyleSheet.create({
   },
 });
 
-DeckList.defaultProps = {};
+FlashcardList.defaultProps = {};
 
-DeckList.propTypes = {}
+FlashcardList.propTypes = {}
 
 const mapStateToProps = state => ({
-  decks: getDecks(state),
+  flashcards: getFlashcards(state),
 });
 
 export default connect(
   mapStateToProps,
   { },
-)(DeckList);
+)(FlashcardList);

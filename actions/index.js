@@ -1,6 +1,7 @@
 import { Audio, Constants, FileSystem, Permissions } from 'expo';
 import AudioTypes from '../constants/AudioTypes';
 import DeckTypes from '../constants/DeckTypes';
+import FlashcardTypes from '../constants/FlashcardTypes';
 let soundObject = new Audio.Sound();
 let recordingObject;
 
@@ -126,6 +127,11 @@ export const deleteDeck = payload => ({
   ...payload,
 });
 
+export const deleteFlashcard = payload => ({
+  type: FlashcardTypes.DELETE_FLASHCARD,
+  ...payload,
+});
+
 const actions = {
   startPlayback,
   stopPlayBack,
@@ -134,6 +140,7 @@ const actions = {
   startPlayer,
   stopPlayer,
   deleteDeck,
+  deleteFlashcard,
 };
 
 export default actions;

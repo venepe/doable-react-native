@@ -1,10 +1,12 @@
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import DeckList from '../DeckList';
+import FlashcardList from '../FlashcardList';
 import Home from '../Home';
 import Recording from '../Recording';
 
 const MainStack = createStackNavigator({
   DeckList: { screen: DeckList },
+  FlashcardList: { screen: FlashcardList },
   Home: { screen: Home },
 });
 

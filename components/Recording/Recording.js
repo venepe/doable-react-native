@@ -131,10 +131,11 @@ Recording.navigationOptions = (props) => {
   return {
     title: 'Doable',
     headerStyle: {
-      backgroundColor: '#0086C3',
+      backgroundColor: '#000D11',
     },
+    headerTintColor: '#FFFFFF',
     headerTitleStyle: {
-      color: '#FFFFFF',
+      color: '#F5F5F5',
     },
     headerBackTitle: 'Back',
     headerBackTitleStyle: {
