@@ -1,11 +1,10 @@
 import { Audio, Constants, FileSystem, Permissions } from 'expo';
 import AudioTypes from '../constants/AudioTypes';
+import DeckTypes from '../constants/DeckTypes';
 let soundObject = new Audio.Sound();
 let recordingObject;
-let testUri;
 
 export const startPlayback = payload => (dispatch) => {
-  console.log(payload);
   let { payload: { uri } } = payload;
   soundObject.loadAsync({ uri })
     .then(() => {
@@ -122,6 +121,11 @@ export const stopPlayer = () => ({
   payload: { isPlaying: false },
 });
 
+export const deleteDeck = payload => ({
+  type: DeckTypes.DELETE_DECK,
+  ...payload,
+});
+
 const actions = {
   startPlayback,
   stopPlayBack,
@@ -129,6 +133,7 @@ const actions = {
   stopRecordingAndEnablePlayback,
   startPlayer,
   stopPlayer,
+  deleteDeck,
 };
 
 export default actions;
