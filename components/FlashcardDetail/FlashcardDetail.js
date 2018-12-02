@@ -60,10 +60,12 @@ class FlashcardDetail extends Component {
 
   onPressQuestion() {
     console.log('did press question');
+    this.props.navigation.navigate('RecordingModal')
   }
 
   onPressAnswer() {
     console.log('did press answer');
+    this.props.navigation.navigate('RecordingModal')
   }
 
   render() {

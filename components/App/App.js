@@ -6,7 +6,7 @@ import Home from '../Home';
 import Recording from '../Recording';
 
 const MainStack = createStackNavigator({
-  FlashcardDetail: { screen: FlashcardDetail },
+  // FlashcardDetail: { screen: FlashcardDetail },
   DeckList: { screen: DeckList },
 
   FlashcardList: { screen: FlashcardList },

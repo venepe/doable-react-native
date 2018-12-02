@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import DeckItem from '../DeckItem';
+import Placeholder from '../Placeholder';
 import { getDecks } from '../../reducers';
 
 class DeckList extends Component {
@@ -70,14 +71,27 @@ class DeckList extends Component {
     this.props.navigation.navigate('FlashcardList');
   }
 
+  renderPlaceholder() {
+    return (
+      <Placeholder text={'Create a Deck to Get Started!'}></Placeholder>
+    );
+  }
+
+  renderList() {
+    return (
+      <FlatList
+        data={this.state.decks}
+        keyExtractor={(deck) => deck.index}
+        renderItem={this.renderItem}
+      />
+    );
+  }
+
   render() {
+    let mainComponent = (this.state.decks && this.state.decks.length > 0) ? this.renderList() : this.renderPlaceholder();
     return (
       <View style={styles.root}>
-        <FlatList
-          data={this.state.decks}
-          keyExtractor={(deck) => deck.index}
-          renderItem={this.renderItem}
-        />
+        {mainComponent}
       </View>
     )
   }
@@ -117,6 +131,11 @@ const styles = StyleSheet.create({
   rowItemHeader: {
     color: '#212121',
     fontSize: 22,
+    fontWeight: '400',
+  },
+  placeholder: {
+    color: '#F5F5F5',
+    fontSize: 28,
     fontWeight: '400',
   },
 });

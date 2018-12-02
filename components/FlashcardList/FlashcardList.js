@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import FlashcardItem from '../FlashcardItem';
+import Placeholder from '../Placeholder';
 import { getFlashcards } from '../../reducers';
 
 class FlashcardList extends Component {
@@ -68,6 +69,12 @@ class FlashcardList extends Component {
   onPressRow(item) {
     console.log('did press item ', item);
     this.props.navigation.navigate('FlashcardDetail');
+  }
+
+  renderPlaceholder() {
+    return (
+      <Placeholder text={'Record an Audiocard and Start Learning!'}></Placeholder>
+    );
   }
 
   render() {
