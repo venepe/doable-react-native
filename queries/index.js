@@ -39,3 +39,21 @@ export const ALL_DECKS = gql`
   }
   ${DeckItem.fragments.deckItem}
 `
+
+export const AUDIOCARDS_BY_DECK_NODEID = gql`
+  query deckById($id: Int!) {
+    deckById(id: $id) {
+      deckAudiocardsByDeckId {
+        edges {
+          node {
+            audiocardByAudiocardId {
+              nodeId
+              ...AudiocardItem
+            }
+          }
+        }
+      }
+    }
+  }
+  ${AudiocardItem.fragments.audiocardItem}
+`

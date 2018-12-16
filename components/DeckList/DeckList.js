@@ -44,8 +44,9 @@ class DeckList extends Component {
   }
 
   onPressRow(item) {
-    console.log('did press item ', item);
-    this.props.navigation.navigate('AudiocardList');
+    this.props.navigation.navigate('AudiocardList', {
+      deckId: item.id,
+    });
   }
 
   render() {
@@ -65,7 +66,7 @@ class DeckList extends Component {
           let list = allDecks.edges.map(({ node }) => {
             return { ...node };
           });
-          console.log(list);
+
           return (
             <FlatList
               data={list}

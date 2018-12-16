@@ -67,7 +67,7 @@ class DeckItem extends Component {
 
     return (
       <Swipeout right={right} autoClose>
-        <TouchableOpacity onPress={() => this.props.onPress(this.state.rowID)}>
+        <TouchableOpacity onPress={() => this.props.onPress(deckItem)}>
           <View style={[styles.card, styles.container]}>
             <View style={styles.infoContainer}>
               <View style={styles.infoSubContainer}>

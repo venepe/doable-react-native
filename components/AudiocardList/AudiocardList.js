@@ -9,9 +9,9 @@ import {
 } from 'react-native';
 import AudiocardItem from '../AudiocardItem';
 import Placeholder from '../Placeholder';
-import Player from '../Player';
+import NavPlayButton from '../NavPlayButton';
 import Query from '../Query';
-import { ALL_AUDIOCARDS } from '../../queries';
+import { AUDIOCARDS_BY_DECK_NODEID } from '../../queries';
 
 class AudiocardList extends Component {
   static propTypes = {
@@ -57,33 +57,36 @@ class AudiocardList extends Component {
   }
 
   render() {
+    const { navigation } = this.props;
+    const deckId = navigation.getParam('deckId');
+
     return (
       <View style={styles.root}>
         <Query
-        query={ALL_AUDIOCARDS}
+        query={AUDIOCARDS_BY_DECK_NODEID}
+        variables={{ id: deckId }}
         notifyOnNetworkStatusChange={true}
       >
-        {({ data: { allAudiocards }, fetchMore, networkStatus}) => {
+        {({ data: { deckById }, fetchMore, networkStatus}) => {
 
-          if (allAudiocards.edges.length < 1) {
+          if (deckById && deckById.deckAudiocardsByDeckId.edges.length > 0) {
+            let list = deckById.deckAudiocardsByDeckId.edges.map(({ node: { audiocardByAudiocardId } }) => {
+              return { ...audiocardByAudiocardId };
+            });
+            return (
+              <FlatList
+                data={list}
+                keyExtractor={(node) => node.nodeId}
+                renderItem={this.renderItem}
+              />
+            )
+          } else {
             return (
               <Placeholder text={'Record an Audiocard and Start Learning!'}></Placeholder>
             );
           }
-          let list = allAudiocards.edges.map(({ node }) => {
-            return { ...node };
-          });
-          console.log(list);
-          return (
-            <FlatList
-              data={list}
-              keyExtractor={(node) => node.nodeId}
-              renderItem={this.renderItem}
-            />
-          )
         }}
         </Query>
-        <Player />
       </View>
     )
   }
@@ -106,6 +109,9 @@ AudiocardList.navigationOptions = (props) => {
     headerBackTitleStyle: {
       color: '#FFFFFF',
     },
+    headerRight: (
+      <NavPlayButton />
+    ),
   };
 };
 
