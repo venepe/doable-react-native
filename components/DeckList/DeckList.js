@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
+  Button,
   FlatList,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
-import { connect } from 'react-redux';
 import DeckItem from '../DeckItem';
 import Placeholder from '../Placeholder';
-import { getDecks } from '../../reducers';
+import Query from '../Query';
+import { ALL_DECKS } from '../../queries';
 
 class DeckList extends Component {
   static propTypes = {
@@ -31,67 +31,50 @@ class DeckList extends Component {
     headerBackTitle: 'Back',
   };
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-        return {
-          decks: nextProps.decks,
-        }
-      }
-
   constructor(props) {
     super(props);
     this.renderItem = this.renderItem.bind(this);
     this.onPressRow = this.onPressRow.bind(this);
-    this.state = {
-      decks: props.decks,
-    }
-  }
-
-  componentDidMount() {
-    // this.props.findContacts();
-    // console.log('find!');
-  }
-
-  componentDidUpdate(prevProps) {
-    const props = this.props;
-    if (props.decks !== prevProps.decks) {
-      this.setState({
-        decks: props.decks,
-      });
-    }
   }
 
   renderItem({ item, index }) {
     return (
-      <DeckItem deck={item} key={index} rowID={index} onPress={this.onPressRow} />
+      <DeckItem deckItem={item} key={index} rowID={index} onPress={this.onPressRow} />
     )
   }
 
   onPressRow(item) {
     console.log('did press item ', item);
-    this.props.navigation.navigate('FlashcardList');
-  }
-
-  renderPlaceholder() {
-    return (
-      <Placeholder text={'Create a Deck to Get Started!'}></Placeholder>
-    );
-  }
-
-  renderList() {
-    return (
-      <FlatList
-        data={this.state.decks}
-        keyExtractor={(deck) => deck.index}
-        renderItem={this.renderItem}
-      />
-    );
+    this.props.navigation.navigate('AudiocardList');
   }
 
   render() {
-    let mainComponent = (this.state.decks && this.state.decks.length > 0) ? this.renderList() : this.renderPlaceholder();
     return (
       <View style={styles.root}>
-        {mainComponent}
+        <Query
+        query={ALL_DECKS}
+        notifyOnNetworkStatusChange={true}
+      >
+        {({ data: { allDecks }, fetchMore, networkStatus}) => {
+
+          if (allDecks.edges.length < 1) {
+            return (
+              <Placeholder text={'Create a Deck to Get Started!'}></Placeholder>
+            );
+          }
+          let list = allDecks.edges.map(({ node }) => {
+            return { ...node };
+          });
+          console.log(list);
+          return (
+            <FlatList
+              data={list}
+              keyExtractor={(node) => node.nodeId}
+              renderItem={this.renderItem}
+            />
+          )
+        }}
+        </Query>
       </View>
     )
   }
@@ -113,6 +96,13 @@ DeckList.navigationOptions = (props) => {
     headerBackTitleStyle: {
       color: '#FFFFFF',
     },
+    headerRight: (
+      <Button
+        title={'Create'}
+        color={'#FFFFFF'}
+        onPress={() => navigate('CreateDeckModal')}
+      />
+    ),
   };
 };
 
@@ -144,11 +134,4 @@ DeckList.defaultProps = {};
 
 DeckList.propTypes = {}
 
-const mapStateToProps = state => ({
-  decks: getDecks(state),
-});
-
-export default connect(
-  mapStateToProps,
-  { },
-)(DeckList);
+export default DeckList;

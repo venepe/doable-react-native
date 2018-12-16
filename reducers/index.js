@@ -1,33 +1,10 @@
 import AudioTypes from '../constants/AudioTypes';
 import DeckTypes from '../constants/DeckTypes';
-import FlashcardTypes from '../constants/FlashcardTypes';
-
-let flashcards = [
-  {
-    title: 'Flashcard 1',
-    uri: '',
-  },
-  {
-    title: 'Flashcard 2',
-    uri: '',
-  },
-];
 
 const initialState = {
-  decks: [],
   activeAudioRecord: {},
   isPlaying: false,
-  isRecording: false,
-  decks: [
-    // {
-    //   title: 'Deck 1',
-    //   flashcards,
-    // },
-    // {
-    //   title: 'Deck 2',
-    //   flashcards,
-    // },
-  ],
+  activeDeck: {},
 };
 
 const reducer = (state = initialState, action) => {
@@ -56,19 +33,13 @@ const reducer = (state = initialState, action) => {
         isPlaying,
       };
     }
-    case DeckTypes.DELETE_DECK:
+    case DeckTypes.SET_ACTIVE_DECK:
     {
-      const decks = state.decks.filter(deck => deck.title !== action.payload.title);
-        return { ...state,
-          decks,
-        };
-    }
-    case FlashcardTypes.DELETE_FLASHCARD:
-    {
-      const flashcards = state.decks[0].flashcards.filter(flashcard => flashcard.title !== action.payload.title);
-        return { ...state,
-          flashcards,
-        };
+      const { activeDeck } = action.payload;
+      return {
+        ...state,
+        activeDeck,
+      };
     }
     default:
       return state;
@@ -77,8 +48,5 @@ const reducer = (state = initialState, action) => {
 
 export const getActiveRecord = state => state.activeAudioRecord;
 export const getIsPlaying = state => state.isPlaying;
-export const getIsRecording = state => state.isRecording;
-export const getDecks = state => state.decks;
-export const getFlashcards = state => state.decks[0].flashcards;
 
 export default reducer;

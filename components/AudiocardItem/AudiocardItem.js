@@ -5,42 +5,38 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import gql from 'graphql-tag';
+import { propType } from 'graphql-anywhere';
 import Swipeout from 'react-native-swipeout';
-import { connect } from 'react-redux';
-import { deleteFlashcard } from '../../actions';
 import styles from './styles';
 
-class FlashcardItem extends Component {
+class AudiocardItem extends Component {
   static propTypes = {
     rowID: PropTypes.number,
-    flashcard: PropTypes.shape({
-      title: PropTypes.string,
-    }),
     onPress: PropTypes.func,
-    deleteFlashcard: PropTypes.func,
+    deleteAudiocard: PropTypes.func,
   }
 
   static defaultProps = {
     rowID: 0,
-    flashcard: {},
     onPress: () => {},
-    deleteFlashcard: () => {},
+    deleteAudiocard: () => {},
   }
 
   constructor(props) {
     super(props);
 
-    this.deleteFlashcard = this.deleteFlashcard.bind(this);
+    this.deleteAudiocard = this.deleteAudiocard.bind(this);
 
     this.state = {
       rowID: props.rowID,
-      flashcard: props.flashcard,
+      audiocardItem: props.audiocardItem,
     };
   }
 
 
-  deleteFlashcard() {
-    console.log('deleteFlashcard');
+  deleteAudiocard() {
+    console.log('deleteAudiocard');
   }
 
   render() {
@@ -64,10 +60,10 @@ class FlashcardItem extends Component {
     }
 
     const right = [
-      { text: 'Delete', color: '#FFFFFF', backgroundColor: '#FF1744', onPress: this.deleteFlashcard },
+      { text: 'Delete', color: '#FFFFFF', backgroundColor: '#FF1744', onPress: this.deleteAudiocard },
     ];
 
-    const flashcard = this.state.flashcard || {};
+    const audiocardItem = this.state.audiocardItem || {};
 
     return (
       <Swipeout right={right} autoClose>
@@ -75,7 +71,7 @@ class FlashcardItem extends Component {
           <View style={[styles.card, styles.container]}>
             <View style={styles.infoContainer}>
               <View style={styles.infoSubContainer}>
-                <Text style={[styles.title, { color }]}>{flashcard.title}</Text>
+                <Text style={[styles.title, { color }]}>{audiocardItem.questionText}</Text>
               </View>
             </View>
           </View>
@@ -85,9 +81,22 @@ class FlashcardItem extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+AudiocardItem.fragments = {
+  audiocardItem: gql`
+    fragment AudiocardItem on Audiocard {
+      nodeId
+      id
+      questionText
+      questionAudioUri
+      answerText
+      answerAudioUri
+      createdAt
+    }
+  `,
+};
 
-export default connect(
-  null,
-  { deleteFlashcard },
-)(FlashcardItem);
+AudiocardItem.propTypes = {
+  audiocardItem: propType(AudiocardItem.fragments.audiocardItem).isRequired,
+};
+
+export default AudiocardItem;

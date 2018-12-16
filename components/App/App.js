@@ -1,16 +1,15 @@
 import { createStackNavigator, createAppContainer } from 'react-navigation';
+import CreateDeck from '../CreateDeck';
 import DeckList from '../DeckList';
-import FlashcardDetail from '../FlashcardDetail';
-import FlashcardList from '../FlashcardList';
+import AudiocardList from '../AudiocardList';
 import Home from '../Home';
-import Recording from '../Recording';
 
 const MainStack = createStackNavigator({
-  // FlashcardDetail: { screen: FlashcardDetail },
   DeckList: { screen: DeckList },
-
-  FlashcardList: { screen: FlashcardList },
+  AudiocardList: { screen: AudiocardList },
   Home: { screen: Home },
+
+  // CreateDeck: { screen: CreateDeck },
 });
 
 const RootStack = createStackNavigator(
@@ -18,8 +17,8 @@ const RootStack = createStackNavigator(
     Main: {
       screen: MainStack,
     },
-    RecordingModal: {
-      screen: Recording,
+    CreateDeckModal: {
+      screen: CreateDeck,
     },
   },
   {

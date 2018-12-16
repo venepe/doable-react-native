@@ -5,26 +5,22 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import gql from 'graphql-tag';
+import { propType } from 'graphql-anywhere';
 import Swipeout from 'react-native-swipeout';
-import { connect } from 'react-redux';
-import { deleteDeck } from '../../actions';
 import styles from './styles';
 
 class DeckItem extends Component {
   static propTypes = {
     rowID: PropTypes.number,
-    deck: PropTypes.shape({
-      title: PropTypes.string,
-    }),
     onPress: PropTypes.func,
-    deleteDeck: PropTypes.func,
+    deleteAudiocard: PropTypes.func,
   }
 
   static defaultProps = {
     rowID: 0,
-    deck: {},
     onPress: () => {},
-    deleteDeck: () => {},
+    deleteAudiocard: () => {},
   }
 
   constructor(props) {
@@ -34,7 +30,7 @@ class DeckItem extends Component {
 
     this.state = {
       rowID: props.rowID,
-      deck: props.deck,
+      deckItem: props.deckItem,
     };
   }
 
@@ -67,7 +63,7 @@ class DeckItem extends Component {
       { text: 'Delete', color: '#FFFFFF', backgroundColor: '#FF1744', onPress: this.deleteDeck },
     ];
 
-    const deck = this.state.deck || {};
+    const deckItem = this.state.deckItem || {};
 
     return (
       <Swipeout right={right} autoClose>
@@ -75,7 +71,7 @@ class DeckItem extends Component {
           <View style={[styles.card, styles.container]}>
             <View style={styles.infoContainer}>
               <View style={styles.infoSubContainer}>
-                <Text style={[styles.title, { color }]}>{deck.title}</Text>
+                <Text style={[styles.title, { color }]}>{deckItem.title}</Text>
               </View>
             </View>
           </View>
@@ -85,9 +81,20 @@ class DeckItem extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+DeckItem.fragments = {
+  deckItem: gql`
+    fragment DeckItem on Deck {
+      nodeId
+      id
+      title
+      description
+      createdAt
+    }
+  `,
+};
 
-export default connect(
-  null,
-  { deleteDeck },
-)(DeckItem);
+DeckItem.propTypes = {
+  deckItem: propType(DeckItem.fragments.deckItem).isRequired,
+};
+
+export default DeckItem;

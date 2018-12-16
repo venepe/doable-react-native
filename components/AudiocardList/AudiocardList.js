@@ -7,12 +7,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { connect } from 'react-redux';
-import FlashcardItem from '../FlashcardItem';
+import AudiocardItem from '../AudiocardItem';
 import Placeholder from '../Placeholder';
-import { getFlashcards } from '../../reducers';
+import Player from '../Player';
+import Query from '../Query';
+import { ALL_AUDIOCARDS } from '../../queries';
 
-class FlashcardList extends Component {
+class AudiocardList extends Component {
   static propTypes = {
     navigation: PropTypes.shape({
       navigate: PropTypes.func.isRequired,
@@ -21,7 +22,7 @@ class FlashcardList extends Component {
   }
 
   static navigationOptions = {
-    title: 'Flashcards',
+    title: 'Audiocards',
     headerStyle: {
       backgroundColor: '#3B5998',
     },
@@ -31,38 +32,16 @@ class FlashcardList extends Component {
     headerBackTitle: 'Back',
   };
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-        return {
-          flashcards: nextProps.flashcards,
-        }
-      }
-
   constructor(props) {
     super(props);
     this.renderItem = this.renderItem.bind(this);
     this.onPressRow = this.onPressRow.bind(this);
-    this.state = {
-      flashcards: props.flashcards,
-    }
   }
 
-  componentDidMount() {
-    // this.props.findContacts();
-    // console.log('find!');
-  }
-
-  componentDidUpdate(prevProps) {
-    const props = this.props;
-    if (props.flashcards !== prevProps.flashcards) {
-      this.setState({
-        flashcards: props.flashcards,
-      });
-    }
-  }
-
-  renderItem({ item, index }) {
+  renderItem({ item }) {
+    console.log(item);
     return (
-      <FlashcardItem flashcard={item} key={index} rowID={index} onPress={this.onPressRow} />
+      <AudiocardItem audiocardItem={item} />
     )
   }
 
@@ -80,22 +59,42 @@ class FlashcardList extends Component {
   render() {
     return (
       <View style={styles.root}>
-        <FlatList
-          data={this.state.flashcards}
-          keyExtractor={(flashcard) => flashcard.index}
-          renderItem={this.renderItem}
-        />
+        <Query
+        query={ALL_AUDIOCARDS}
+        notifyOnNetworkStatusChange={true}
+      >
+        {({ data: { allAudiocards }, fetchMore, networkStatus}) => {
+
+          if (allAudiocards.edges.length < 1) {
+            return (
+              <Placeholder text={'Record an Audiocard and Start Learning!'}></Placeholder>
+            );
+          }
+          let list = allAudiocards.edges.map(({ node }) => {
+            return { ...node };
+          });
+          console.log(list);
+          return (
+            <FlatList
+              data={list}
+              keyExtractor={(node) => node.nodeId}
+              renderItem={this.renderItem}
+            />
+          )
+        }}
+        </Query>
+        <Player />
       </View>
     )
   }
 }
 
-FlashcardList.navigationOptions = (props) => {
+AudiocardList.navigationOptions = (props) => {
   const { navigation } = props;
   const { navigate } = navigation;
 
   return {
-    title: 'Flashcards',
+    title: 'Audiocards',
     headerStyle: {
       backgroundColor: '#000D11',
     },
@@ -129,15 +128,8 @@ const styles = StyleSheet.create({
   },
 });
 
-FlashcardList.defaultProps = {};
+AudiocardList.defaultProps = {};
 
-FlashcardList.propTypes = {}
+AudiocardList.propTypes = {}
 
-const mapStateToProps = state => ({
-  flashcards: getFlashcards(state),
-});
-
-export default connect(
-  mapStateToProps,
-  { },
-)(FlashcardList);
+export default AudiocardList;

@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import { startPlayback, stopPlayBack, stopPlaybackAndBeginRecording, stopRecordingAndEnablePlayback } from '../../actions';
+import { startPlayback, stopPlayBack } from '../../actions';
 
 class Home extends Component {
   static propTypes = {
@@ -33,8 +33,6 @@ class Home extends Component {
     // props.navigation.setParams({ user: props.user });
     this.startPlayback = this.startPlayback.bind(this);
     this.stopPlayBack = this.stopPlayBack.bind(this);
-    this.stopPlaybackAndBeginRecording = this.stopPlaybackAndBeginRecording.bind(this);
-    this.stopRecordingAndEnablePlayback = this.stopRecordingAndEnablePlayback.bind(this);
   }
 
   startPlayback() {
@@ -43,14 +41,6 @@ class Home extends Component {
 
   stopPlayBack() {
     this.props.stopPlayBack();
-  }
-
-  stopPlaybackAndBeginRecording() {
-    this.props.stopPlaybackAndBeginRecording();
-  }
-
-  stopRecordingAndEnablePlayback() {
-    this.props.stopRecordingAndEnablePlayback();
   }
 
   render() {
@@ -67,17 +57,7 @@ class Home extends Component {
           color="#841584"
         />
         <Button
-          onPress={() => this.stopPlaybackAndBeginRecording()}
-          title="Start Recording"
-          color="#841584"
-        />
-        <Button
-          onPress={() => this.stopRecordingAndEnablePlayback()}
-          title="Stop Recording"
-          color="#841584"
-        />
-        <Button
-          onPress={() => this.props.navigation.navigate('RecordingModal')}
+          onPress={() => this.props.navigation.navigate('CreateDeck')}
           title="Modal"
           color="#841584"
         />
@@ -121,5 +101,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   null,
-  { startPlayback, stopPlayBack, stopPlaybackAndBeginRecording, stopRecordingAndEnablePlayback },
+  { startPlayback, stopPlayBack },
 )(Home);

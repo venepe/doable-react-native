@@ -70,9 +70,19 @@ class Player extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.controls}>
+          <View style={styles.skipPrevious}>
+            <TouchableOpacity style={styles.controlButton} onPress={this.onPrevious}>
+              <MaterialIcons style={styles.skip} name="skip-previous" size={40} color="#FF4081" />
+            </TouchableOpacity>
+          </View>
           <View style={styles.play}>
             <TouchableOpacity style={styles.controlButton} onPress={this.togglePlay}>
               { playButton }
+            </TouchableOpacity>
+          </View>
+          <View style={styles.skipNext}>
+            <TouchableOpacity style={styles.controlButton} onPress={this.onNext}>
+              <MaterialIcons style={styles.skip} name="skip-next" size={40} color="#FF4081" />
             </TouchableOpacity>
           </View>
         </View>
@@ -86,16 +96,29 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 10,
   },
+  skip: {
+    marginTop: 10,
+    marginBottom: 7,
+  },
   controls: {
     flex: 1,
     flexDirection: 'row',
     alignSelf: 'center',
     margin: 5,
+    alignItems: 'flex-end',
+  },
+  skipPrevious: {
+    flex: 1,
+    alignItems: 'flex-end',
   },
   play: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-end',
+  },
+  skipNext: {
+    flex: 1,
+    alignItems: 'flex-start',
   },
   controlButton: {
     backgroundColor: 'transparent',
