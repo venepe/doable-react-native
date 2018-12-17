@@ -8,15 +8,21 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons/index';
 import { connect } from 'react-redux';
-import { getActiveRecord, getIsPlaying } from '../../reducers';
-import { startPlayback, stopPlayBack, setActiveDeck } from '../../actions';
+import gql from 'graphql-tag';
+import { propType } from 'graphql-anywhere';
+import Query from '../Query';
+import { getIsPlaying, getActiveDeckId } from '../../reducers';
+import { startPlayback, stopPlayBack, setActiveDeck, playAudiocard, setAudioCards } from '../../actions';
+import { AUDIOCARDS_BY_DECK_NODEID } from '../../queries';
+
+let _deckById;
 
 class NavPlayButton extends Component {
   static propTypes = {}
 
   static getDerivedStateFromProps(nextProps, prevState) {
         return {
-          activeAudioRecord: nextProps.activeAudioRecord,
+          activeDeckId: nextProps.activeDeckId,
           isPlaying: nextProps.isPlaying,
         }
       }
@@ -27,16 +33,16 @@ class NavPlayButton extends Component {
 
     this.state = {
       isPlaying: props.isPlaying,
-      activeAudioRecord: props.activeAudioRecord,
-      isDirty: false,
+      activeDeckId: props.activeDeckId,
+      deckId: props.deckId,
     }
   }
 
   componentDidUpdate(prevProps) {
     const props = this.props;
-    if (props.activeAudioRecord !== prevProps.activeAudioRecord) {
+    if (props.activeDeckId !== prevProps.activeDeckId) {
       this.setState({
-        activeAudioRecord: props.activeAudioRecord,
+        activeDeckId: props.activeDeckId,
       });
     }
     if (props.isPlaying !== prevProps.isPlaying) {
@@ -46,14 +52,27 @@ class NavPlayButton extends Component {
     }
   }
 
+  getAudiocardsForDeck(deck) {
+    console.log(deck);
+    return deck.deckAudiocardsByDeckId.edges.map(({ node: { audiocardByAudiocardId } }) => {
+      return {
+        ...audiocardByAudiocardId
+      };
+    })
+  }
+
   togglePlay() {
     console.log('asdf');
-    const { isPlaying, activeAudioRecord } = this.state;
+    const { isPlaying, activeDeckId } = this.state;
     if (isPlaying) {
       this.props.stopPlayBack();
-    } else {
-      this.props.startPlayback({
-        payload: { uri: activeAudioRecord.uri },
+    } else if (activeDeckId !== _deckById.id) {
+      const audiocards = this.getAudiocardsForDeck(_deckById);
+      this.props.setAudioCards({
+        payload: { audiocards },
+      });
+      this.props.playAudiocard({
+        payload: { audiocard: audiocards[0] },
       });
     }
   }
@@ -68,7 +87,18 @@ class NavPlayButton extends Component {
 
     return (
       <View style={styles.play}>
-        { playButton }
+        <Query
+        query={AUDIOCARDS_BY_DECK_NODEID}
+        variables={{ id: this.props.deckId }}
+        notifyOnNetworkStatusChange={true}
+      >
+        {({ data: { deckById }, fetchMore, networkStatus}) => {
+          _deckById = deckById;
+          return (
+            playButton
+          )
+        }}
+        </Query>
       </View>
     );
   }
@@ -87,7 +117,8 @@ const styles = StyleSheet.create({
 
 NavPlayButton.defaultProps = {
   isPlaying: false,
-  activeAudioRecord: {},
+  activeDeckId: {},
+  visibleDeck: {}
 };
 
 NavPlayButton.propTypes = {
@@ -95,11 +126,11 @@ NavPlayButton.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  activeAudioRecord: getActiveRecord(state),
   isPlaying: getIsPlaying(state),
+  activeDeckId: getActiveDeckId(state),
 });
 
 export default connect(
   mapStateToProps,
-  { startPlayback, stopPlayBack },
+  { startPlayback, stopPlayBack, playAudiocard, setAudioCards },
 )(NavPlayButton);

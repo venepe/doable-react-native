@@ -93,8 +93,9 @@ class AudiocardList extends Component {
 }
 
 AudiocardList.navigationOptions = (props) => {
+  console.log(props);
   const { navigation } = props;
-  const { navigate } = navigation;
+  const { navigate, state } = navigation;
 
   return {
     title: 'Audiocards',
@@ -110,7 +111,7 @@ AudiocardList.navigationOptions = (props) => {
       color: '#FFFFFF',
     },
     headerRight: (
-      <NavPlayButton />
+      <NavPlayButton deckId={state.params.deckId} />
     ),
   };
 };

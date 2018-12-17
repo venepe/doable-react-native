@@ -2,19 +2,37 @@ import AudioTypes from '../constants/AudioTypes';
 import DeckTypes from '../constants/DeckTypes';
 
 const initialState = {
-  activeAudioRecord: {},
+  activeAudiocard: {},
+  activeUri: '',
   isPlaying: false,
-  activeDeck: {},
+  activeDeckId: '',
+  audiocards: [],
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case AudioTypes.SET_ACTIVE_RECORD:
+    case AudioTypes.SET_ACTIVE_AUDIOCARD:
     {
-      const { activeAudioRecord } = action.payload;
+      const { activeAudiocard } = action.payload;
       return {
         ...state,
-        activeAudioRecord,
+        activeAudiocard,
+      };
+    }
+    case AudioTypes.SET_ACTIVE_URI:
+    {
+      const { activeUri } = action.payload;
+      return {
+        ...state,
+        activeUri,
+      };
+    }
+    case AudioTypes.SET_AUDIOCARDS:
+    {
+      const { audiocards } = action.payload;
+      return {
+        ...state,
+        audiocards,
       };
     }
     case AudioTypes.START_PLAYBACK:
@@ -33,12 +51,12 @@ const reducer = (state = initialState, action) => {
         isPlaying,
       };
     }
-    case DeckTypes.SET_ACTIVE_DECK:
+    case DeckTypes.SET_ACTIVE_DECK_ID:
     {
-      const { activeDeck } = action.payload;
+      const { activeDeckId } = action.payload;
       return {
         ...state,
-        activeDeck,
+        activeDeckId,
       };
     }
     default:
@@ -46,7 +64,9 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export const getActiveRecord = state => state.activeAudioRecord;
+export const getActiveAudiocard = state => state.activeAudiocard;
+export const getAudiocards = state => state.audiocards;
 export const getIsPlaying = state => state.isPlaying;
+export const getActiveDeckId = state => state.activeDeckId;
 
 export default reducer;

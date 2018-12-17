@@ -18,7 +18,7 @@ class Player extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
         return {
-          activeAudioRecord: nextProps.activeAudioRecord,
+          activeAudiocard: nextProps.activeAudiocard,
           isPlaying: nextProps.isPlaying,
         }
       }
@@ -29,15 +29,15 @@ class Player extends Component {
 
     this.state = {
       isPlaying: props.isPlaying,
-      activeAudioRecord: props.activeAudioRecord,
+      activeAudiocard: props.activeAudiocard,
     }
   }
 
   componentDidUpdate(prevProps) {
     const props = this.props;
-    if (props.activeAudioRecord !== prevProps.activeAudioRecord) {
+    if (props.activeAudiocard !== prevProps.activeAudiocard) {
       this.setState({
-        activeAudioRecord: props.activeAudioRecord,
+        activeAudiocard: props.activeAudiocard,
       });
     }
     if (props.isPlaying !== prevProps.isPlaying) {
@@ -49,12 +49,12 @@ class Player extends Component {
 
   togglePlay() {
     console.log('asdf');
-    const { isPlaying, activeAudioRecord } = this.state;
+    const { isPlaying, activeAudiocard } = this.state;
     if (isPlaying) {
       this.props.stopPlayBack();
     } else {
       this.props.startPlayback({
-        payload: { uri: activeAudioRecord.uri },
+        payload: { uri: activeAudiocard.uri },
       });
     }
   }
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
 
 Player.defaultProps = {
   isPlaying: false,
-  activeAudioRecord: {},
+  activeAudiocard: {},
 };
 
 Player.propTypes = {
@@ -135,7 +135,7 @@ Player.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  activeAudioRecord: getActiveRecord(state),
+  activeAudiocard: getActiveRecord(state),
   isPlaying: getIsPlaying(state),
 });
 
