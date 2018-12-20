@@ -12,9 +12,28 @@ export const playAudiocard = payload => (dispatch) => {
   dispatch(startPlayback({ payload: { uri: audiocard.questionAudioUri } }));
 };
 
+const unLoadAudio = (() => {
+  return new Promise((resolve) => {
+    soundObject.stopAsync()
+      .then(() => {
+        return soundObject.unloadAsync();
+      })
+      .then(() => {
+        resolve();
+      })
+      .catch(() => {
+        resolve();
+      })
+  });
+})
+
 export const startPlayback = payload => (dispatch) => {
   let { payload: { uri } } = payload;
-  soundObject.loadAsync({ uri })
+
+  unLoadAudio()
+    .then(() => {
+      return soundObject.loadAsync({ uri });
+    })
     .then(() => {
       return soundObject.playAsync();
     })
