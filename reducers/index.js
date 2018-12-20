@@ -8,6 +8,7 @@ const initialState = {
   activeDeckId: '',
   audiocards: [],
   isOnRepeat: false,
+  isOnRandom: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -60,6 +61,14 @@ const reducer = (state = initialState, action) => {
         isOnRepeat,
       };
     }
+    case AudioTypes.SET_IS_ON_RANDOM:
+    {
+      const { isOnRandom } = action.payload;
+      return {
+        ...state,
+        isOnRandom,
+      };
+    }
     case DeckTypes.SET_ACTIVE_DECK_ID:
     {
       const { activeDeckId } = action.payload;
@@ -77,6 +86,7 @@ export const getActiveAudiocard = state => state.activeAudiocard;
 export const getAudiocards = state => state.audiocards;
 export const getIsPlaying = state => state.isPlaying;
 export const getIsOnRepeat = state => state.isOnRepeat;
+export const getIsOnRandom = state => state.isOnRandom;
 export const getActiveDeckId = state => state.activeDeckId;
 
 export default reducer;

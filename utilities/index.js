@@ -11,3 +11,12 @@ export const getAudiocardsForDeck = (deck) => {
 export const getHeaderButtonColor = () => {
   return Platform.OS === 'ios' ? '#FFFFFF' : 'transparent';
 }
+
+export const getRandomInt = (currentInt, length, callback) => {
+  const randomInt = Math.floor(Math.random() * length);
+  if (randomInt === currentInt) {
+    getRandomInt(currentInt, length, callback);
+  } else {
+    callback(randomInt)
+  }
+}

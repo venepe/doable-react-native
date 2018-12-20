@@ -39,7 +39,6 @@ class AudiocardList extends Component {
   }
 
   renderItem({ item }) {
-    console.log(item);
     return (
       <AudiocardItem audiocardItem={item} onPress={this.onPressRow} />
     )

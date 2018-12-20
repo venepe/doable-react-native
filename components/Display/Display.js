@@ -56,8 +56,6 @@ class Display extends Component {
     const deckId = navigation.getParam('deckId');
     const audiocardId = navigation.getParam('audiocardId');
 
-    console.log(deckId);
-
     this.state = {
       activeAudiocard: props.activeAudiocard,
       deckId,
@@ -67,7 +65,6 @@ class Display extends Component {
 
   componentDidMount() {
     const audiocards = getAudiocardsForDeck(_deckById);
-    console.log(audiocards);
     const currentIndex = audiocards.findIndex(({ id }) => id === this.state.audiocardId);
     this.props.setAudioCards({
       payload: { audiocards },

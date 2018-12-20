@@ -8,8 +8,8 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons/index';
 import { connect } from 'react-redux';
-import { getActiveAudiocard, getIsPlaying, getIsOnRepeat } from '../../reducers';
-import { startPlayback, stopPlayBack, setIsOnRepeat } from '../../actions';
+import { getActiveAudiocard, getIsPlaying, getIsOnRepeat, getIsOnRandom } from '../../reducers';
+import { startPlayback, stopPlayBack, setIsOnRepeat, setIsOnRandom } from '../../actions';
 
 const playerColor = '#EEEEEE';
 const activePlayColor = '#FF8A80';
@@ -22,6 +22,7 @@ class Player extends Component {
           activeAudiocard: nextProps.activeAudiocard,
           isPlaying: nextProps.isPlaying,
           isOnRepeat: nextProps.isOnRepeat,
+          isOnRandom: nextProps.isOnRandom,
         }
       }
 
@@ -29,6 +30,7 @@ class Player extends Component {
     super(props);
     this.togglePlay = this.togglePlay.bind(this);
     this.toggleIsOnRepeat = this.toggleIsOnRepeat.bind(this);
+    this.toggleIsOnRandom = this.toggleIsOnRandom.bind(this);
 
     this.state = {
       isPlaying: props.isPlaying,
@@ -53,6 +55,11 @@ class Player extends Component {
         isOnRepeat: props.isOnRepeat,
       });
     }
+    if (props.isOnRandom !== prevProps.isOnRandom) {
+      this.setState({
+        isOnRandom: props.isOnRandom,
+      });
+    }
   }
 
   togglePlay() {
@@ -73,9 +80,16 @@ class Player extends Component {
     });
   }
 
+  toggleIsOnRandom() {
+    const { isOnRandom } = this.state;
+    this.props.setIsOnRandom({
+      payload: { isOnRandom: !isOnRandom },
+    });
+  }
+
   render() {
     let playButton;
-    const { isPlaying, isOnRepeat } = this.state;
+    const { isPlaying, isOnRepeat, isOnRandom } = this.state;
 
     if (isPlaying) {
       playButton = <MaterialIcons name="pause-circle-outline" size={60} color={playerColor} />;
@@ -84,12 +98,13 @@ class Player extends Component {
     }
 
     const repeatColor = isOnRepeat === true ? activePlayColor : playerColor;
+    const randomColor = isOnRandom === true ? activePlayColor : playerColor;
     return (
       <View style={styles.container}>
         <View style={styles.controls}>
           <View style={styles.skipPrevious}>
-            <TouchableOpacity style={[styles.controlButton, {marginBottom: 5}]} onPress={this.onPrevious}>
-              <MaterialIcons style={styles.skip} name="shuffle" size={30} color={playerColor} />
+            <TouchableOpacity style={[styles.controlButton, {marginBottom: 5}]} onPress={this.toggleIsOnRandom}>
+              <MaterialIcons style={styles.skip} name="shuffle" size={30} color={randomColor} />
             </TouchableOpacity>
           </View>
           <View style={styles.skipPrevious}>
@@ -167,9 +182,10 @@ const mapStateToProps = state => ({
   activeAudiocard: getActiveAudiocard(state),
   isPlaying: getIsPlaying(state),
   isOnRepeat: getIsOnRepeat(state),
+  isOnRandom: getIsOnRandom(state),
 });
 
 export default connect(
   mapStateToProps,
-  { startPlayback, stopPlayBack, setIsOnRepeat },
+  { startPlayback, stopPlayBack, setIsOnRepeat, setIsOnRandom },
 )(Player);

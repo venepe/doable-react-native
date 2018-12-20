@@ -1,6 +1,7 @@
 import { Audio, Constants, FileSystem, Permissions } from 'expo';
 import AudioTypes from '../constants/AudioTypes';
 import DeckTypes from '../constants/DeckTypes';
+import { getRandomInt } from '../utilities';
 let soundObject = new Audio.Sound();
 
 
@@ -36,7 +37,7 @@ export const startPlayback = payload => (dispatch) => {
   };
 
 export const nextAudioUri = () => (dispatch, getState) => {
-    let { activeUri, audiocards, activeAudiocard, isOnRepeat } = getState();
+    let { activeUri, audiocards, activeAudiocard, isOnRepeat, isOnRandom } = getState();
     if (activeUri === activeAudiocard.questionAudioUri) {
       console.log('finished question, play answer');
       activeUri = activeAudiocard.answerAudioUri;
@@ -48,12 +49,19 @@ export const nextAudioUri = () => (dispatch, getState) => {
       const length = audiocards.length;
       const currentId = activeAudiocard.id;
       const currentIndex = audiocards.findIndex(({ id }) => id === currentId);
-      console.log(currentIndex);
       const nextIndex = currentIndex + 1;
-      if (nextIndex < length ) {
-        console.log('play next question');
+      if (isOnRandom === true) {
+        getRandomInt(currentIndex, length, (randomIndex) => {
+          const nextAudiocard = audiocards[randomIndex];
+          dispatch(setActiveUri({ payload: { activeUri: nextAudiocard.questionAudioUri } }));
+          dispatch(setActiveAudiocard({ payload: { activeAudiocard: nextAudiocard } }));
+          setTimeout(() => {
+            dispatch(startPlayback({ payload: { uri: nextAudiocard.questionAudioUri } }));
+          }, 500);
+        });
+
+      } else if (nextIndex < length ) {
         const nextAudiocard = audiocards[nextIndex];
-        console.log(nextAudiocard.questionAudioUri);
         dispatch(setActiveUri({ payload: { activeUri: nextAudiocard.questionAudioUri } }));
         dispatch(setActiveAudiocard({ payload: { activeAudiocard: nextAudiocard } }));
         setTimeout(() => {
@@ -121,6 +129,11 @@ export const setIsOnRepeat = payload => ({
   ...payload,
 });
 
+export const setIsOnRandom = payload => ({
+  type: AudioTypes.SET_IS_ON_RANDOM,
+  ...payload,
+});
+
 const actions = {
   startPlayback,
   stopPlayBack,
@@ -128,6 +141,8 @@ const actions = {
   stopPlayer,
   setActiveDeckId,
   setAudioCards,
+  setIsOnRepeat,
+  setIsOnRandom,
 };
 
 export default actions;
