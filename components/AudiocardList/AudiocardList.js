@@ -41,13 +41,22 @@ class AudiocardList extends Component {
   renderItem({ item }) {
     console.log(item);
     return (
-      <AudiocardItem audiocardItem={item} />
+      <AudiocardItem audiocardItem={item} onPress={this.onPressRow} />
     )
   }
 
-  onPressRow(item) {
-    console.log('did press item ', item);
-    this.props.navigation.navigate('FlashcardDetail');
+  onPressRow({ id }) {
+    console.log('did press audiocardId ', id);
+    const { navigation } = this.props;
+    const deckId = navigation.getParam('deckId');
+    // const audiocards = getAudiocardsForDeck(_deckById);
+    // this.props.setAudioCards({
+    //   payload: { audiocards },
+    // });
+    // this.props.playAudiocard({
+    //   payload: { audiocard: audiocards[0] },
+    // });
+    this.props.navigation.navigate('DisplayModal', { deckId, audiocardId: id });
   }
 
   renderPlaceholder() {
@@ -93,7 +102,6 @@ class AudiocardList extends Component {
 }
 
 AudiocardList.navigationOptions = (props) => {
-  console.log(props);
   const { navigation } = props;
   const { navigate, state } = navigation;
 

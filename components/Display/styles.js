@@ -1,0 +1,44 @@
+import {
+  Dimensions,
+  StyleSheet,
+} from 'react-native';
+
+const window = Dimensions.get('window');
+
+export default StyleSheet.create({
+  root: {
+    flex: 1,
+    backgroundColor: '#212121',
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#212121',
+  },
+  subContainer: {
+    flex: 1,
+  },
+  backContainer: {
+    flex: 1,
+  },
+  playerContainer: {
+    flex: 1,
+    marginBottom: 20,
+  },
+  backButtonContainer: {
+    backgroundColor: 'transparent',
+    padding: 10,
+    width: 58,
+  },
+  boxContainer: {
+    flex: 1,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  title: {
+    color: '#FFFF00',
+    fontSize: 28,
+    fontWeight: '400',
+    // fontFamily: 'Roboto-Thin',
+  },
+});

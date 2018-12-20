@@ -3,6 +3,7 @@ import CreateDeck from '../CreateDeck';
 import DeckList from '../DeckList';
 import AudiocardList from '../AudiocardList';
 import Home from '../Home';
+import Display from '../Display';
 
 const MainStack = createStackNavigator({
   DeckList: { screen: DeckList },
@@ -19,6 +20,9 @@ const RootStack = createStackNavigator(
     },
     CreateDeckModal: {
       screen: CreateDeck,
+    },
+    DisplayModal: {
+      screen: Display,
     },
   },
   {

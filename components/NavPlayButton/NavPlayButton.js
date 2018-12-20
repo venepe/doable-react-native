@@ -14,6 +14,7 @@ import Query from '../Query';
 import { getIsPlaying, getActiveDeckId } from '../../reducers';
 import { startPlayback, stopPlayBack, setActiveDeck, playAudiocard, setAudioCards } from '../../actions';
 import { AUDIOCARDS_BY_DECK_NODEID } from '../../queries';
+import { getAudiocardsForDeck, getHeaderButtonColor } from '../../utilities';
 
 let _deckById;
 
@@ -52,22 +53,12 @@ class NavPlayButton extends Component {
     }
   }
 
-  getAudiocardsForDeck(deck) {
-    console.log(deck);
-    return deck.deckAudiocardsByDeckId.edges.map(({ node: { audiocardByAudiocardId } }) => {
-      return {
-        ...audiocardByAudiocardId
-      };
-    })
-  }
-
   togglePlay() {
-    console.log('asdf');
     const { isPlaying, activeDeckId } = this.state;
     if (isPlaying) {
       this.props.stopPlayBack();
     } else if (activeDeckId !== _deckById.id) {
-      const audiocards = this.getAudiocardsForDeck(_deckById);
+      const audiocards = getAudiocardsForDeck(_deckById);
       this.props.setAudioCards({
         payload: { audiocards },
       });
@@ -80,9 +71,9 @@ class NavPlayButton extends Component {
   render() {
     let playButton;
     if (this.state.isPlaying) {
-      playButton = <Button title={'Pause'} color={'#FFFFFF'} onPress={this.togglePlay} />;
+      playButton = <Button title={'Pause'} color={getHeaderButtonColor()} onPress={this.togglePlay} />;
     } else {
-      playButton = <Button title={'Play'} color={'#FFFFFF'} onPress={this.togglePlay} />;
+      playButton = <Button title={'Play'} color={getHeaderButtonColor()} onPress={this.togglePlay} />;
     }
 
     return (

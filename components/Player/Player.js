@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons/index';
 import { connect } from 'react-redux';
-import { getActiveRecord, getIsPlaying } from '../../reducers';
+import { getActiveAudiocard, getIsPlaying } from '../../reducers';
 import { startPlayback, stopPlayBack } from '../../actions';
 
 // import {  } from '../../actions';
@@ -48,7 +48,6 @@ class Player extends Component {
   }
 
   togglePlay() {
-    console.log('asdf');
     const { isPlaying, activeAudiocard } = this.state;
     if (isPlaying) {
       this.props.stopPlayBack();
@@ -71,6 +70,11 @@ class Player extends Component {
       <View style={styles.container}>
         <View style={styles.controls}>
           <View style={styles.skipPrevious}>
+            <TouchableOpacity style={[styles.controlButton, {marginBottom: 5}]} onPress={this.onPrevious}>
+              <MaterialIcons style={styles.skip} name="shuffle" size={30} color="#FF4081" />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.skipPrevious}>
             <TouchableOpacity style={styles.controlButton} onPress={this.onPrevious}>
               <MaterialIcons style={styles.skip} name="skip-previous" size={40} color="#FF4081" />
             </TouchableOpacity>
@@ -83,6 +87,11 @@ class Player extends Component {
           <View style={styles.skipNext}>
             <TouchableOpacity style={styles.controlButton} onPress={this.onNext}>
               <MaterialIcons style={styles.skip} name="skip-next" size={40} color="#FF4081" />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.skipNext}>
+            <TouchableOpacity style={[styles.controlButton, {marginBottom: 5}]} onPress={this.onNext}>
+              <MaterialIcons style={styles.skip} name="repeat" size={30} color="#FF4081" />
             </TouchableOpacity>
           </View>
         </View>
@@ -135,7 +144,7 @@ Player.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  activeAudiocard: getActiveRecord(state),
+  activeAudiocard: getActiveAudiocard(state),
   isPlaying: getIsPlaying(state),
 });
 

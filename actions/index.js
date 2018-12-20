@@ -43,7 +43,7 @@ export const nextAudioUri = () => (dispatch, getState) => {
       dispatch(setActiveUri({ payload: { activeUri } }));
       setTimeout(() => {
         dispatch(startPlayback({ payload: { uri: activeUri } }));
-      }, 2500);
+      }, 2200);
     } else {
       const length = audiocards.length;
       const currentId = activeAudiocard.id;
@@ -54,9 +54,11 @@ export const nextAudioUri = () => (dispatch, getState) => {
         console.log('play next question');
         const nextAudiocard = audiocards[nextIndex];
         console.log(nextAudiocard.questionAudioUri);
-        dispatch(startPlayback({ payload: { uri: nextAudiocard.questionAudioUri } }));
         dispatch(setActiveUri({ payload: { activeUri: nextAudiocard.questionAudioUri } }));
         dispatch(setActiveAudiocard({ payload: { activeAudiocard: nextAudiocard } }));
+        setTimeout(() => {
+          dispatch(startPlayback({ payload: { uri: nextAudiocard.questionAudioUri } }));
+        }, 500);
       } else {
         dispatch(stopPlayer());
       }

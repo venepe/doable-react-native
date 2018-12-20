@@ -67,7 +67,7 @@ class AudiocardItem extends Component {
 
     return (
       <Swipeout right={right} autoClose>
-        <TouchableOpacity onPress={() => this.props.onPress(this.state.rowID)}>
+        <TouchableOpacity onPress={() => this.props.onPress({ id: audiocardItem.id })}>
           <View style={[styles.card, styles.container]}>
             <View style={styles.infoContainer}>
               <View style={styles.infoSubContainer}>

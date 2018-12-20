@@ -11,6 +11,7 @@ import DeckItem from '../DeckItem';
 import Placeholder from '../Placeholder';
 import Query from '../Query';
 import { ALL_DECKS } from '../../queries';
+import { getHeaderButtonColor } from '../../utilities';
 
 class DeckList extends Component {
   static propTypes = {
@@ -100,7 +101,7 @@ DeckList.navigationOptions = (props) => {
     headerRight: (
       <Button
         title={'Create'}
-        color={'#FFFFFF'}
+        color={getHeaderButtonColor()}
         onPress={() => navigate('CreateDeckModal')}
       />
     ),
