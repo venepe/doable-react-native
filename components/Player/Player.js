@@ -8,10 +8,11 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons/index';
 import { connect } from 'react-redux';
-import { getActiveAudiocard, getIsPlaying } from '../../reducers';
-import { startPlayback, stopPlayBack } from '../../actions';
+import { getActiveAudiocard, getIsPlaying, getIsOnRepeat } from '../../reducers';
+import { startPlayback, stopPlayBack, setIsOnRepeat } from '../../actions';
 
-// import {  } from '../../actions';
+const playerColor = '#EEEEEE';
+const activePlayColor = '#FF8A80';
 
 class Player extends Component {
   static propTypes = {}
@@ -20,12 +21,14 @@ class Player extends Component {
         return {
           activeAudiocard: nextProps.activeAudiocard,
           isPlaying: nextProps.isPlaying,
+          isOnRepeat: nextProps.isOnRepeat,
         }
       }
 
   constructor(props) {
     super(props);
     this.togglePlay = this.togglePlay.bind(this);
+    this.toggleIsOnRepeat = this.toggleIsOnRepeat.bind(this);
 
     this.state = {
       isPlaying: props.isPlaying,
@@ -45,6 +48,11 @@ class Player extends Component {
         isPlaying: props.isPlaying,
       });
     }
+    if (props.isOnRepeat !== prevProps.isOnRepeat) {
+      this.setState({
+        isOnRepeat: props.isOnRepeat,
+      });
+    }
   }
 
   togglePlay() {
@@ -53,30 +61,40 @@ class Player extends Component {
       this.props.stopPlayBack();
     } else {
       this.props.startPlayback({
-        payload: { uri: activeAudiocard.uri },
+        payload: { uri: activeAudiocard.questionAudioUri },
       });
     }
   }
 
+  toggleIsOnRepeat() {
+    const { isOnRepeat } = this.state;
+    this.props.setIsOnRepeat({
+      payload: { isOnRepeat: !isOnRepeat },
+    });
+  }
+
   render() {
     let playButton;
-    if (this.state.isPlaying) {
-      playButton = <MaterialIcons name="pause-circle-outline" size={60} color="#FF4081" />;
+    const { isPlaying, isOnRepeat } = this.state;
+
+    if (isPlaying) {
+      playButton = <MaterialIcons name="pause-circle-outline" size={60} color={playerColor} />;
     } else {
-      playButton = <MaterialIcons name="play-circle-outline" size={60} color="#FF4081" />;
+      playButton = <MaterialIcons name="play-circle-outline" size={60} color={playerColor} />;
     }
 
+    const repeatColor = isOnRepeat === true ? activePlayColor : playerColor;
     return (
       <View style={styles.container}>
         <View style={styles.controls}>
           <View style={styles.skipPrevious}>
             <TouchableOpacity style={[styles.controlButton, {marginBottom: 5}]} onPress={this.onPrevious}>
-              <MaterialIcons style={styles.skip} name="shuffle" size={30} color="#FF4081" />
+              <MaterialIcons style={styles.skip} name="shuffle" size={30} color={playerColor} />
             </TouchableOpacity>
           </View>
           <View style={styles.skipPrevious}>
             <TouchableOpacity style={styles.controlButton} onPress={this.onPrevious}>
-              <MaterialIcons style={styles.skip} name="skip-previous" size={40} color="#FF4081" />
+              <MaterialIcons style={styles.skip} name="skip-previous" size={40} color={playerColor} />
             </TouchableOpacity>
           </View>
           <View style={styles.play}>
@@ -86,12 +104,12 @@ class Player extends Component {
           </View>
           <View style={styles.skipNext}>
             <TouchableOpacity style={styles.controlButton} onPress={this.onNext}>
-              <MaterialIcons style={styles.skip} name="skip-next" size={40} color="#FF4081" />
+              <MaterialIcons style={styles.skip} name="skip-next" size={40} color={playerColor} />
             </TouchableOpacity>
           </View>
           <View style={styles.skipNext}>
-            <TouchableOpacity style={[styles.controlButton, {marginBottom: 5}]} onPress={this.onNext}>
-              <MaterialIcons style={styles.skip} name="repeat" size={30} color="#FF4081" />
+            <TouchableOpacity style={[styles.controlButton, {marginBottom: 5}]} onPress={this.toggleIsOnRepeat}>
+              <MaterialIcons style={styles.skip} name="repeat" size={30} color={repeatColor} />
             </TouchableOpacity>
           </View>
         </View>
@@ -137,18 +155,21 @@ const styles = StyleSheet.create({
 Player.defaultProps = {
   isPlaying: false,
   activeAudiocard: {},
+  isOnRepeat: false,
 };
 
 Player.propTypes = {
   isPlaying: PropTypes.bool,
+  isOnRepeat: PropTypes.bool,
 }
 
 const mapStateToProps = state => ({
   activeAudiocard: getActiveAudiocard(state),
   isPlaying: getIsPlaying(state),
+  isOnRepeat: getIsOnRepeat(state),
 });
 
 export default connect(
   mapStateToProps,
-  { startPlayback, stopPlayBack },
+  { startPlayback, stopPlayBack, setIsOnRepeat },
 )(Player);

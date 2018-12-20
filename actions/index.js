@@ -36,7 +36,7 @@ export const startPlayback = payload => (dispatch) => {
   };
 
 export const nextAudioUri = () => (dispatch, getState) => {
-    let { activeUri, audiocards, activeAudiocard } = getState();
+    let { activeUri, audiocards, activeAudiocard, isOnRepeat } = getState();
     if (activeUri === activeAudiocard.questionAudioUri) {
       console.log('finished question, play answer');
       activeUri = activeAudiocard.answerAudioUri;
@@ -54,6 +54,13 @@ export const nextAudioUri = () => (dispatch, getState) => {
         console.log('play next question');
         const nextAudiocard = audiocards[nextIndex];
         console.log(nextAudiocard.questionAudioUri);
+        dispatch(setActiveUri({ payload: { activeUri: nextAudiocard.questionAudioUri } }));
+        dispatch(setActiveAudiocard({ payload: { activeAudiocard: nextAudiocard } }));
+        setTimeout(() => {
+          dispatch(startPlayback({ payload: { uri: nextAudiocard.questionAudioUri } }));
+        }, 500);
+      } else if (isOnRepeat === true) {
+        const nextAudiocard = audiocards[0];
         dispatch(setActiveUri({ payload: { activeUri: nextAudiocard.questionAudioUri } }));
         dispatch(setActiveAudiocard({ payload: { activeAudiocard: nextAudiocard } }));
         setTimeout(() => {
@@ -106,6 +113,11 @@ export const setAudioCards = payload => ({
 
 export const setActiveUri = payload => ({
   type: AudioTypes.SET_ACTIVE_URI,
+  ...payload,
+});
+
+export const setIsOnRepeat = payload => ({
+  type: AudioTypes.SET_IS_ON_REPEAT,
   ...payload,
 });
 

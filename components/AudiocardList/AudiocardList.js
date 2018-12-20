@@ -46,7 +46,6 @@ class AudiocardList extends Component {
   }
 
   onPressRow({ id }) {
-    console.log('did press audiocardId ', id);
     const { navigation } = this.props;
     const deckId = navigation.getParam('deckId');
     // const audiocards = getAudiocardsForDeck(_deckById);
