@@ -70,11 +70,13 @@ class DeckList extends Component {
           });
 
           return (
-            <FlatList
-              data={list}
-              keyExtractor={(node) => node.nodeId}
-              renderItem={this.renderItem}
-            />
+            <View style={styles.container}>
+              <FlatList
+                data={list}
+                keyExtractor={(node) => node.nodeId}
+                renderItem={this.renderItem}
+              />
+            </View>
           )
         }}
         </Query>
@@ -114,6 +116,9 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: '#212121',
+  },
+  container: {
+    flex: 1,
   },
   rowItemContainer: {
     flex: 1,

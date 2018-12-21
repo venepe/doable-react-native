@@ -89,11 +89,13 @@ class AudiocardList extends Component {
               return { ...audiocardByAudiocardId };
             });
             return (
-              <FlatList
-                data={list}
-                keyExtractor={(node) => node.nodeId}
-                renderItem={this.renderItem}
-              />
+              <View style={styles.container}>
+                <FlatList
+                  data={list}
+                  keyExtractor={(node) => node.nodeId}
+                  renderItem={this.renderItem}
+                />
+              </View>
             )
           } else {
             return (
@@ -135,6 +137,9 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: '#212121',
+  },
+  container: {
+    flex: 1,
   },
   rowItemContainer: {
     flex: 1,
