@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import DeckItem from '../DeckItem';
 import Placeholder from '../Placeholder';
+import PlayerOverlay from '../PlayerOverlay';
 import Query from '../Query';
 import { ALL_DECKS } from '../../queries';
 import { getHeaderButtonColor } from '../../utilities';
@@ -77,6 +78,7 @@ class DeckList extends Component {
           )
         }}
         </Query>
+        <PlayerOverlay navigation={this.props.navigation} />
       </View>
     )
   }

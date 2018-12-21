@@ -4,6 +4,7 @@ import DeckList from '../DeckList';
 import AudiocardList from '../AudiocardList';
 import Home from '../Home';
 import Display from '../Display';
+import PlayerOverlay from '../PlayerOverlay';
 
 const MainStack = createStackNavigator({
   DeckList: { screen: DeckList },

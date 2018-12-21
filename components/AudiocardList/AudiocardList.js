@@ -7,11 +7,17 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { connect } from 'react-redux';
+import { setActiveDeck, playAudiocard, setAudioCards } from '../../actions';
 import AudiocardItem from '../AudiocardItem';
 import Placeholder from '../Placeholder';
 import NavPlayButton from '../NavPlayButton';
 import Query from '../Query';
+import PlayerOverlay from '../PlayerOverlay';
 import { AUDIOCARDS_BY_DECK_NODEID } from '../../queries';
+import { getAudiocardsForDeck } from '../../utilities';
+
+let _deckById;
 
 class AudiocardList extends Component {
   static propTypes = {
@@ -45,16 +51,18 @@ class AudiocardList extends Component {
   }
 
   onPressRow({ id }) {
+    const audiocardId = id;
     const { navigation } = this.props;
     const deckId = navigation.getParam('deckId');
-    // const audiocards = getAudiocardsForDeck(_deckById);
-    // this.props.setAudioCards({
-    //   payload: { audiocards },
-    // });
-    // this.props.playAudiocard({
-    //   payload: { audiocard: audiocards[0] },
-    // });
-    this.props.navigation.navigate('DisplayModal', { deckId, audiocardId: id });
+    const audiocards = getAudiocardsForDeck(_deckById);
+    const currentIndex = audiocards.findIndex(({ id }) => id === audiocardId);
+    this.props.setAudioCards({
+      payload: { audiocards },
+    });
+    this.props.playAudiocard({
+      payload: { audiocard: audiocards[currentIndex] },
+    });
+    this.props.navigation.navigate('DisplayModal');
   }
 
   renderPlaceholder() {
@@ -75,7 +83,7 @@ class AudiocardList extends Component {
         notifyOnNetworkStatusChange={true}
       >
         {({ data: { deckById }, fetchMore, networkStatus}) => {
-
+          _deckById = deckById;
           if (deckById && deckById.deckAudiocardsByDeckId.edges.length > 0) {
             let list = deckById.deckAudiocardsByDeckId.edges.map(({ node: { audiocardByAudiocardId } }) => {
               return { ...audiocardByAudiocardId };
@@ -94,6 +102,7 @@ class AudiocardList extends Component {
           }
         }}
         </Query>
+        <PlayerOverlay navigation={this.props.navigation} />
       </View>
     )
   }
@@ -145,4 +154,7 @@ AudiocardList.defaultProps = {};
 
 AudiocardList.propTypes = {}
 
-export default AudiocardList;
+export default connect(
+  null,
+  { setActiveDeck, playAudiocard, setAudioCards },
+)(AudiocardList);

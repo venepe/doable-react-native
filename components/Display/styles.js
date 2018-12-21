@@ -27,6 +27,7 @@ export default StyleSheet.create({
   backButtonContainer: {
     backgroundColor: 'transparent',
     padding: 10,
+    marginTop: 15,
     width: 58,
   },
   boxContainer: {
