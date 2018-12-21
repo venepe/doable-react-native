@@ -9,7 +9,7 @@ import {
 import { MaterialIcons } from '@expo/vector-icons/index';
 import { connect } from 'react-redux';
 import { getActiveAudiocard, getIsPlaying, getIsOnRepeat, getIsOnRandom } from '../../reducers';
-import { startPlayback, stopPlayBack, setIsOnRepeat, setIsOnRandom, nextAudioUri } from '../../actions';
+import { startPlayback, stopPlayBack, setIsOnRepeat, setIsOnRandom, nextAudioUri, previousAudioUri } from '../../actions';
 
 const playerColor = '#EEEEEE';
 const activePlayColor = '#FF8A80';
@@ -32,6 +32,7 @@ class Player extends Component {
     this.toggleIsOnRepeat = this.toggleIsOnRepeat.bind(this);
     this.toggleIsOnRandom = this.toggleIsOnRandom.bind(this);
     this.onNext = this.onNext.bind(this);
+    this.onPrevious = this.onPrevious.bind(this);
 
     this.state = {
       isPlaying: props.isPlaying,
@@ -90,6 +91,10 @@ class Player extends Component {
 
   onNext() {
     this.props.nextAudioUri();
+  }
+
+  onPrevious() {
+    this.props.previousAudioUri();
   }
 
   render() {
@@ -192,5 +197,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { startPlayback, stopPlayBack, setIsOnRepeat, setIsOnRandom, nextAudioUri },
+  { startPlayback, stopPlayBack, setIsOnRepeat, setIsOnRandom, nextAudioUri, previousAudioUri },
 )(Player);
