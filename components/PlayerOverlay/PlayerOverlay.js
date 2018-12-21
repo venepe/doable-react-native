@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons/index';
 import { connect } from 'react-redux';
-import { getActiveAudiocard, getIsPlaying } from '../../reducers';
+import { getActiveAudiocard, getIsPlaying, getActiveUri } from '../../reducers';
 import { startPlayback, stopPlayBack } from '../../actions';
 
 const playerColor = '#EEEEEE';
@@ -21,6 +21,7 @@ class PlayerOverlay extends Component {
         return {
           activeAudiocard: nextProps.activeAudiocard,
           isPlaying: nextProps.isPlaying,
+          activeUri: nextProps.activeUri,
         }
       }
 
@@ -32,6 +33,7 @@ class PlayerOverlay extends Component {
     this.state = {
       isPlaying: props.isPlaying,
       activeAudiocard: props.activeAudiocard,
+      activeUri: props.activeUri,
     }
   }
 
@@ -45,6 +47,11 @@ class PlayerOverlay extends Component {
     if (props.isPlaying !== prevProps.isPlaying) {
       this.setState({
         isPlaying: props.isPlaying,
+      });
+    }
+    if (props.activeUri !== prevProps.activeUri) {
+      this.setState({
+        activeUri: props.activeUri,
       });
     }
   }
@@ -67,7 +74,8 @@ class PlayerOverlay extends Component {
   render() {
     if (this.state.activeAudiocard.questionText) {
       let playButton;
-      const { isPlaying } = this.state;
+      let text;
+      const { isPlaying, activeUri, activeAudiocard } = this.state;
 
       if (isPlaying) {
         playButton = <MaterialIcons name="pause-circle-outline" size={35} color={playerColor} />;
@@ -75,13 +83,15 @@ class PlayerOverlay extends Component {
         playButton = <MaterialIcons name="play-circle-outline" size={35} color={playerColor} />;
       }
 
+      text = activeUri === activeAudiocard.answerAudioUri ? activeAudiocard.answerText : activeAudiocard.questionText;
+
       return (
         <TouchableOpacity style={styles.container}  onPress={this.goToDisplay}>
           <View style={styles.controlButton}>
             <MaterialIcons name="keyboard-arrow-up" size={35} color="#EEEEEE" />
           </View>
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>{this.state.activeAudiocard.questionText}</Text>
+            <Text style={styles.title}>{text}</Text>
           </View>
           <TouchableOpacity style={styles.controlButton} onPress={this.togglePlay}>
             { playButton }
@@ -132,6 +142,7 @@ PlayerOverlay.propTypes = {
 const mapStateToProps = state => ({
   activeAudiocard: getActiveAudiocard(state),
   isPlaying: getIsPlaying(state),
+  activeUri: getActiveUri(state),
 });
 
 export default connect(

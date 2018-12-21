@@ -10,7 +10,7 @@ import { MaterialIcons } from '@expo/vector-icons/index';
 import Query from '../Query';
 import { connect } from 'react-redux';
 import { getHeaderButtonColor } from '../../utilities';
-import { getActiveAudiocard } from '../../reducers';
+import { getActiveAudiocard, getActiveUri } from '../../reducers';
 import Player from '../Player';
 import styles from './styles';
 
@@ -38,15 +38,18 @@ class Display extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
         return {
           activeAudiocard: nextProps.activeAudiocard,
+          activeUri: nextProps.activeUri,
         }
       }
 
   constructor(props) {
     super(props);
     this.goBack = this.goBack.bind(this);
+    this.renderAnswer = this.renderAnswer.bind(this);
 
     this.state = {
       activeAudiocard: props.activeAudiocard,
+      activeUri: props.activeUri,
     }
   }
 
@@ -57,10 +60,24 @@ class Display extends Component {
         activeAudiocard: props.activeAudiocard,
       });
     }
+    if (props.activeUri !== prevProps.activeUri) {
+      this.setState({
+        activeUri: props.activeUri,
+      });
+    }
   }
 
   goBack() {
     this.props.navigation.goBack();
+  }
+
+  renderAnswer() {
+    const { activeUri, activeAudiocard } = this.state;
+    if (activeUri === activeAudiocard.answerAudioUri) {
+      return (
+        <Text style={styles.title}>{this.state.activeAudiocard.answerText}</Text>
+      );
+    }
   }
 
   render() {
@@ -74,6 +91,9 @@ class Display extends Component {
             </TouchableOpacity>
             <View style={styles.boxContainer}>
               <Text style={styles.title}>{this.state.activeAudiocard.questionText}</Text>
+            </View>
+            <View style={styles.boxContainer}>
+              {this.renderAnswer()}
             </View>
         </View>
         <View style={styles.playerContainer}>
@@ -110,6 +130,7 @@ Display.defaultProps = {
 
 const mapStateToProps = state => ({
   activeAudiocard: getActiveAudiocard(state),
+  activeUri: getActiveUri(state),
 });
 
 export default connect(

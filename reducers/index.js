@@ -88,5 +88,6 @@ export const getIsPlaying = state => state.isPlaying;
 export const getIsOnRepeat = state => state.isOnRepeat;
 export const getIsOnRandom = state => state.isOnRandom;
 export const getActiveDeckId = state => state.activeDeckId;
+export const getActiveUri = state => state.activeUri;
 
 export default reducer;
