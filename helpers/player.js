@@ -10,11 +10,11 @@ let sound = {
 const play = ({ uri, title, albumName = '', isLocal = false }, elapsedTime = 0, done) => {
   console.log(uri);
   let path = isLocal === true ? RNSound.MAIN_BUNDLE : '';
-  // MusicControl.setNowPlaying({
-  //   state: MusicControl.STATE_PLAYING,
-  //   title: title,
-  //   album: albumName,
-  // });
+  MusicControl.setNowPlaying({
+    state: MusicControl.STATE_PLAYING,
+    title: title,
+    album: albumName,
+  });
   sound.stop();
   sound = new RNSound(uri, path, (error) => {
     if (error) {
@@ -34,10 +34,10 @@ const play = ({ uri, title, albumName = '', isLocal = false }, elapsedTime = 0, 
 };
 
 const stop = () => {
-  // MusicControl.updatePlayback({
-  //   state: MusicControl.STATE_STOPPED,
-  //   elapsedTime: 0,
-  // });
+  MusicControl.updatePlayback({
+    state: MusicControl.STATE_STOPPED,
+    elapsedTime: 0,
+  });
   sound.stop();
 };
 
