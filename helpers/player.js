@@ -1,5 +1,6 @@
 import MusicControl from 'react-native-music-control';
 import RNSound from 'react-native-sound';
+RNSound.setCategory('Playback');
 
 let sound = {
   play: () => {},
