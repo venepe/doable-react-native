@@ -2,11 +2,15 @@ import { Audio, Constants, FileSystem, Permissions } from 'expo';
 import AudioTypes from '../constants/AudioTypes';
 import DeckTypes from '../constants/DeckTypes';
 import { getRandomInt } from '../utilities';
+import { track } from '../utilities/analytics';
 let soundObject = new Audio.Sound();
 
 
 export const playAudiocard = payload => (dispatch) => {
   let { payload: { audiocard } } = payload;
+
+  track('Play Audiocard', {});
+
   dispatch(setActiveUri({ payload: { activeUri: audiocard.questionAudioUri } }));
   dispatch(setActiveAudiocard({ payload: { activeAudiocard: audiocard } }));
   dispatch(startPlayback({ payload: { uri: audiocard.questionAudioUri } }));

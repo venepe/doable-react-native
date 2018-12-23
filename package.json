@@ -13,6 +13,7 @@
     "apollo-link-http": "^1.5.9",
     "apollo-link-state": "^0.4.2",
     "expo": "^31.0.2",
+    "expo-mixpanel-analytics": "^0.0.7",
     "graphql": "^14.0.2",
     "graphql-anywhere": "^4.1.23",
     "graphql-tag": "^2.10.0",
