@@ -4558,6 +4558,11 @@ react-native-maps@expo/react-native-maps#v0.22.1-exp.0:
   version "0.22.1"
   resolved "https://codeload.github.com/expo/react-native-maps/tar.gz/e6f98ff7272e5d0a7fe974a41f28593af2d77bb2"
 
+react-native-music-control@^0.9.4:
+  version "0.9.4"
+  resolved "https://registry.yarnpkg.com/react-native-music-control/-/react-native-music-control-0.9.4.tgz#61ec8fcf246784264112ad4336a547df483d73f0"
+  integrity sha512-AHp9j9PRyAAp6nRNslcZwPBRdIT573d9wvU6arY6zUZuphIpdLQ6oImbcCjR1XJl0LWiL4oxdW2SUfWFD26Qww==
+
 react-native-reanimated@1.0.0-alpha.10:
   version "1.0.0-alpha.10"
   resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-1.0.0-alpha.10.tgz#e9e6fb35a2cf52fdc912b9fbc76f34f80698e530"
@@ -4586,6 +4591,11 @@ react-native-screens@1.0.0-alpha.15:
   version "1.0.0-alpha.16"
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-1.0.0-alpha.16.tgz#e3651b7077ea8fa04e8dd3265ad9b87f1f77a758"
   integrity sha512-t+/aq5jQa+Is6afiQHa1P+2UPnwPGY9NT0pSqNr2zQ5llCn8TcPq6GN8xDMuEc08g+y/9R5zWo32hlVStwWn1A==
+
+react-native-sound@^0.10.9:
+  version "0.10.9"
+  resolved "https://registry.yarnpkg.com/react-native-sound/-/react-native-sound-0.10.9.tgz#6b00b0f4afd017cde09fbb9d171df1b5d5b851a8"
+  integrity sha1-awCw9K/QF83gn7udFx3xtdW4Uag=
 
 react-native-svg@8.0.8:
   version "8.0.8"

@@ -1,10 +1,8 @@
-import { Audio, Constants, FileSystem, Permissions } from 'expo';
 import AudioTypes from '../constants/AudioTypes';
 import DeckTypes from '../constants/DeckTypes';
 import { getRandomInt } from '../utilities';
-import { track } from '../utilities/analytics';
-let soundObject = new Audio.Sound();
-
+import { track } from '../helpers/analytics';
+import Player from '../helpers/player';
 
 export const playAudiocard = payload => (dispatch) => {
   let { payload: { audiocard } } = payload;
@@ -16,73 +14,28 @@ export const playAudiocard = payload => (dispatch) => {
   dispatch(startPlayback({ payload: { uri: audiocard.questionAudioUri } }));
 };
 
-const unLoadAudio = (() => {
-  return new Promise((resolve) => {
-    soundObject.stopAsync()
-      .then(() => {
-        return soundObject.unloadAsync();
-      })
-      .then(() => {
-        resolve();
-      })
-      .catch(() => {
-        resolve();
-      })
-  });
-})
-
 export const startPlayback = payload => (dispatch) => {
   let { payload: { uri } } = payload;
-  unLoadAudio()
-    .then(() => {
-      return soundObject.loadAsync({ uri });
-    })
-    .then(() => {
-      return soundObject.playAsync();
-    })
-    .then(() => {
-      dispatch(startPlayer());
-      console.log('playing!');
-    })
-    .catch(error => {
-      console.log(error);
-    });
 
-    soundObject.setOnPlaybackStatusUpdate(playbackObject => {
-      if (playbackObject.didJustFinish) {
-        soundObject.unloadAsync()
-          .then(() => {
-            dispatch(startAudioSilence());
-          });
-      }
-    });
+  dispatch(startPlayer());
+  Player.play({ uri }, 0, () => {
+    dispatch(startAudioSilence());
+  });
+
   };
 
 export const startAudioSilence = () => (dispatch, getState) => {
   let { activeUri, activeAudiocard } = getState();
-  unLoadAudio()
-    .then(() => {
-      if (activeUri === activeAudiocard.questionAudioUri) {
-        return soundObject.loadAsync(require('../assets/2-seconds-of-silence.mp3'));
-      } else {
-        return soundObject.loadAsync(require('../assets/500-milliseconds-of-silence.mp3'));
-      }
-    })
-    .then(() => {
-      return soundObject.playAsync();
-    })
-    .catch(error => {
-      console.log(error);
-    });
+  let uri = '';
+  if (activeUri === activeAudiocard.questionAudioUri) {
+    uri = 'two_seconds_of_silence.mp3';
+  } else {
+    uri = 'five_hundred_milliseconds_of_silence.mp3';
+  }
 
-    soundObject.setOnPlaybackStatusUpdate(playbackObject => {
-      if (playbackObject.didJustFinish) {
-        soundObject.unloadAsync()
-          .then(() => {
-            dispatch(nextAudioUri());
-          });
-      }
-    });
+  Player.play({ uri, isLocal: true}, 0, () => {
+    dispatch(nextAudioUri());
+  });
 }
 
 export const nextAudioUri = () => (dispatch, getState) => {
@@ -145,17 +98,8 @@ export const previousAudioUri = () => (dispatch, getState) => {
   };
 
 export const stopPlayBack = () => (dispatch) => {
-  soundObject.stopAsync()
-    .then(() => {
-      return soundObject.unloadAsync();
-    })
-    .then(() => {
-      dispatch(stopPlayer());
-      console.log('stopped!');
-    })
-    .catch(error => {
-      console.log(error);
-    });
+  Player.stop();
+  dispatch(stopPlayer());
   };
 
 export const setActiveAudiocard = payload => ({
