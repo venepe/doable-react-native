@@ -27,17 +27,6 @@ class AudiocardList extends Component {
     }).isRequired,
   }
 
-  static navigationOptions = {
-    title: 'Audiocards',
-    headerStyle: {
-      backgroundColor: '#3B5998',
-    },
-    headerTitleStyle: {
-      color: '#FFFFFF',
-    },
-    headerBackTitle: 'Back',
-  };
-
   constructor(props) {
     super(props);
     this.renderItem = this.renderItem.bind(this);

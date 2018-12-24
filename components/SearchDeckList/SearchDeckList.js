@@ -12,7 +12,7 @@ import Placeholder from '../Placeholder';
 import PlayerOverlay from '../PlayerOverlay';
 import Query from '../Query';
 import NavSearchBar from '../NavSearchBar';
-import { ALL_DECKS } from '../../queries';
+import { SEARCH_DECKS } from '../../queries';
 import { getHeaderButtonColor } from '../../utilities';
 
 class DeckList extends Component {
@@ -42,20 +42,23 @@ class DeckList extends Component {
   }
 
   render() {
+    const { navigation } = this.props;
+    const search = navigation.getParam('search');
     return (
       <View style={styles.root}>
         <Query
-        query={ALL_DECKS}
+        query={SEARCH_DECKS}
+        variables={{ search: search, first: 20, after: null }}
         notifyOnNetworkStatusChange={true}
       >
-        {({ data: { allDecks }, fetchMore, networkStatus}) => {
+        {({ data: { searchDecks }, fetchMore, networkStatus}) => {
 
-          if (allDecks.edges.length < 1) {
+          if (searchDecks.edges.length < 1) {
             return (
-              <Placeholder text={'Create a Deck to Get Started!'}></Placeholder>
+              <Placeholder text={'Hmm, go ahead and request a deck'}></Placeholder>
             );
           }
-          let list = allDecks.edges.map(({ node }) => {
+          let list = searchDecks.edges.map(({ node }) => {
             return { ...node };
           });
 
@@ -78,15 +81,16 @@ class DeckList extends Component {
 
 DeckList.navigationOptions = (props) => {
   const { navigation } = props;
-  const { navigate } = navigation;
+  const search = navigation.getParam('search');
 
   return {
     headerTitle: (
-      <NavSearchBar navigation={navigation} />
+      <NavSearchBar search={search} navigation={navigation} />
     ),
     headerStyle: {
       backgroundColor: '#000D11',
     },
+    headerTintColor: '#FFFFFF',
     headerTitleStyle: {
       color: '#F5F5F5',
     },
