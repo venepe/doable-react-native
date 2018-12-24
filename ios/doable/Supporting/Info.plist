@@ -68,6 +68,8 @@
 	<string>Allow Doable to use your location</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow Doable to access your microphone</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Allow Doable to use speech recognition</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Allow Doable to access your device's accelerometer</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

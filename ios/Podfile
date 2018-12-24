@@ -106,6 +106,8 @@ target 'doable' do
 
   pod 'react-native-music-control', :path => '../node_modules/react-native-music-control'
 
+  pod 'A0Auth0', :path => '../node_modules/react-native-auth0'
+
   post_install do |installer|
     installer.pods_project.main_group.tab_width = '2';
     installer.pods_project.main_group.indent_width = '2';
