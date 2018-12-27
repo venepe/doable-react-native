@@ -36,8 +36,6 @@ export const startPlayback = payload => (dispatch, getState) => {
 export const onSpeechResults = payload => (dispatch, getState) => {
   let { activeAudiocard: { answerText } } = getState();
   let { payload: { speechResults } } = payload;
-  console.log(speechResults);
-
   let uri = '';
   let isCorrect = speechResults.value.find((result) => result.toLowerCase() === answerText.toLowerCase());
   if (isCorrect) {
