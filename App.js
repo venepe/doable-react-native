@@ -5,7 +5,7 @@ import thunk from 'redux-thunk';
 import { ApolloProvider } from 'react-apollo';
 import client from './apolloClient';
 import reducer from './reducers';
-import App from './components/App';
+import BaseApp from './components/Base';
 
 const store = createStore(
   reducer,
@@ -17,7 +17,7 @@ export default class Base extends React.Component {
     return (
       <ApolloProvider client={client}>
         <Provider store={store}>
-          <App />
+          <BaseApp />
         </Provider>
       </ApolloProvider>
   );

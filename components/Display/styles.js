@@ -3,13 +3,7 @@ import {
   StyleSheet,
 } from 'react-native';
 
-const window = Dimensions.get('window');
-
 export default StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: '#212121',
-  },
   container: {
     flex: 1,
     backgroundColor: '#212121',
@@ -34,12 +28,17 @@ export default StyleSheet.create({
     flex: 1,
     alignItems: 'flex-start',
     justifyContent: 'center',
-    padding: 20,
+    margin: 20,
   },
   title: {
     color: '#FFFF00',
     fontSize: 28,
     fontWeight: '400',
     // fontFamily: 'Roboto-Thin',
+  },
+  interactiveContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    margin: 20,
   },
 });

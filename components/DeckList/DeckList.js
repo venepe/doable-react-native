@@ -11,6 +11,7 @@ import DeckItem from '../DeckItem';
 import Placeholder from '../Placeholder';
 import PlayerOverlay from '../PlayerOverlay';
 import Query from '../Query';
+import NavSearchBar from '../NavSearchBar';
 import { ALL_DECKS } from '../../queries';
 import { getHeaderButtonColor } from '../../utilities';
 
@@ -21,17 +22,6 @@ class DeckList extends Component {
       setParams: PropTypes.func.isRequired,
     }).isRequired,
   }
-
-  static navigationOptions = {
-    title: 'Decks',
-    headerStyle: {
-      backgroundColor: '#3B5998',
-    },
-    headerTitleStyle: {
-      color: '#FFFFFF',
-    },
-    headerBackTitle: 'Back',
-  };
 
   constructor(props) {
     super(props);
@@ -91,7 +81,9 @@ DeckList.navigationOptions = (props) => {
   const { navigate } = navigation;
 
   return {
-    title: 'Decks',
+    headerTitle: (
+      <NavSearchBar navigation={navigation} />
+    ),
     headerStyle: {
       backgroundColor: '#000D11',
     },
@@ -102,13 +94,6 @@ DeckList.navigationOptions = (props) => {
     headerBackTitleStyle: {
       color: '#FFFFFF',
     },
-    headerRight: (
-      <Button
-        title={'Create'}
-        color={getHeaderButtonColor()}
-        onPress={() => navigate('CreateDeckModal')}
-      />
-    ),
   };
 };
 

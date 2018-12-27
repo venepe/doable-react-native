@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { getHeaderButtonColor } from '../../utilities';
 import { getActiveAudiocard, getActiveUri } from '../../reducers';
 import Player from '../Player';
+import InteractiveButton from '../InteractiveButton';
 import styles from './styles';
 
 
@@ -95,6 +96,9 @@ class Display extends Component {
             <View style={styles.boxContainer}>
               {this.renderAnswer()}
             </View>
+        </View>
+        <View style={styles.interactiveContainer}>
+          <InteractiveButton />
         </View>
         <View style={styles.playerContainer}>
           <Player />

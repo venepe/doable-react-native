@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 import gql from 'graphql-tag';
 import { propType } from 'graphql-anywhere';
-import Swipeout from 'react-native-swipeout';
 import styles from './styles';
 
 class AudiocardItem extends Component {
@@ -20,13 +19,10 @@ class AudiocardItem extends Component {
   static defaultProps = {
     rowID: 0,
     onPress: () => {},
-    deleteAudiocard: () => {},
   }
 
   constructor(props) {
     super(props);
-
-    this.deleteAudiocard = this.deleteAudiocard.bind(this);
 
     this.state = {
       rowID: props.rowID,
@@ -34,39 +30,12 @@ class AudiocardItem extends Component {
     };
   }
 
-
-  deleteAudiocard() {
-    console.log('deleteAudiocard');
-  }
-
   render() {
-    let color;
-    const rowIDPlus7 = this.state.rowID + 7;
-    const remainder = rowIDPlus7 % 7;
-    if (remainder === 0) {
-      color = '#FF8A80';
-    } else if (remainder === 1) {
-      color = '#FFD180';
-    } else if (remainder === 2) {
-      color = '#FFFF8D';
-    } else if (remainder === 3) {
-      color = '#B9F6CA';
-    } else if (remainder === 4) {
-      color = '#80D8FF';
-    } else if (remainder === 5) {
-      color = '#8C9EFF';
-    } else if (remainder === 6) {
-      color = '#B388FF';
-    }
-
-    const right = [
-      { text: 'Delete', color: '#FFFFFF', backgroundColor: '#FF1744', onPress: this.deleteAudiocard },
-    ];
+    let color = '#FF8A80';
 
     const audiocardItem = this.state.audiocardItem || {};
 
     return (
-      <Swipeout right={right} autoClose>
         <TouchableOpacity onPress={() => this.props.onPress({ id: audiocardItem.id })}>
           <View style={[styles.card, styles.container]}>
             <View style={styles.infoContainer}>
@@ -76,7 +45,6 @@ class AudiocardItem extends Component {
             </View>
           </View>
         </TouchableOpacity>
-      </Swipeout>
     );
   }
 }
