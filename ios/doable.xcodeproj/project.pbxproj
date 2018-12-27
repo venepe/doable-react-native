@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1887BAD521D04A3700A57B71 /* two_seconds_of_silence.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1887BAD321D04A3700A57B71 /* two_seconds_of_silence.mp3 */; };
-		1887BAD621D04A3700A57B71 /* five_hundred_milliseconds_of_silence.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1887BAD421D04A3700A57B71 /* five_hundred_milliseconds_of_silence.mp3 */; };
-		31816855B0B14E009B13CEDC /* libVoice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19E4BEFBBA2C488F83021C17 /* libVoice.a */; };
+		181BE5E321D48CFC001B5548 /* five_hundred_milliseconds_of_silence.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 181BE5E121D48CFC001B5548 /* five_hundred_milliseconds_of_silence.mp3 */; };
+		181BE5E421D48CFC001B5548 /* two_seconds_of_silence.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 181BE5E221D48CFC001B5548 /* two_seconds_of_silence.mp3 */; };
+		870A19D676294465854F815C /* libVoice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 153693F2C29442DEA998AF69 /* libVoice.a */; };
 		B501732B1DC01252003445D9 /* EXShell.plist in Resources */ = {isa = PBXBuildFile; fileRef = B501732A1DC01252003445D9 /* EXShell.plist */; };
 		B56386491DB9693800A0598C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B56386481DB9693800A0598C /* AppDelegate.m */; };
 		B56386511DB9693800A0598C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B56386501DB9693800A0598C /* Assets.xcassets */; };
@@ -25,9 +25,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		1887BADB21D08E0200A57B71 /* PBXContainerItemProxy */ = {
+		181BE5DF21D48B72001B5548 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 10B631085D5C417685B7C908 /* Voice.xcodeproj */;
+			containerPortal = 117055D7BEF1405BA399E4CA /* Voice.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = DC0729B51EF78E41004EBC83;
 			remoteInfo = Voice;
@@ -35,10 +35,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		10B631085D5C417685B7C908 /* Voice.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = Voice.xcodeproj; path = "../node_modules/react-native-voice/ios/Voice.xcodeproj"; sourceTree = "<group>"; };
-		1887BAD321D04A3700A57B71 /* two_seconds_of_silence.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = two_seconds_of_silence.mp3; path = ../assets/two_seconds_of_silence.mp3; sourceTree = "<group>"; };
-		1887BAD421D04A3700A57B71 /* five_hundred_milliseconds_of_silence.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = five_hundred_milliseconds_of_silence.mp3; path = ../assets/five_hundred_milliseconds_of_silence.mp3; sourceTree = "<group>"; };
-		19E4BEFBBA2C488F83021C17 /* libVoice.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libVoice.a; sourceTree = "<group>"; };
+		117055D7BEF1405BA399E4CA /* Voice.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = Voice.xcodeproj; path = "../node_modules/react-native-voice/ios/Voice.xcodeproj"; sourceTree = "<group>"; };
+		153693F2C29442DEA998AF69 /* libVoice.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libVoice.a; sourceTree = "<group>"; };
+		181BE5E121D48CFC001B5548 /* five_hundred_milliseconds_of_silence.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = five_hundred_milliseconds_of_silence.mp3; path = ../assets/five_hundred_milliseconds_of_silence.mp3; sourceTree = "<group>"; };
+		181BE5E221D48CFC001B5548 /* two_seconds_of_silence.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = two_seconds_of_silence.mp3; path = ../assets/two_seconds_of_silence.mp3; sourceTree = "<group>"; };
 		2C1548D9E4CB1AEFA5CCAE6D /* Pods-doable.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-doable.debug.xcconfig"; path = "Pods/Target Support Files/Pods-doable/Pods-doable.debug.xcconfig"; sourceTree = "<group>"; };
 		A47FE4D7F70906B7DC8CE39B /* Pods-doable.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-doable.release.xcconfig"; path = "Pods/Target Support Files/Pods-doable/Pods-doable.release.xcconfig"; sourceTree = "<group>"; };
 		B501732A1DC01252003445D9 /* EXShell.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EXShell.plist; sourceTree = "<group>"; };
@@ -64,25 +64,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				EBB8117C1BFA0514F79CAF74 /* libPods-doable.a in Frameworks */,
-				31816855B0B14E009B13CEDC /* libVoice.a in Frameworks */,
+				870A19D676294465854F815C /* libVoice.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1887BAD721D08E0200A57B71 /* Recovered References */ = {
+		181BE5DB21D48B72001B5548 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				19E4BEFBBA2C488F83021C17 /* libVoice.a */,
+				153693F2C29442DEA998AF69 /* libVoice.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
 		};
-		1887BAD821D08E0200A57B71 /* Products */ = {
+		181BE5DC21D48B72001B5548 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1887BADC21D08E0200A57B71 /* libVoice.a */,
+				181BE5E021D48B72001B5548 /* libVoice.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -95,10 +95,10 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		25CD110A9E9D4A6395FD3941 /* Libraries */ = {
+		4C2122C5138B4BE29227756D /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				10B631085D5C417685B7C908 /* Voice.xcodeproj */,
+				117055D7BEF1405BA399E4CA /* Voice.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -115,14 +115,14 @@
 		B56386381DB9693800A0598C = {
 			isa = PBXGroup;
 			children = (
-				1887BAD421D04A3700A57B71 /* five_hundred_milliseconds_of_silence.mp3 */,
-				1887BAD321D04A3700A57B71 /* two_seconds_of_silence.mp3 */,
+				181BE5E121D48CFC001B5548 /* five_hundred_milliseconds_of_silence.mp3 */,
+				181BE5E221D48CFC001B5548 /* two_seconds_of_silence.mp3 */,
 				B56386431DB9693800A0598C /* doable */,
 				B56386421DB9693800A0598C /* Products */,
 				5B29BC350A332C58878A9F13 /* Pods */,
 				1A42804E64B7E9E0AB8B6799 /* Frameworks */,
-				25CD110A9E9D4A6395FD3941 /* Libraries */,
-				1887BAD721D08E0200A57B71 /* Recovered References */,
+				4C2122C5138B4BE29227756D /* Libraries */,
+				181BE5DB21D48B72001B5548 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -199,11 +199,6 @@
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = 4VDW5N6453;
 						ProvisioningStyle = Automatic;
-						SystemCapabilities = {
-							com.apple.BackgroundModes = {
-								enabled = 1;
-							};
-						};
 					};
 				};
 			};
@@ -220,8 +215,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 1887BAD821D08E0200A57B71 /* Products */;
-					ProjectRef = 10B631085D5C417685B7C908 /* Voice.xcodeproj */;
+					ProductGroup = 181BE5DC21D48B72001B5548 /* Products */;
+					ProjectRef = 117055D7BEF1405BA399E4CA /* Voice.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -232,11 +227,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		1887BADC21D08E0200A57B71 /* libVoice.a */ = {
+		181BE5E021D48B72001B5548 /* libVoice.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libVoice.a;
-			remoteRef = 1887BADB21D08E0200A57B71 /* PBXContainerItemProxy */;
+			remoteRef = 181BE5DF21D48B72001B5548 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -250,13 +245,13 @@
 				B501732B1DC01252003445D9 /* EXShell.plist in Resources */,
 				B5CFBF4F1EDE419400B4BE24 /* EXBuildConstants.plist in Resources */,
 				B56386671DB9994300A0598C /* EXSDKVersions.plist in Resources */,
-				1887BAD521D04A3700A57B71 /* two_seconds_of_silence.mp3 in Resources */,
 				B5693E921FABD46800307FA4 /* launch_icon.png in Resources */,
 				B5693E8E1FABD16A00307FA4 /* LaunchScreen.xib in Resources */,
+				181BE5E321D48CFC001B5548 /* five_hundred_milliseconds_of_silence.mp3 in Resources */,
+				181BE5E421D48CFC001B5548 /* two_seconds_of_silence.mp3 in Resources */,
 				B5DB04801F3A684600E91581 /* shell-app-manifest.json in Resources */,
 				B5DB04811F3A684600E91581 /* shell-app.bundle in Resources */,
 				B56386511DB9693800A0598C /* Assets.xcassets in Resources */,
-				1887BAD621D04A3700A57B71 /* five_hundred_milliseconds_of_silence.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -464,69 +459,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 4VDW5N6453;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/A0Auth0\"",
-					"\"${PODS_ROOT}/Headers/Public/Amplitude-iOS\"",
-					"\"${PODS_ROOT}/Headers/Public/Analytics\"",
-					"\"${PODS_ROOT}/Headers/Public/AppAuth\"",
-					"\"${PODS_ROOT}/Headers/Public/Bolts\"",
-					"\"${PODS_ROOT}/Headers/Public/Branch\"",
-					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
-					"\"${PODS_ROOT}/Headers/Public/Crashlytics\"",
-					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
-					"\"${PODS_ROOT}/Headers/Public/EXAdsAdMob\"",
-					"\"${PODS_ROOT}/Headers/Public/EXBarCodeScanner\"",
-					"\"${PODS_ROOT}/Headers/Public/EXBarCodeScannerInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXCamera\"",
-					"\"${PODS_ROOT}/Headers/Public/EXCameraInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXConstants\"",
-					"\"${PODS_ROOT}/Headers/Public/EXConstantsInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXContacts\"",
-					"\"${PODS_ROOT}/Headers/Public/EXCore\"",
-					"\"${PODS_ROOT}/Headers/Public/EXFaceDetectorInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXFileSystem\"",
-					"\"${PODS_ROOT}/Headers/Public/EXFileSystemInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXFont\"",
-					"\"${PODS_ROOT}/Headers/Public/EXFontInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXGL\"",
-					"\"${PODS_ROOT}/Headers/Public/EXGL-CPP\"",
-					"\"${PODS_ROOT}/Headers/Public/EXImageLoaderInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXLocalAuthentication\"",
-					"\"${PODS_ROOT}/Headers/Public/EXLocalization\"",
-					"\"${PODS_ROOT}/Headers/Public/EXLocation\"",
-					"\"${PODS_ROOT}/Headers/Public/EXMediaLibrary\"",
-					"\"${PODS_ROOT}/Headers/Public/EXPaymentsStripe\"",
-					"\"${PODS_ROOT}/Headers/Public/EXPermissions\"",
-					"\"${PODS_ROOT}/Headers/Public/EXPermissionsInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXPrint\"",
-					"\"${PODS_ROOT}/Headers/Public/EXReactNativeAdapter\"",
-					"\"${PODS_ROOT}/Headers/Public/EXSMS\"",
-					"\"${PODS_ROOT}/Headers/Public/EXSegment\"",
-					"\"${PODS_ROOT}/Headers/Public/EXSensors\"",
-					"\"${PODS_ROOT}/Headers/Public/EXSensorsInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/ExpoKit\"",
-					"\"${PODS_ROOT}/Headers/Public/FBAudienceNetwork\"",
-					"\"${PODS_ROOT}/Headers/Public/FBSDKCoreKit\"",
-					"\"${PODS_ROOT}/Headers/Public/FBSDKLoginKit\"",
-					"\"${PODS_ROOT}/Headers/Public/FBSDKShareKit\"",
-					"\"${PODS_ROOT}/Headers/Public/Fabric\"",
-					"\"${PODS_ROOT}/Headers/Public/GTMSessionFetcher\"",
-					"\"${PODS_ROOT}/Headers/Public/Google-Maps-iOS-Utils\"",
-					"\"${PODS_ROOT}/Headers/Public/Google-Mobile-Ads-SDK\"",
-					"\"${PODS_ROOT}/Headers/Public/GoogleMaps\"",
-					"\"${PODS_ROOT}/Headers/Public/GoogleSignIn\"",
-					"\"${PODS_ROOT}/Headers/Public/GoogleToolboxForMac\"",
-					"\"${PODS_ROOT}/Headers/Public/JKBigInteger2\"",
-					"\"${PODS_ROOT}/Headers/Public/RNSound\"",
-					"\"${PODS_ROOT}/Headers/Public/React\"",
-					"\"${PODS_ROOT}/Headers/Public/Stripe\"",
-					"\"${PODS_ROOT}/Headers/Public/glog\"",
-					"\"${PODS_ROOT}/Headers/Public/lottie-ios\"",
-					"\"${PODS_ROOT}/Headers/Public/react-native-music-control\"",
-					"\"${PODS_ROOT}/Headers/Public/yoga\"",
-				);
 				INFOPLIST_FILE = "$(SRCROOT)/doable/Supporting/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -545,69 +477,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 4VDW5N6453;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/A0Auth0\"",
-					"\"${PODS_ROOT}/Headers/Public/Amplitude-iOS\"",
-					"\"${PODS_ROOT}/Headers/Public/Analytics\"",
-					"\"${PODS_ROOT}/Headers/Public/AppAuth\"",
-					"\"${PODS_ROOT}/Headers/Public/Bolts\"",
-					"\"${PODS_ROOT}/Headers/Public/Branch\"",
-					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
-					"\"${PODS_ROOT}/Headers/Public/Crashlytics\"",
-					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
-					"\"${PODS_ROOT}/Headers/Public/EXAdsAdMob\"",
-					"\"${PODS_ROOT}/Headers/Public/EXBarCodeScanner\"",
-					"\"${PODS_ROOT}/Headers/Public/EXBarCodeScannerInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXCamera\"",
-					"\"${PODS_ROOT}/Headers/Public/EXCameraInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXConstants\"",
-					"\"${PODS_ROOT}/Headers/Public/EXConstantsInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXContacts\"",
-					"\"${PODS_ROOT}/Headers/Public/EXCore\"",
-					"\"${PODS_ROOT}/Headers/Public/EXFaceDetectorInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXFileSystem\"",
-					"\"${PODS_ROOT}/Headers/Public/EXFileSystemInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXFont\"",
-					"\"${PODS_ROOT}/Headers/Public/EXFontInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXGL\"",
-					"\"${PODS_ROOT}/Headers/Public/EXGL-CPP\"",
-					"\"${PODS_ROOT}/Headers/Public/EXImageLoaderInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXLocalAuthentication\"",
-					"\"${PODS_ROOT}/Headers/Public/EXLocalization\"",
-					"\"${PODS_ROOT}/Headers/Public/EXLocation\"",
-					"\"${PODS_ROOT}/Headers/Public/EXMediaLibrary\"",
-					"\"${PODS_ROOT}/Headers/Public/EXPaymentsStripe\"",
-					"\"${PODS_ROOT}/Headers/Public/EXPermissions\"",
-					"\"${PODS_ROOT}/Headers/Public/EXPermissionsInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXPrint\"",
-					"\"${PODS_ROOT}/Headers/Public/EXReactNativeAdapter\"",
-					"\"${PODS_ROOT}/Headers/Public/EXSMS\"",
-					"\"${PODS_ROOT}/Headers/Public/EXSegment\"",
-					"\"${PODS_ROOT}/Headers/Public/EXSensors\"",
-					"\"${PODS_ROOT}/Headers/Public/EXSensorsInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/ExpoKit\"",
-					"\"${PODS_ROOT}/Headers/Public/FBAudienceNetwork\"",
-					"\"${PODS_ROOT}/Headers/Public/FBSDKCoreKit\"",
-					"\"${PODS_ROOT}/Headers/Public/FBSDKLoginKit\"",
-					"\"${PODS_ROOT}/Headers/Public/FBSDKShareKit\"",
-					"\"${PODS_ROOT}/Headers/Public/Fabric\"",
-					"\"${PODS_ROOT}/Headers/Public/GTMSessionFetcher\"",
-					"\"${PODS_ROOT}/Headers/Public/Google-Maps-iOS-Utils\"",
-					"\"${PODS_ROOT}/Headers/Public/Google-Mobile-Ads-SDK\"",
-					"\"${PODS_ROOT}/Headers/Public/GoogleMaps\"",
-					"\"${PODS_ROOT}/Headers/Public/GoogleSignIn\"",
-					"\"${PODS_ROOT}/Headers/Public/GoogleToolboxForMac\"",
-					"\"${PODS_ROOT}/Headers/Public/JKBigInteger2\"",
-					"\"${PODS_ROOT}/Headers/Public/RNSound\"",
-					"\"${PODS_ROOT}/Headers/Public/React\"",
-					"\"${PODS_ROOT}/Headers/Public/Stripe\"",
-					"\"${PODS_ROOT}/Headers/Public/glog\"",
-					"\"${PODS_ROOT}/Headers/Public/lottie-ios\"",
-					"\"${PODS_ROOT}/Headers/Public/react-native-music-control\"",
-					"\"${PODS_ROOT}/Headers/Public/yoga\"",
-				);
 				INFOPLIST_FILE = "$(SRCROOT)/doable/Supporting/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (

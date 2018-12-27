@@ -36,6 +36,8 @@ export const startPlayback = payload => (dispatch, getState) => {
 export const onSpeechResults = payload => (dispatch, getState) => {
   let { activeAudiocard: { answerText } } = getState();
   let { payload: { speechResults } } = payload;
+  console.log(speechResults);
+
   let uri = '';
   let isCorrect = speechResults.value.find((result) => result.toLowerCase() === answerText.toLowerCase());
   if (isCorrect) {
@@ -43,6 +45,7 @@ export const onSpeechResults = payload => (dispatch, getState) => {
   } else {
     uri = getNegativeAudio();
   }
+  Voice.destroy();
   Player.play({ uri : 'five_hundred_milliseconds_of_silence.mp3' , isLocal: true }, 0, () => {
     Player.play({ uri }, 0, () => {
       dispatch(nextAudioUri());

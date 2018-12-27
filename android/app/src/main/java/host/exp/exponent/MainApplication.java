@@ -11,9 +11,9 @@ import expolib_v1.okhttp3.OkHttpClient;
 // Needed for `react-native link`
 // import com.facebook.react.ReactApplication;
 import com.wenkesj.voice.VoicePackage;
-import com.auth0.react.A0Auth0Package;
-import com.tanguyantoine.react.MusicControl;
 import com.zmxv.RNSound.RNSoundPackage;
+import com.tanguyantoine.react.MusicControl;
+import com.auth0.react.A0Auth0Package;
 
 public class MainApplication extends ExpoApplication {
 
@@ -31,9 +31,9 @@ public class MainApplication extends ExpoApplication {
         // Needed for `react-native link`
         // new MainReactPackage(),
             new VoicePackage(),
-            new A0Auth0Package(),
+            new RNSoundPackage(),
             new MusicControl(),
-            new RNSoundPackage()
+            new A0Auth0Package()
     );
   }
 

@@ -98,9 +98,9 @@ apply from: 'expo.gradle'
 
 dependencies {
     compile project(':react-native-voice')
-    compile project(':react-native-auth0')
-    compile project(':react-native-music-control')
     compile project(':react-native-sound')
+    compile project(':react-native-music-control')
+    compile project(':react-native-auth0')
   implementation fileTree(dir: 'libs', include: ['*.jar'])
 
   implementation 'com.android.support:multidex:1.0.1'
