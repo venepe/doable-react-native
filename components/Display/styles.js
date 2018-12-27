@@ -3,8 +3,6 @@ import {
   StyleSheet,
 } from 'react-native';
 
-const window = Dimensions.get('window');
-
 export default StyleSheet.create({
   root: {
     flex: 1,
@@ -34,7 +32,7 @@ export default StyleSheet.create({
     flex: 1,
     alignItems: 'flex-start',
     justifyContent: 'center',
-    padding: 20,
+    margin: 20,
   },
   title: {
     color: '#FFFF00',

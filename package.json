@@ -25,6 +25,7 @@
     "react-native-elements": "^0.19.1",
     "react-native-music-control": "^0.9.4",
     "react-native-sound": "^0.10.9",
+    "react-native-voice": "^0.2.6",
     "react-navigation": "^3.0.2",
     "react-redux": "^5.1.1",
     "redux": "^4.0.1",

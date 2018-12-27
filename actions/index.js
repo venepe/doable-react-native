@@ -1,8 +1,10 @@
+import { Permissions } from "expo";
 import AudioTypes from '../constants/AudioTypes';
 import DeckTypes from '../constants/DeckTypes';
-import { getRandomInt } from '../utilities';
+import { getRandomInt, getAffirmativeAudio, getNegativeAudio } from '../utilities';
 import { track } from '../helpers/analytics';
 import Player from '../helpers/player';
+import Voice from 'react-native-voice';
 
 export const playAudiocard = payload => (dispatch) => {
   let { payload: { audiocard } } = payload;
@@ -14,15 +16,42 @@ export const playAudiocard = payload => (dispatch) => {
   dispatch(startPlayback({ payload: { uri: audiocard.questionAudioUri } }));
 };
 
-export const startPlayback = payload => (dispatch) => {
+export const startPlayback = payload => (dispatch, getState) => {
   let { payload: { uri, title } } = payload;
+  let { isInteractive, activeUri, activeAudiocard } = getState();
 
+  isInteractive = true;
   dispatch(startPlayer());
   Player.play({ uri, title }, 0, () => {
-    dispatch(startAudioSilence());
+    if (isInteractive && activeUri === activeAudiocard.questionAudioUri) {
+      dispatch(startListening());
+    } else {
+      dispatch(startAudioSilence());
+    }
   });
 
   };
+
+export const onSpeechResults = payload => (dispatch, getState) => {
+  let { activeAudiocard: { answerText } } = getState();
+  let { payload: { speechResults } } = payload;
+  let uri = '';
+  let isCorrect = speechResults.value.find((result) => result.toLowerCase() === answerText.toLowerCase());
+  if (isCorrect) {
+    uri = getAffirmativeAudio();
+  } else {
+    uri = getNegativeAudio();
+  }
+  Player.play({ uri }, 0, () => {
+    dispatch(nextAudioUri());
+  });
+};
+
+export const startListening = payload => (dispatch) => {
+  Permissions.askAsync(Permissions.AUDIO_RECORDING).then(() => {
+    Voice.start('en-US');
+  });
+};
 
 export const startAudioSilence = () => (dispatch, getState) => {
   let { activeUri, activeAudiocard } = getState();
