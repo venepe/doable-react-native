@@ -10,10 +10,15 @@ class Base extends Component {
   constructor(props) {
     super(props);
     Voice.onSpeechResults = this.onSpeechResultsHandler.bind(this);
+    Voice.onSpeechError = this.onSpeechErrorHandler.bind(this);
   }
 
   onSpeechResultsHandler(speechResults) {
-    this.props.onSpeechResults({ payload: { speechResults } })
+    this.props.onSpeechResults({ payload: { speechResults } });
+  }
+
+  onSpeechErrorHandler() {
+    this.props.onSpeechResults({ payload: { speechResults: { value: [] } } });
   }
 
   render() {

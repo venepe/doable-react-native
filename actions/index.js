@@ -1,11 +1,12 @@
 import { Permissions } from "expo";
+import Voice from 'react-native-voice';
 import AudioTypes from '../constants/AudioTypes';
 import DeckTypes from '../constants/DeckTypes';
 import VoiceTypes from '../constants/VoiceTypes';
 import { getRandomInt, getAffirmativeAudio, getNegativeAudio } from '../utilities';
 import { track } from '../helpers/analytics';
 import Player from '../helpers/player';
-import Voice from 'react-native-voice';
+import { cancelVoice } from '../helpers/voice';
 
 export const playAudiocard = payload => (dispatch) => {
   let { payload: { audiocard } } = payload;
@@ -23,7 +24,7 @@ export const startPlayback = payload => (dispatch, getState) => {
 
   dispatch(startPlayer());
   Player.play({ uri, title }, 0, () => {
-    if (isInteractive && activeUri === activeAudiocard.questionAudioUri) {
+    if (isInteractive == true && activeUri === activeAudiocard.questionAudioUri) {
       dispatch(startListening());
     } else {
       dispatch(startAudioSilence());
@@ -42,8 +43,10 @@ export const onSpeechResults = payload => (dispatch, getState) => {
   } else {
     uri = getNegativeAudio();
   }
-  Player.play({ uri }, 0, () => {
-    dispatch(nextAudioUri());
+  Player.play({ uri : 'five_hundred_milliseconds_of_silence.mp3' , isLocal: true }, 0, () => {
+    Player.play({ uri }, 0, () => {
+      dispatch(nextAudioUri());
+    });
   });
 };
 
@@ -69,6 +72,7 @@ export const startAudioSilence = () => (dispatch, getState) => {
 
 export const nextAudioUri = () => (dispatch, getState) => {
     let { activeUri, audiocards, activeAudiocard, isOnRepeat, isOnRandom } = getState();
+    cancelVoice();
     if (activeUri === activeAudiocard.questionAudioUri) {
       console.log('finished question, play answer');
       activeUri = activeAudiocard.answerAudioUri;
@@ -105,6 +109,7 @@ export const nextAudioUri = () => (dispatch, getState) => {
 
 export const previousAudioUri = () => (dispatch, getState) => {
     let { activeUri, audiocards, activeAudiocard } = getState();
+    cancelVoice();
     if (activeUri === activeAudiocard.answerAudioUri) {
       console.log('on answer, play question');
       activeUri = activeAudiocard.questionAudioUri;
@@ -128,6 +133,7 @@ export const previousAudioUri = () => (dispatch, getState) => {
 
 export const stopPlayBack = () => (dispatch) => {
   Player.stop();
+  cancelVoice();
   dispatch(stopPlayer());
   };
 
