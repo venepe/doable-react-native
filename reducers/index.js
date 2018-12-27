@@ -23,6 +23,15 @@ const reducer = (state = initialState, action) => {
         activeAudiocard,
       };
     }
+    case AudioTypes.SET_ACTIVE_AUDIOCARD_AND_URI:
+    {
+      const { activeAudiocard, activeUri } = action.payload;
+      return {
+        ...state,
+        activeAudiocard,
+        activeUri,
+      };
+    }
     case AudioTypes.SET_ACTIVE_URI:
     {
       const { activeUri } = action.payload;

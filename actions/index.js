@@ -13,8 +13,8 @@ export const playAudiocard = payload => (dispatch) => {
 
   track('Play Audiocard', {});
 
-  dispatch(setActiveUri({ payload: { activeUri: audiocard.questionAudioUri } }));
-  dispatch(setActiveAudiocard({ payload: { activeAudiocard: audiocard } }));
+  dispatch(setActiveAudiocardAndUri({ payload: { activeAudiocard: audiocard,
+    activeUri: audiocard.questionAudioUri } }));
   dispatch(startPlayback({ payload: { uri: audiocard.questionAudioUri } }));
 };
 
@@ -86,20 +86,20 @@ export const nextAudioUri = () => (dispatch, getState) => {
       if (isOnRandom === true) {
         getRandomInt(currentIndex, length, (randomIndex) => {
           const nextAudiocard = audiocards[randomIndex];
-          dispatch(setActiveUri({ payload: { activeUri: nextAudiocard.questionAudioUri } }));
-          dispatch(setActiveAudiocard({ payload: { activeAudiocard: nextAudiocard } }));
+          dispatch(setActiveAudiocardAndUri({ payload: { activeAudiocard: nextAudiocard,
+            activeUri: nextAudiocard.questionAudioUri } }));
           dispatch(startPlayback({ payload: { uri: nextAudiocard.questionAudioUri, title: nextAudiocard.questionText } }));
         });
 
       } else if (nextIndex < length ) {
         const nextAudiocard = audiocards[nextIndex];
-        dispatch(setActiveUri({ payload: { activeUri: nextAudiocard.questionAudioUri } }));
-        dispatch(setActiveAudiocard({ payload: { activeAudiocard: nextAudiocard } }));
+        dispatch(setActiveAudiocardAndUri({ payload: { activeAudiocard: nextAudiocard,
+          activeUri: nextAudiocard.questionAudioUri } }));
         dispatch(startPlayback({ payload: { uri: nextAudiocard.questionAudioUri, title: nextAudiocard.questionText } }));
       } else if (isOnRepeat === true) {
         const nextAudiocard = audiocards[0];
-        dispatch(setActiveUri({ payload: { activeUri: nextAudiocard.questionAudioUri } }));
-        dispatch(setActiveAudiocard({ payload: { activeAudiocard: nextAudiocard } }));
+        dispatch(setActiveAudiocardAndUri({ payload: { activeAudiocard: nextAudiocard,
+          activeUri: nextAudiocard.questionAudioUri } }));
         dispatch(startPlayback({ payload: { uri: nextAudiocard.questionAudioUri, title: nextAudiocard.questionText } }));
       } else {
         dispatch(stopPlayer());
@@ -122,8 +122,8 @@ export const previousAudioUri = () => (dispatch, getState) => {
       const previousIndex = currentIndex - 1;
       if (previousIndex > -1) {
         const previousAudiocard = audiocards[previousIndex];
-        dispatch(setActiveUri({ payload: { activeUri: previousAudiocard.questionAudioUri } }));
-        dispatch(setActiveAudiocard({ payload: { activeAudiocard: previousAudiocard } }));
+        dispatch(setActiveAudiocardAndUri({ payload: { activeAudiocard: previousAudiocard,
+          activeUri: previousAudiocard.questionAudioUri } }));
         dispatch(startPlayback({ payload: { uri: previousAudiocard.questionAudioUri } }));
       } else {
         dispatch(stopPlayer());
@@ -139,6 +139,11 @@ export const stopPlayBack = () => (dispatch) => {
 
 export const setActiveAudiocard = payload => ({
   type: AudioTypes.SET_ACTIVE_AUDIOCARD,
+  ...payload,
+});
+
+export const setActiveAudiocardAndUri = payload => ({
+  type: AudioTypes.SET_ACTIVE_AUDIOCARD_AND_URI,
   ...payload,
 });
 
