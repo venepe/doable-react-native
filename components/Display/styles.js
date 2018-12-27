@@ -24,13 +24,9 @@ export default StyleSheet.create({
     marginTop: 15,
     width: 58,
   },
-  boxContainer: {
-    flex: 1,
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    margin: 20,
-  },
   title: {
+    flexWrap: 'wrap',
+    padding: 20,
     color: '#FFFF00',
     fontSize: 28,
     fontWeight: '400',

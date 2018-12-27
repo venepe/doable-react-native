@@ -90,12 +90,8 @@ class Display extends Component {
             <TouchableOpacity style={styles.backButtonContainer} onPress={this.goBack}>
               <MaterialIcons name="keyboard-arrow-down" size={40} color="#FAFAFA" />
             </TouchableOpacity>
-            <View style={styles.boxContainer}>
-              <Text style={styles.title}>{this.state.activeAudiocard.questionText}</Text>
-            </View>
-            <View style={styles.boxContainer}>
-              {this.renderAnswer()}
-            </View>
+            <Text style={styles.title}>{this.state.activeAudiocard.questionText}</Text>
+            {this.renderAnswer()}
         </View>
         <View style={styles.interactiveContainer}>
           <InteractiveButton />
