@@ -4,10 +4,6 @@ import {
 } from 'react-native';
 
 export default StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: '#212121',
-  },
   container: {
     flex: 1,
     backgroundColor: '#212121',
@@ -39,5 +35,10 @@ export default StyleSheet.create({
     fontSize: 28,
     fontWeight: '400',
     // fontFamily: 'Roboto-Thin',
+  },
+  interactiveContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    margin: 20,
   },
 });

@@ -1,6 +1,7 @@
 import { Permissions } from "expo";
 import AudioTypes from '../constants/AudioTypes';
 import DeckTypes from '../constants/DeckTypes';
+import VoiceTypes from '../constants/VoiceTypes';
 import { getRandomInt, getAffirmativeAudio, getNegativeAudio } from '../utilities';
 import { track } from '../helpers/analytics';
 import Player from '../helpers/player';
@@ -20,7 +21,6 @@ export const startPlayback = payload => (dispatch, getState) => {
   let { payload: { uri, title } } = payload;
   let { isInteractive, activeUri, activeAudiocard } = getState();
 
-  isInteractive = true;
   dispatch(startPlayer());
   Player.play({ uri, title }, 0, () => {
     if (isInteractive && activeUri === activeAudiocard.questionAudioUri) {
@@ -171,6 +171,11 @@ export const setIsOnRandom = payload => ({
   ...payload,
 });
 
+export const setIsInteractive = payload => ({
+  type: VoiceTypes.SET_IS_INTERACTIVE,
+  ...payload,
+});
+
 const actions = {
   startPlayback,
   stopPlayBack,
@@ -180,6 +185,7 @@ const actions = {
   setAudioCards,
   setIsOnRepeat,
   setIsOnRandom,
+  setIsInteractive,
 };
 
 export default actions;
