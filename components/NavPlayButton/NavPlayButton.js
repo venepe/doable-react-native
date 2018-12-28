@@ -12,7 +12,7 @@ import gql from 'graphql-tag';
 import { propType } from 'graphql-anywhere';
 import Query from '../Query';
 import { getIsPlaying, getActiveDeckId } from '../../reducers';
-import { startPlayback, stopPlayBack, setActiveDeck, playAudiocard, setAudioCards } from '../../actions';
+import { startPlayback, stopPlayBack, setActiveDeck, playAudiocard, setAudioCards, setActiveDeckId } from '../../actions';
 import { AUDIOCARDS_BY_DECK_NODEID } from '../../queries';
 import { getAudiocardsForDeck, getHeaderButtonColor } from '../../utilities';
 
@@ -59,6 +59,9 @@ class NavPlayButton extends Component {
       this.props.stopPlayBack();
     } else if (activeDeckId !== _deckById.id) {
       const audiocards = getAudiocardsForDeck(_deckById);
+      this.props.setActiveDeckId({
+        payload: { activeDeckId: _deckById.id },
+      });
       this.props.setAudioCards({
         payload: { audiocards },
       });
@@ -123,5 +126,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { startPlayback, stopPlayBack, playAudiocard, setAudioCards },
+  { startPlayback, stopPlayBack, playAudiocard, setAudioCards, setActiveDeckId },
 )(NavPlayButton);

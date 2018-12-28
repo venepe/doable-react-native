@@ -1,5 +1,6 @@
 import AudioTypes from '../constants/AudioTypes';
 import DeckTypes from '../constants/DeckTypes';
+import UserTypes from '../constants/UserTypes';
 import VoiceTypes from '../constants/VoiceTypes';
 
 const initialState = {
@@ -11,6 +12,7 @@ const initialState = {
   isOnRepeat: false,
   isOnRandom: false,
   isInteractive: false,
+  uid: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -94,6 +96,14 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         activeDeckId,
+      };
+    }
+    case UserTypes.SET_UID:
+    {
+      const { uid } = action.payload;
+      return {
+        ...state,
+        uid,
       };
     }
     default:

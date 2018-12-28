@@ -2,11 +2,14 @@ import { Permissions } from "expo";
 import Voice from 'react-native-voice';
 import AudioTypes from '../constants/AudioTypes';
 import DeckTypes from '../constants/DeckTypes';
+import UserTypes from '../constants/UserTypes';
 import VoiceTypes from '../constants/VoiceTypes';
 import { getRandomInt, getAffirmativeAudio, getNegativeAudio } from '../utilities';
 import { track } from '../helpers/analytics';
+import { getUID } from '../helpers/user';
 import Player from '../helpers/player';
 import { cancelVoice } from '../helpers/voice';
+import Logger from '../helpers/logger';
 
 export const playAudiocard = payload => (dispatch) => {
   let { payload: { audiocard } } = payload;
@@ -34,10 +37,14 @@ export const startPlayback = payload => (dispatch, getState) => {
   };
 
 export const onSpeechResults = payload => (dispatch, getState) => {
-  let { activeAudiocard: { answerText } } = getState();
+  let { activeDeckId, uid, activeAudiocard: { answerText, id } } = getState();
+  console.log(uid);
+  console.log('activeDeckId', activeDeckId);
   let { payload: { speechResults } } = payload;
   let uri = '';
   let isCorrect = speechResults.value.find((result) => result.toLowerCase() === answerText.toLowerCase());
+  isCorrect = isCorrect ? true : false;
+  Logger.interactiveSession({ audiocardId: id, deckId: activeDeckId, response: speechResults.value[0], isCorrect, uid })
   if (isCorrect) {
     uri = getAffirmativeAudio();
   } else {
@@ -138,6 +145,13 @@ export const stopPlayBack = () => (dispatch) => {
   dispatch(stopPlayer());
   };
 
+export const generateUID = () => (dispatch) => {
+  getUID().then((uid) => {
+    console.log('uid', uid);
+    dispatch(setUID({ payload: { uid } }));
+  })
+};
+
 export const setActiveAudiocard = payload => ({
   type: AudioTypes.SET_ACTIVE_AUDIOCARD,
   ...payload,
@@ -188,6 +202,11 @@ export const setIsInteractive = payload => ({
   ...payload,
 });
 
+export const setUID = payload => ({
+  type: UserTypes.SET_UID,
+  ...payload,
+});
+
 const actions = {
   startPlayback,
   stopPlayBack,
@@ -198,6 +217,7 @@ const actions = {
   setIsOnRepeat,
   setIsOnRandom,
   setIsInteractive,
+  setUID,
 };
 
 export default actions;

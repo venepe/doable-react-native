@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { setActiveDeck, playAudiocard, setAudioCards } from '../../actions';
+import { setActiveDeck, playAudiocard, setAudioCards, setActiveDeckId } from '../../actions';
 import AudiocardItem from '../AudiocardItem';
 import Placeholder from '../Placeholder';
 import NavPlayButton from '../NavPlayButton';
@@ -45,6 +45,9 @@ class AudiocardList extends Component {
     const deckId = navigation.getParam('deckId');
     const audiocards = getAudiocardsForDeck(_deckById);
     const currentIndex = audiocards.findIndex(({ id }) => id === audiocardId);
+    this.props.setActiveDeckId({
+      payload: { activeDeckId: deckId },
+    });
     this.props.setAudioCards({
       payload: { audiocards },
     });
@@ -150,5 +153,5 @@ AudiocardList.propTypes = {}
 
 export default connect(
   null,
-  { setActiveDeck, playAudiocard, setAudioCards },
+  { setActiveDeck, playAudiocard, setAudioCards, setActiveDeckId },
 )(AudiocardList);

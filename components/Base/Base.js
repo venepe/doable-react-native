@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Voice from 'react-native-voice';
 import { connect } from 'react-redux';
 import App from '../App';
-import { onSpeechResults } from '../../actions';
+import { onSpeechResults, generateUID } from '../../actions';
 
 class Base extends Component {
 
@@ -11,6 +11,10 @@ class Base extends Component {
     super(props);
     Voice.onSpeechResults = this.onSpeechResultsHandler.bind(this);
     Voice.onSpeechError = this.onSpeechErrorHandler.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.generateUID();
   }
 
   onSpeechResultsHandler(speechResults) {
@@ -30,5 +34,5 @@ class Base extends Component {
 
 export default connect(
   null,
-  { onSpeechResults },
+  { onSpeechResults, generateUID },
 )(Base);
