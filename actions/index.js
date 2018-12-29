@@ -64,9 +64,13 @@ export const startListening = payload => (dispatch) => {
 };
 
 export const startAudioSilence = () => (dispatch, getState) => {
-  let { activeUri, activeAudiocard } = getState();
+  let { activeUri, activeAudiocard, isInteractive } = getState();
   let uri = '';
   if (activeUri === activeAudiocard.questionAudioUri) {
+    if (isInteractive === true) {
+      dispatch(startListening());
+      return;
+    }
     uri = 'two_seconds_of_silence.mp3';
   } else {
     uri = 'five_hundred_milliseconds_of_silence.mp3';

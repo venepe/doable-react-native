@@ -33,6 +33,7 @@ export const QueryWrapper = ({ children, ...rest }) => (
 const styles = StyleSheet.create({
   error: {
     color: '#FAFAFA',
+    padding: 10,
   },
 });
 
