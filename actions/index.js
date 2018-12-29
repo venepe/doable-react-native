@@ -38,7 +38,6 @@ export const startPlayback = payload => (dispatch, getState) => {
 
 export const onSpeechResults = payload => (dispatch, getState) => {
   let { activeDeckId, uid, activeAudiocard: { answerText, id } } = getState();
-  console.log(uid);
   console.log('activeDeckId', activeDeckId);
   let { payload: { speechResults } } = payload;
   let uri = '';
