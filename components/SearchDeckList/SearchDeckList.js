@@ -55,7 +55,7 @@ class DeckList extends Component {
 
           if (searchDecks.edges.length < 1) {
             return (
-              <Placeholder text={'Hmm, go ahead and request a deck'}></Placeholder>
+              <Placeholder text={'Hmm, we are always adding decks. Reach out if you need something added'}></Placeholder>
             );
           }
           let list = searchDecks.edges.map(({ node }) => {
