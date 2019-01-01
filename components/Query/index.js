@@ -9,6 +9,8 @@ import {
   View,
 } from 'react-native';
 
+export const IS_FETCHING_MORE = 3;
+
 export const QueryWrapper = ({ children, ...rest }) => (
   <Query {...rest}>
     {({ loading, error, data, fetchMore, networkStatus, refetch }) => {

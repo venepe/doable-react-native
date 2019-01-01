@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Button,
+  ActivityIndicator,
   FlatList,
   StyleSheet,
-  Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons/index';
 import DeckItem from '../DeckItem';
 import Placeholder from '../Placeholder';
 import PlayerOverlay from '../PlayerOverlay';
-import Query from '../Query';
+import Query, { IS_FETCHING_MORE } from '../Query';
 import NavSearchBar from '../NavSearchBar';
 import { ALL_DECKS } from '../../queries';
 import { getHeaderButtonColor } from '../../utilities';
+const FIRST = 25;
 
 class DeckList extends Component {
   static propTypes = {
@@ -46,6 +48,7 @@ class DeckList extends Component {
       <View style={styles.root}>
         <Query
         query={ALL_DECKS}
+        variables={{ first: FIRST, after: null }}
         notifyOnNetworkStatusChange={true}
       >
         {({ data: { allDecks }, fetchMore, networkStatus}) => {
@@ -65,6 +68,36 @@ class DeckList extends Component {
                 data={list}
                 keyExtractor={(node) => node.nodeId}
                 renderItem={this.renderItem}
+                ListFooterComponent={() => {
+                  if (allDecks.pageInfo.hasNextPage && networkStatus !== IS_FETCHING_MORE) {
+                      return (
+                        <TouchableOpacity style={styles.moreContainer} onPress={() => {
+                        fetchMore({
+                            variables: { first: FIRST, after: allDecks.pageInfo.endCursor},
+                            updateQuery: (previousResult, { fetchMoreResult }) => {
+                              return {
+                                allDecks: {
+                                  edges: [
+                                    ...previousResult.allDecks.edges,
+                                    ...fetchMoreResult.allDecks.edges,
+                                  ],
+                                  pageInfo: fetchMoreResult.allDecks.pageInfo,
+                                  __typename: allDecks.__typename,
+                                }
+                              };
+                            },
+                          });
+                        }}
+                        >
+                        <MaterialIcons name='keyboard-arrow-down' size={40} color='#FAFAFA' />
+                      </TouchableOpacity>);
+                  } else if (networkStatus === IS_FETCHING_MORE) {
+                    return <ActivityIndicator size='large' color='#FAFAFA' />
+                  } else {
+                    return <View></View>
+                  }
+                }
+                }
               />
             </View>
           )
@@ -121,6 +154,9 @@ const styles = StyleSheet.create({
     color: '#F5F5F5',
     fontSize: 28,
     fontWeight: '400',
+  },
+  moreContainer: {
+    alignItems: 'center',
   },
 });
 

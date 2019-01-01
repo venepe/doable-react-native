@@ -22,8 +22,8 @@ export const ALL_AUDIOCARDS = gql`
 `
 
 export const ALL_DECKS = gql`
-  query {
-    allDecks {
+  query allDecks($first: Int, $after: Cursor) {
+    allDecks(first: $first, after: $after) {
       edges {
           node {
             nodeId
