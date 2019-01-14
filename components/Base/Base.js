@@ -1,28 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Voice from 'react-native-voice';
 import { connect } from 'react-redux';
 import App from '../App';
-import { onSpeechResults, generateUID } from '../../actions';
+import { generateUID } from '../../actions';
 
 class Base extends Component {
 
-  constructor(props) {
-    super(props);
-    Voice.onSpeechResults = this.onSpeechResultsHandler.bind(this);
-    Voice.onSpeechError = this.onSpeechErrorHandler.bind(this);
-  }
-
   componentDidMount() {
     this.props.generateUID();
-  }
-
-  onSpeechResultsHandler(speechResults) {
-    this.props.onSpeechResults({ payload: { speechResults } });
-  }
-
-  onSpeechErrorHandler() {
-    this.props.onSpeechResults({ payload: { speechResults: { value: [] } } });
   }
 
   render() {
@@ -34,5 +19,5 @@ class Base extends Component {
 
 export default connect(
   null,
-  { onSpeechResults, generateUID },
+  { generateUID },
 )(Base);

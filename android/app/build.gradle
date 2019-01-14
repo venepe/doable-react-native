@@ -97,7 +97,6 @@ apply from: 'expo.gradle'
 
 
 dependencies {
-    compile project(':react-native-voice')
     compile project(':react-native-sound')
     compile project(':react-native-music-control')
     compile project(':react-native-auth0')

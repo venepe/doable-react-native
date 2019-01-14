@@ -1,7 +1,6 @@
 import AudioTypes from '../constants/AudioTypes';
 import DeckTypes from '../constants/DeckTypes';
 import UserTypes from '../constants/UserTypes';
-import VoiceTypes from '../constants/VoiceTypes';
 
 const initialState = {
   activeAudiocard: {},
@@ -11,7 +10,6 @@ const initialState = {
   audiocards: [],
   isOnRepeat: false,
   isOnRandom: false,
-  isInteractive: false,
   uid: null,
 };
 
@@ -82,14 +80,6 @@ const reducer = (state = initialState, action) => {
         isOnRandom,
       };
     }
-    case VoiceTypes.SET_IS_INTERACTIVE:
-    {
-      const { isInteractive } = action.payload;
-      return {
-        ...state,
-        isInteractive,
-      };
-    }
     case DeckTypes.SET_ACTIVE_DECK_ID:
     {
       const { activeDeckId } = action.payload;
@@ -118,6 +108,5 @@ export const getIsOnRepeat = state => state.isOnRepeat;
 export const getIsOnRandom = state => state.isOnRandom;
 export const getActiveDeckId = state => state.activeDeckId;
 export const getActiveUri = state => state.activeUri;
-export const getIsInteractive = state => state.isInteractive;
 
 export default reducer;

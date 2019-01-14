@@ -30,7 +30,6 @@ class NavSearchBar extends Component {
   goSearch() {
     const search = this.state.search.trim();
     if (search.length > 0) {
-      console.log('search');
       this.props.navigation.push('SearchDeckList', {
         search,
       });
@@ -38,7 +37,6 @@ class NavSearchBar extends Component {
   }
 
   onChangeText(search) {
-    console.log(search);
     this.setState({
       search,
     });

@@ -1,14 +1,11 @@
 import { Permissions } from "expo";
-import Voice from 'react-native-voice';
 import AudioTypes from '../constants/AudioTypes';
 import DeckTypes from '../constants/DeckTypes';
 import UserTypes from '../constants/UserTypes';
-import VoiceTypes from '../constants/VoiceTypes';
 import { getRandomInt, getAffirmativeAudio, getNegativeAudio } from '../utilities';
 import { track } from '../helpers/analytics';
 import { getUID } from '../helpers/user';
 import Player from '../helpers/player';
-import { cancelVoice } from '../helpers/voice';
 import Logger from '../helpers/logger';
 
 export const playAudiocard = payload => (dispatch) => {
@@ -36,33 +33,6 @@ export const startPlayback = payload => (dispatch, getState) => {
 
   };
 
-export const onSpeechResults = payload => (dispatch, getState) => {
-  let { activeDeckId, uid, activeAudiocard: { answerText, id } } = getState();
-  console.log('activeDeckId', activeDeckId);
-  let { payload: { speechResults } } = payload;
-  let uri = '';
-  let isCorrect = speechResults.value.find((result) => result.toLowerCase() === answerText.toLowerCase());
-  isCorrect = isCorrect ? true : false;
-  Logger.interactiveSession({ audiocardId: id, deckId: activeDeckId, response: speechResults.value[0], isCorrect, uid })
-  if (isCorrect) {
-    uri = getAffirmativeAudio();
-  } else {
-    uri = getNegativeAudio();
-  }
-  Voice.destroy();
-  Player.play({ uri : 'five_hundred_milliseconds_of_silence.mp3' , isLocal: true }, 0, () => {
-    Player.play({ uri }, 0, () => {
-      dispatch(nextAudioUri());
-    });
-  });
-};
-
-export const startListening = payload => (dispatch) => {
-  Permissions.askAsync(Permissions.AUDIO_RECORDING).then(() => {
-    Voice.start('en-US');
-  });
-};
-
 export const startAudioSilence = () => (dispatch, getState) => {
   let { activeUri, activeAudiocard, isInteractive } = getState();
   let uri = '';
@@ -83,9 +53,7 @@ export const startAudioSilence = () => (dispatch, getState) => {
 
 export const nextAudioUri = () => (dispatch, getState) => {
     let { activeUri, audiocards, activeAudiocard, isOnRepeat, isOnRandom } = getState();
-    cancelVoice();
     if (activeUri === activeAudiocard.questionAudioUri) {
-      console.log('finished question, play answer');
       activeUri = activeAudiocard.answerAudioUri;
       dispatch(setActiveUri({ payload: { activeUri } }));
       dispatch(startPlayback({ payload: { uri: activeUri, title: activeAudiocard.answerText } }));
@@ -120,9 +88,7 @@ export const nextAudioUri = () => (dispatch, getState) => {
 
 export const previousAudioUri = () => (dispatch, getState) => {
     let { activeUri, audiocards, activeAudiocard } = getState();
-    cancelVoice();
     if (activeUri === activeAudiocard.answerAudioUri) {
-      console.log('on answer, play question');
       activeUri = activeAudiocard.questionAudioUri;
       dispatch(setActiveUri({ payload: { activeUri } }));
       dispatch(startPlayback({ payload: { uri: activeUri } }));
@@ -144,13 +110,11 @@ export const previousAudioUri = () => (dispatch, getState) => {
 
 export const stopPlayBack = () => (dispatch) => {
   Player.stop();
-  cancelVoice();
   dispatch(stopPlayer());
   };
 
 export const generateUID = () => (dispatch) => {
   getUID().then((uid) => {
-    console.log('uid', uid);
     dispatch(setUID({ payload: { uid } }));
   })
 };
@@ -200,11 +164,6 @@ export const setIsOnRandom = payload => ({
   ...payload,
 });
 
-export const setIsInteractive = payload => ({
-  type: VoiceTypes.SET_IS_INTERACTIVE,
-  ...payload,
-});
-
 export const setUID = payload => ({
   type: UserTypes.SET_UID,
   ...payload,
@@ -219,7 +178,6 @@ const actions = {
   setAudioCards,
   setIsOnRepeat,
   setIsOnRandom,
-  setIsInteractive,
   setUID,
 };
 

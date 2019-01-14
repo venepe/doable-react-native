@@ -26,7 +26,6 @@
     "react-native-music-control": "^0.9.4",
     "react-native-sound": "^0.10.9",
     "react-native-uuid": "^1.4.9",
-    "react-native-voice": "^0.2.6",
     "react-navigation": "^3.0.2",
     "react-redux": "^5.1.1",
     "redux": "^4.0.1",
