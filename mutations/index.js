@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
-export const ALL_AUDIOCARDS = gql`
+export const ALL_CARDS = gql`
   query {
-    allAudiocards {
+    allCards {
       nodes {
         nodeId
         id

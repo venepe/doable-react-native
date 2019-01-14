@@ -8,18 +8,15 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { setActiveDeck, playAudiocard, setAudioCards, setActiveDeckId } from '../../actions';
-import AudiocardItem from '../AudiocardItem';
+import { setActiveDeckId } from '../../actions';
+import CardItem from '../CardItem';
 import Placeholder from '../Placeholder';
-import NavPlayButton from '../NavPlayButton';
 import Query from '../Query';
-import PlayerOverlay from '../PlayerOverlay';
-import { AUDIOCARDS_BY_DECK_NODEID } from '../../queries';
-import { getAudiocardsForDeck } from '../../utilities';
+import { CARDS_BY_DECK_NODEID } from '../../queries';
 
 let _deckById;
 
-class AudiocardList extends Component {
+class CardList extends Component {
   static propTypes = {
     navigation: PropTypes.shape({
       navigate: PropTypes.func.isRequired,
@@ -35,31 +32,20 @@ class AudiocardList extends Component {
 
   renderItem({ item }) {
     return (
-      <AudiocardItem audiocardItem={item} onPress={this.onPressRow} />
+      <CardItem cardItem={item} onPress={this.onPressRow} />
     )
   }
 
   onPressRow({ id }) {
-    const audiocardId = id;
+    const cardId = id;
     const { navigation } = this.props;
     const deckId = navigation.getParam('deckId');
-    const audiocards = getAudiocardsForDeck(_deckById);
-    const currentIndex = audiocards.findIndex(({ id }) => id === audiocardId);
-    this.props.setActiveDeckId({
-      payload: { activeDeckId: deckId },
-    });
-    this.props.setAudioCards({
-      payload: { audiocards },
-    });
-    this.props.playAudiocard({
-      payload: { audiocard: audiocards[currentIndex] },
-    });
     this.props.navigation.navigate('DisplayModal');
   }
 
   renderPlaceholder() {
     return (
-      <Placeholder text={'Record an Audiocard and Start Learning!'}></Placeholder>
+      <Placeholder text={'Record an Card and Start Learning!'}></Placeholder>
     );
   }
 
@@ -70,15 +56,15 @@ class AudiocardList extends Component {
     return (
       <View style={styles.root}>
         <Query
-        query={AUDIOCARDS_BY_DECK_NODEID}
+        query={CARDS_BY_DECK_NODEID}
         variables={{ id: deckId }}
         notifyOnNetworkStatusChange={true}
       >
         {({ data: { deckById }, fetchMore, networkStatus}) => {
           _deckById = deckById;
-          if (deckById && deckById.deckAudiocardsByDeckId.edges.length > 0) {
-            let list = deckById.deckAudiocardsByDeckId.edges.map(({ node: { audiocardByAudiocardId } }) => {
-              return { ...audiocardByAudiocardId };
+          if (deckById && deckById.cardsByDeckId.edges.length > 0) {
+            let list = deckById.cardsByDeckId.edges.map(({ node }) => {
+              return { ...node };
             });
             return (
               <View style={styles.container}>
@@ -91,23 +77,22 @@ class AudiocardList extends Component {
             )
           } else {
             return (
-              <Placeholder text={'Record an Audiocard and Start Learning!'}></Placeholder>
+              <Placeholder text={'Record an Card and Start Learning!'}></Placeholder>
             );
           }
         }}
         </Query>
-        <PlayerOverlay navigation={this.props.navigation} />
       </View>
     )
   }
 }
 
-AudiocardList.navigationOptions = (props) => {
+CardList.navigationOptions = (props) => {
   const { navigation } = props;
   const { navigate, state } = navigation;
 
   return {
-    title: 'Audiocards',
+    title: 'Cards',
     headerStyle: {
       backgroundColor: '#000D11',
     },
@@ -119,9 +104,6 @@ AudiocardList.navigationOptions = (props) => {
     headerBackTitleStyle: {
       color: '#FFFFFF',
     },
-    headerRight: (
-      <NavPlayButton deckId={state.params.deckId} />
-    ),
   };
 };
 
@@ -147,11 +129,8 @@ const styles = StyleSheet.create({
   },
 });
 
-AudiocardList.defaultProps = {};
+CardList.defaultProps = {};
 
-AudiocardList.propTypes = {}
+CardList.propTypes = {}
 
-export default connect(
-  null,
-  { setActiveDeck, playAudiocard, setAudioCards, setActiveDeckId },
-)(AudiocardList);
+export default CardList;

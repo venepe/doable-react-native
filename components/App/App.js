@@ -1,16 +1,15 @@
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import CreateDeck from '../CreateDeck';
 import DeckList from '../DeckList';
-import AudiocardList from '../AudiocardList';
+import CardList from '../CardList';
 import Home from '../Home';
 import Display from '../Display';
-import PlayerOverlay from '../PlayerOverlay';
 import SearchDeckList from '../SearchDeckList';
 
 const MainStack = createStackNavigator({
   DeckList: { screen: DeckList },
   SearchDeckList: { screen: SearchDeckList },
-  AudiocardList: { screen: AudiocardList },
+  CardList: { screen: CardList },
   Home: { screen: Home },
 
   // CreateDeck: { screen: CreateDeck },

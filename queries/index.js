@@ -1,14 +1,14 @@
 import gql from 'graphql-tag';
-import AudiocardItem from '../components/AudiocardItem';
+import CardItem from '../components/CardItem';
 import DeckItem from '../components/DeckItem';
 
-export const ALL_AUDIOCARDS = gql`
+export const ALL_CARDS = gql`
   query {
-    allAudiocards {
+    allCards {
       edges {
           node {
             nodeId
-            ...AudiocardItem
+            ...CardItem
           }
         }
         pageInfo {
@@ -18,7 +18,7 @@ export const ALL_AUDIOCARDS = gql`
         }
     }
   }
-  ${AudiocardItem.fragments.audiocardItem}
+  ${CardItem.fragments.cardItem}
 `
 
 export const ALL_DECKS = gql`
@@ -59,20 +59,17 @@ query searchDecks($search: String, $first: Int, $after: Cursor) {
   ${DeckItem.fragments.deckItem}
 `
 
-export const AUDIOCARDS_BY_DECK_NODEID = gql`
+export const CARDS_BY_DECK_NODEID = gql`
   query deckById($id: Int!) {
     deckById(id: $id) {
-      deckAudiocardsByDeckId {
+      cardsByDeckId {
         edges {
           node {
-            audiocardByAudiocardId {
-              nodeId
-              ...AudiocardItem
-            }
+            ...CardItem
           }
         }
       }
     }
   }
-  ${AudiocardItem.fragments.audiocardItem}
+  ${CardItem.fragments.cardItem}
 `

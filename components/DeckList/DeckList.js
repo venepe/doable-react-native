@@ -10,7 +10,6 @@ import {
 import { MaterialIcons } from '@expo/vector-icons/index';
 import DeckItem from '../DeckItem';
 import Placeholder from '../Placeholder';
-import PlayerOverlay from '../PlayerOverlay';
 import Query, { IS_FETCHING_MORE } from '../Query';
 import NavSearchBar from '../NavSearchBar';
 import { ALL_DECKS } from '../../queries';
@@ -38,7 +37,7 @@ class DeckList extends Component {
   }
 
   onPressRow(item) {
-    this.props.navigation.navigate('AudiocardList', {
+    this.props.navigation.navigate('CardList', {
       deckId: item.id,
     });
   }
@@ -103,7 +102,6 @@ class DeckList extends Component {
           )
         }}
         </Query>
-        <PlayerOverlay navigation={this.props.navigation} />
       </View>
     )
   }

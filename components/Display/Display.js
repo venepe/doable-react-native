@@ -10,8 +10,6 @@ import { MaterialIcons } from '@expo/vector-icons/index';
 import Query from '../Query';
 import { connect } from 'react-redux';
 import { getHeaderButtonColor } from '../../utilities';
-import { getActiveAudiocard, getActiveUri } from '../../reducers';
-import Player from '../Player';
 import styles from './styles';
 
 
@@ -35,36 +33,11 @@ class Display extends Component {
     headerBackTitle: 'Back',
   };
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-        return {
-          activeAudiocard: nextProps.activeAudiocard,
-          activeUri: nextProps.activeUri,
-        }
-      }
-
   constructor(props) {
     super(props);
     this.goBack = this.goBack.bind(this);
     this.renderAnswer = this.renderAnswer.bind(this);
 
-    this.state = {
-      activeAudiocard: props.activeAudiocard,
-      activeUri: props.activeUri,
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    const props = this.props;
-    if (props.activeAudiocard !== prevProps.activeAudiocard) {
-      this.setState({
-        activeAudiocard: props.activeAudiocard,
-      });
-    }
-    if (props.activeUri !== prevProps.activeUri) {
-      this.setState({
-        activeUri: props.activeUri,
-      });
-    }
   }
 
   goBack() {
@@ -72,12 +45,12 @@ class Display extends Component {
   }
 
   renderAnswer() {
-    const { activeUri, activeAudiocard } = this.state;
-    if (activeUri === activeAudiocard.answerAudioUri) {
-      return (
-        <Text style={styles.title}>{this.state.activeAudiocard.answerText}</Text>
-      );
-    }
+    // const { activeUri, activeCard } = this.state;
+    // if (activeUri === activeCard.answerAudioUri) {
+    //   return (
+    //     <Text style={styles.title}>{this.state.activeCard.answerText}</Text>
+    //   );
+    // }
   }
 
   render() {
@@ -89,11 +62,8 @@ class Display extends Component {
             <TouchableOpacity style={styles.backButtonContainer} onPress={this.goBack}>
               <MaterialIcons name="keyboard-arrow-down" size={40} color="#FAFAFA" />
             </TouchableOpacity>
-            <Text style={styles.title}>{this.state.activeAudiocard.questionText}</Text>
-            {this.renderAnswer()}
-        </View>
-        <View style={styles.playerContainer}>
-          <Player />
+            <Text style={styles.title}>{'this.state.activeCard.questionText'}</Text>
+            { this.renderAnswer() }
         </View>
       </View>
     )
@@ -121,14 +91,7 @@ Display.navigationOptions = (props) => {
 };
 
 Display.defaultProps = {
-  activeAudiocard: {},
+  activeCard: {},
 };
 
-const mapStateToProps = state => ({
-  activeAudiocard: getActiveAudiocard(state),
-  activeUri: getActiveUri(state),
-});
-
-export default connect(
-  mapStateToProps,
-)(Display);
+export default Display;

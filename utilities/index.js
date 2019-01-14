@@ -1,9 +1,9 @@
 import { Platform } from 'react-native';
 
-export const getAudiocardsForDeck = (deck) => {
-  return deck.deckAudiocardsByDeckId.edges.map(({ node: { audiocardByAudiocardId } }) => {
+export const getCardsForDeck = (deck) => {
+  return deck.deckCardsByDeckId.edges.map(({ node: { cardByCardId } }) => {
     return {
-      ...audiocardByAudiocardId
+      ...cardByCardId
     };
   })
 }

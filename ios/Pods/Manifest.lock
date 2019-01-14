@@ -185,8 +185,6 @@ PODS:
   - lottie-ios (2.5.2)
   - React (0.57.1):
     - React/Core (= 0.57.1)
-  - react-native-music-control (0.9.4):
-    - React
   - React/ART (0.57.1):
     - React/Core
   - React/Core (0.57.1):
@@ -233,11 +231,6 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
-  - RNSound (0.10.9):
-    - React/Core
-    - RNSound/Core (= 0.10.9)
-  - RNSound/Core (0.10.9):
-    - React/Core
   - Stripe (13.0.3)
   - yoga (0.57.1.React)
 
@@ -277,7 +270,6 @@ DEPENDENCIES:
   - EXSMS (from `../node_modules/expo-sms/ios`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
-  - react-native-music-control (from `../node_modules/react-native-music-control`)
   - React/ART (from `../node_modules/react-native`)
   - React/Core (from `../node_modules/react-native`)
   - React/CxxBridge (from `../node_modules/react-native`)
@@ -291,7 +283,6 @@ DEPENDENCIES:
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
-  - RNSound (from `../node_modules/react-native-sound`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -393,10 +384,6 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   React:
     :path: "../node_modules/react-native"
-  react-native-music-control:
-    :path: "../node_modules/react-native-music-control"
-  RNSound:
-    :path: "../node_modules/react-native-sound"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -463,11 +450,9 @@ SPEC CHECKSUMS:
   JKBigInteger2: e91672035c42328c48b7dd015b66812ddf40ca9b
   lottie-ios: 3fef45d3fabe63e3c7c2eb603dd64ddfffc73062
   React: 1fe0eb13d90b625d94c3b117c274dcfd2e760e11
-  react-native-music-control: e397f7b8bdd39fc19288ef393e4016b433604b42
-  RNSound: b360b3862d3118ed1c74bb9825696b5957686ac4
   Stripe: 76c203e21555089b708e6cbe972a3e3baf1ab4d8
   yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
 
-PODFILE CHECKSUM: 87959b48cb1ec8938ffdde4477e97ba3ff134d9c
+PODFILE CHECKSUM: 89f93385606ea8a1b1895b1b6843bae60709811a
 
 COCOAPODS: 1.5.3

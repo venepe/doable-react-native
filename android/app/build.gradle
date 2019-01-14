@@ -97,8 +97,6 @@ apply from: 'expo.gradle'
 
 
 dependencies {
-    compile project(':react-native-sound')
-    compile project(':react-native-music-control')
     compile project(':react-native-auth0')
   implementation fileTree(dir: 'libs', include: ['*.jar'])
 
