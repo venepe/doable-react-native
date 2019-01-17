@@ -12,6 +12,7 @@ import DeckItem from '../DeckItem';
 import Placeholder from '../Placeholder';
 import Query, { IS_FETCHING_MORE } from '../Query';
 import NavSearchBar from '../NavSearchBar';
+import NavCreateDeck from '../NavCreateDeck';
 import { ALL_DECKS } from '../../queries';
 import { getHeaderButtonColor } from '../../utilities';
 const FIRST = 25;
@@ -112,9 +113,6 @@ DeckList.navigationOptions = (props) => {
   const { navigate } = navigation;
 
   return {
-    headerTitle: (
-      <NavSearchBar navigation={navigation} />
-    ),
     headerStyle: {
       backgroundColor: '#000D11',
     },
@@ -125,6 +123,9 @@ DeckList.navigationOptions = (props) => {
     headerBackTitleStyle: {
       color: '#FFFFFF',
     },
+    headerRight: (
+     <NavCreateDeck navigation={navigation} />
+   ),
   };
 };
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import {
   StyleSheet,
@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons/index';
 import { connect } from 'react-redux';
+import Mutation from '../Mutation';
+import { CREATE_DECK } from '../../mutations';
 import {  } from '../../reducers';
 
 class CreateDeck extends Component {
@@ -50,28 +52,37 @@ class CreateDeck extends Component {
 
   render() {
     return (
-      <View style={styles.root}>
-        <TouchableOpacity style={styles.closeButton} onPress={this.goBack}>
-          <MaterialIcons name="close" size={50} color="#F5F5F5" />
-        </TouchableOpacity>
-        <View style={styles.textContainer}>
-          <Text style={styles.text}>{this.state.label}</Text>
-          <TextInput
-            style={[styles.textInput, {margin: 5}]}
-            placeholder={'State Capitals'}
-            onChangeText={(text) => this.setState({text})}
-            value={this.state.email}
-            autoFocus={true}
-            keyboardType={'default'}
-            returnKeyType={'done'}
-            maxLength={150}
-            autoCapitalize={'words'}
-          />
-        </View>
-        <TouchableOpacity style={styles.submitButtonContiner} onPress={this.onPressSubmit}>
-          <Text style={styles.submitButtonText}>Submit</Text>
-        </TouchableOpacity>
-      </View>
+      <Mutation
+          mutation={CREATE_DECK}
+          onCompleted={({ createDeck: { deck: { id }}}) => this.goBack()}
+        >
+          {mutate => (
+            <Fragment>
+              <View style={styles.root}>
+                <TouchableOpacity style={styles.closeButton} onPress={this.goBack}>
+                  <MaterialIcons name="close" size={50} color="#F5F5F5" />
+                </TouchableOpacity>
+                <View style={styles.textContainer}>
+                  <Text style={styles.text}>{this.state.label}</Text>
+                  <TextInput
+                    style={[styles.textInput, {margin: 5}]}
+                    placeholder={'State Capitals'}
+                    onChangeText={(text) => this.setState({text})}
+                    value={this.state.email}
+                    autoFocus={true}
+                    keyboardType={'default'}
+                    returnKeyType={'done'}
+                    maxLength={150}
+                    autoCapitalize={'words'}
+                  />
+                </View>
+                <TouchableOpacity style={styles.submitButtonContiner} onPress={() => mutate({ variables: { input: { deck: { title: this.state.text, userId: 1}}}})}>
+                  <Text style={styles.submitButtonText}>Submit</Text>
+                </TouchableOpacity>
+              </View>
+            </Fragment>
+          )}
+        </Mutation>
     )
   }
 }

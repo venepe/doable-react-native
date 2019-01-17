@@ -1,16 +1,13 @@
 import gql from 'graphql-tag';
 
-export const ALL_CARDS = gql`
-  query {
-    allCards {
-      nodes {
+export const CREATE_DECK = gql`
+  mutation CreateDeck($input: CreateDeckInput!) {
+    createDeck(input: $input) {
+      deck {
         nodeId
         id
-        questionText
-        questionAudioUri
-        answerText
-        answerAudioUri
-        createdAt
+        title
+        description
       }
     }
   }

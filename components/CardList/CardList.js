@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { setActiveDeckId } from '../../actions';
+import NavAddButton from '../NavAddButton';
 import CardItem from '../CardItem';
 import Placeholder from '../Placeholder';
 import Query from '../Query';
@@ -104,6 +105,9 @@ CardList.navigationOptions = (props) => {
     headerBackTitleStyle: {
       color: '#FFFFFF',
     },
+    headerRight: (
+     <NavAddButton />
+   ),
   };
 };
 
