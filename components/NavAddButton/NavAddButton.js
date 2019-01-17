@@ -20,9 +20,8 @@ class NavAddButton extends Component {
     super(props);
     this.add = this.add.bind(this);
 
-    console.log(props);
-
     this.state = {
+      deckId: props.deckId,
     }
   }
 
@@ -33,9 +32,9 @@ class NavAddButton extends Component {
         ImagePicker.launchImageLibraryAsync({ mediaTypes: 'Images', allowsEditing: false })
           .then((result) => {
             if (!result.cancelled) {
-              console.log(result.uri);
-              const uri = result.uri;
-              this.props.uploadImage({ payload: { uri } });
+              const { uri } = result;
+              const { deckId } = this.state;
+              this.props.uploadImage({ payload: { uri, deckId } });
             }
           });
       }

@@ -15,8 +15,6 @@ import Placeholder from '../Placeholder';
 import Query from '../Query';
 import { CARDS_BY_DECK_NODEID } from '../../queries';
 
-let _deckById;
-
 class CardList extends Component {
   static propTypes = {
     navigation: PropTypes.shape({
@@ -62,7 +60,6 @@ class CardList extends Component {
         notifyOnNetworkStatusChange={true}
       >
         {({ data: { deckById }, fetchMore, networkStatus}) => {
-          _deckById = deckById;
           if (deckById && deckById.cardsByDeckId.edges.length > 0) {
             let list = deckById.cardsByDeckId.edges.map(({ node }) => {
               return { ...node };
@@ -91,6 +88,7 @@ class CardList extends Component {
 CardList.navigationOptions = (props) => {
   const { navigation } = props;
   const { navigate, state } = navigation;
+  const deckId = navigation.getParam('deckId');
 
   return {
     title: 'Cards',
@@ -106,7 +104,7 @@ CardList.navigationOptions = (props) => {
       color: '#FFFFFF',
     },
     headerRight: (
-     <NavAddButton />
+     <NavAddButton deckId={deckId} />
    ),
   };
 };
