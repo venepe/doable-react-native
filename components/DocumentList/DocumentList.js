@@ -9,13 +9,13 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { setActiveDeckId } from '../../actions';
-import NavDocument from '../NavDocument';
-import CardItem from '../CardItem';
+import DocumentItem from '../DocumentItem';
+import NavAddButton from '../NavAddButton';
 import Placeholder from '../Placeholder';
 import Query from '../Query';
-import { CARDS_BY_DECK_NODEID } from '../../queries';
+import { DOCUMENT_BY_CARD_NODEID } from '../../queries';
 
-class CardList extends Component {
+class DocumentList extends Component {
   static propTypes = {
     navigation: PropTypes.shape({
       navigate: PropTypes.func.isRequired,
@@ -31,20 +31,18 @@ class CardList extends Component {
 
   renderItem({ item }) {
     return (
-      <CardItem cardItem={item} onPress={this.onPressRow} />
+      <DocumentItem documentItem={item} onPress={this.onPressRow} />
     )
   }
 
   onPressRow({ id }) {
-    const cardId = id;
     const { navigation } = this.props;
-    const deckId = navigation.getParam('deckId');
     this.props.navigation.navigate('DisplayModal');
   }
 
   renderPlaceholder() {
     return (
-      <Placeholder text={'Record an Card and Start Learning!'}></Placeholder>
+      <Placeholder text={'Record an Document and Start Learning!'}></Placeholder>
     );
   }
 
@@ -55,13 +53,13 @@ class CardList extends Component {
     return (
       <View style={styles.root}>
         <Query
-        query={CARDS_BY_DECK_NODEID}
+        query={DOCUMENT_BY_CARD_NODEID}
         variables={{ id: deckId }}
         notifyOnNetworkStatusChange={true}
       >
         {({ data: { deckById }, fetchMore, networkStatus}) => {
-          if (deckById && deckById.cardsByDeckId.edges.length > 0) {
-            let list = deckById.cardsByDeckId.edges.map(({ node }) => {
+          if (deckById && deckById.documentsByDeckId.edges.length > 0) {
+            let list = deckById.documentsByDeckId.edges.map(({ node }) => {
               return { ...node };
             });
             return (
@@ -75,7 +73,7 @@ class CardList extends Component {
             )
           } else {
             return (
-              <Placeholder text={'Record an Card and Start Learning!'}></Placeholder>
+              <Placeholder text={'Record an Document and Start Learning!'}></Placeholder>
             );
           }
         }}
@@ -85,13 +83,13 @@ class CardList extends Component {
   }
 }
 
-CardList.navigationOptions = (props) => {
+DocumentList.navigationOptions = (props) => {
   const { navigation } = props;
   const { navigate, state } = navigation;
   const deckId = navigation.getParam('deckId');
 
   return {
-    title: 'Cards',
+    title: 'Documents',
     headerStyle: {
       backgroundColor: '#000D11',
     },
@@ -104,7 +102,7 @@ CardList.navigationOptions = (props) => {
       color: '#FFFFFF',
     },
     headerRight: (
-     <NavDocument deckId={deckId} navigation={navigation} />
+     <NavAddButton deckId={deckId} />
    ),
   };
 };
@@ -131,8 +129,8 @@ const styles = StyleSheet.create({
   },
 });
 
-CardList.defaultProps = {};
+DocumentList.defaultProps = {};
 
-CardList.propTypes = {}
+DocumentList.propTypes = {}
 
-export default CardList;
+export default DocumentList;

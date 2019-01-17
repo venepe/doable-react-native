@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
 import CardItem from '../components/CardItem';
 import DeckItem from '../components/DeckItem';
+import DocumentItem from '../components/DocumentItem';
 
 export const ALL_CARDS = gql`
   query {
@@ -72,4 +73,19 @@ export const CARDS_BY_DECK_NODEID = gql`
     }
   }
   ${CardItem.fragments.cardItem}
+`
+
+export const DOCUMENT_BY_CARD_NODEID = gql`
+  query deckById($id: Int!) {
+    deckById(id: $id) {
+      documentsByDeckId {
+        edges {
+          node {
+            ...DocumentItem
+          }
+        }
+      }
+    }
+  }
+  ${DocumentItem.fragments.documentItem}
 `
