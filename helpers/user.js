@@ -1,15 +1,13 @@
 import { SecureStore } from 'expo';
-import uuid from 'react-native-uuid';
-const UID_KEY = 'UID_KEY'
-let genUid = uuid.v4();
-export const getUID = () => {
-  return SecureStore.getItemAsync(UID_KEY)
-      .then((uid) => {
-        console.log(uid);
-        if (!uid) {
-          uid = genUid;
-          SecureStore.setItemAsync(UID_KEY, uid)
-        }
-        return uid;
+import jwtDecoder from 'jwt-decode';
+const TOKEN_KEY = 'TOKEN_KEY';
+export const getUser = () => {
+  return SecureStore.getItemAsync(TOKEN_KEY)
+      .then((token) => {
+        const decodedToken = jwtDecoder(token);
+        console.log(decodedToken);
+        const uid = decodedToken.sub;
+        const email = decodedToken.email;
+        return { uid, email };
       });
 }

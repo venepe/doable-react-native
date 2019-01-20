@@ -1,3 +1,3 @@
 export default {
-  SET_UID: 'SET_UID',
+  SET_USER: 'SET_USER',
 };

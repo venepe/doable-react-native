@@ -5,7 +5,7 @@ import NetworkTypes from '../constants/NetworkTypes';
 import UserTypes from '../constants/UserTypes';
 import { getRandomInt } from '../utilities';
 import { track } from '../helpers/analytics';
-import { getUID } from '../helpers/user';
+import { getUser } from '../helpers/user';
 import { API_URL } from '../config';
 
 export const uploadImage = payload =>
@@ -54,7 +54,7 @@ export const generateUID = () => (dispatch) => {
 };
 
 export const setUID = payload => ({
-  type: UserTypes.SET_UID,
+  type: UserTypes.SET_USER,
   ...payload,
 });
 

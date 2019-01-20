@@ -19,7 +19,7 @@
     [[ExpoKit sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
     _rootViewController = [ExpoKit sharedInstance].rootViewController;
     _window.rootViewController = _rootViewController;
-
+    
     [_window makeKeyAndVisible];
     
     return YES;

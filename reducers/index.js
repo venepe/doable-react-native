@@ -7,6 +7,7 @@ const initialState = {
   activeCard: {},
   activeDeckId: '',
   uid: null,
+  email: null,
   isLoading: false,
 };
 
@@ -28,12 +29,13 @@ const reducer = (state = initialState, action) => {
         activeDeckId,
       };
     }
-    case UserTypes.SET_UID:
+    case UserTypes.SET_USER:
     {
-      const { uid } = action.payload;
+      const { uid, email } = action.payload;
       return {
         ...state,
         uid,
+        email,
       };
     }
     case NetworkTypes.BEGIN_UPLOAD:
@@ -58,5 +60,6 @@ const reducer = (state = initialState, action) => {
 };
 
 export const getIsLoading = state => state.isLoading;
+export const getUID = state => state.getUID;
 
 export default reducer;
