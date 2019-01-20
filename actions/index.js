@@ -10,8 +10,8 @@ import { API_URL } from '../config';
 
 export const uploadImage = payload =>
   (dispatch, getState) => {
-    let { payload: { uri, } } = payload;
-    // const { uid } = getState();
+    let { payload: { uri, deckId } } = payload;
+    const { uid } = getState();
     let name = uri.match(/\w+(?:\.\w+)*$/g)[0];
     let type = 'image/jpeg';
     const data = new FormData();
@@ -21,8 +21,8 @@ export const uploadImage = payload =>
       name,
     });
 
-    data.append('userId', 1);
-    data.append('deckId', 1);
+    data.append('userUid', uid);
+    data.append('deckId', deckId);
 
     dispatch(didBeginUploading());
 

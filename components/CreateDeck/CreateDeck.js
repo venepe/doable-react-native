@@ -11,7 +11,7 @@ import { MaterialIcons } from '@expo/vector-icons/index';
 import { connect } from 'react-redux';
 import Mutation from '../Mutation';
 import { CREATE_DECK } from '../../mutations';
-import {  } from '../../reducers';
+import { getUID } from '../../reducers';
 
 class CreateDeck extends Component {
   static propTypes = {
@@ -39,6 +39,7 @@ class CreateDeck extends Component {
     this.state = {
       text: props.text,
       label: props.label,
+      uid: this.props.uid,
     }
   }
 
@@ -51,6 +52,7 @@ class CreateDeck extends Component {
   }
 
   render() {
+    const uid = this.state.uid;
     return (
       <Mutation
           mutation={CREATE_DECK}
@@ -76,7 +78,7 @@ class CreateDeck extends Component {
                     autoCapitalize={'words'}
                   />
                 </View>
-                <TouchableOpacity style={styles.submitButtonContiner} onPress={() => mutate({ variables: { input: { deck: { title: this.state.text, userId: 1}}}})}>
+                <TouchableOpacity style={styles.submitButtonContiner} onPress={() => mutate({ variables: { input: { deck: { title: this.state.text, userUid: uid}}}})}>
                   <Text style={styles.submitButtonText}>Submit</Text>
                 </TouchableOpacity>
               </View>
@@ -171,9 +173,11 @@ CreateDeck.defaultProps = {
 
 CreateDeck.propTypes = {}
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  uid: getUID(state),
+});
 
 export default connect(
+  mapStateToProps,
   null,
-  { },
 )(CreateDeck);
