@@ -3,25 +3,6 @@ import CardItem from '../components/CardItem';
 import DeckItem from '../components/DeckItem';
 import DocumentItem from '../components/DocumentItem';
 
-export const ALL_CARDS = gql`
-  query {
-    allCards {
-      edges {
-          node {
-            nodeId
-            ...CardItem
-          }
-        }
-        pageInfo {
-          startCursor
-          endCursor
-          hasNextPage
-        }
-    }
-  }
-  ${CardItem.fragments.cardItem}
-`
-
 export const ALL_DECKS = gql`
   query allDecks($first: Int, $after: Cursor) {
     allDecks(first: $first, after: $after) {
@@ -55,6 +36,27 @@ query searchDecks($search: String, $first: Int, $after: Cursor) {
           endCursor
           hasNextPage
         }
+    }
+  }
+  ${DeckItem.fragments.deckItem}
+`
+
+export const DECKS_BY_USER_UID = gql`
+  query userByUid($uid: String!) {
+    userByUid(uid: $uid) {
+      decksByUserId {
+        edges {
+            node {
+              nodeId
+              ...DeckItem
+            }
+          }
+          pageInfo {
+            startCursor
+            endCursor
+            hasNextPage
+          }
+      }
     }
   }
   ${DeckItem.fragments.deckItem}

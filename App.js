@@ -7,7 +7,7 @@ import client from './apolloClient';
 import reducer from './reducers';
 import BaseApp from './components/Base';
 
-const store = createStore(
+export const store = createStore(
   reducer,
   applyMiddleware(thunk),
 );

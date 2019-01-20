@@ -47,14 +47,8 @@ export const uploadImage = payload =>
       });
   };
 
-export const generateUID = () => (dispatch) => {
-  getUID().then((uid) => {
-    dispatch(setUID({ payload: { uid } }));
-  })
-};
-
 export const setUID = payload => ({
-  type: UserTypes.SET_USER,
+  type: UserTypes.SET_UID,
   ...payload,
 });
 

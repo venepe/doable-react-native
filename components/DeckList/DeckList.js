@@ -8,12 +8,14 @@ import {
   View,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons/index';
+import { connect } from 'react-redux';
 import DeckItem from '../DeckItem';
 import Placeholder from '../Placeholder';
 import Query, { IS_FETCHING_MORE } from '../Query';
 import NavSearchBar from '../NavSearchBar';
 import NavCreateDeck from '../NavCreateDeck';
-import { ALL_DECKS } from '../../queries';
+import { DECKS_BY_USER_UID } from '../../queries';
+import { getUID } from '../../reducers';
 import { getHeaderButtonColor } from '../../utilities';
 const FIRST = 25;
 
@@ -25,10 +27,29 @@ class DeckList extends Component {
     }).isRequired,
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+        return {
+          uid: nextProps.uid,
+        }
+      }
+
   constructor(props) {
     super(props);
     this.renderItem = this.renderItem.bind(this);
     this.onPressRow = this.onPressRow.bind(this);
+
+    this.state = {
+      uid: props.uid,
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const props = this.props;
+    if (props.uid !== prevProps.uid) {
+      this.setState({
+        uid: props.uid,
+      });
+    }
   }
 
   renderItem({ item, index }) {
@@ -44,21 +65,27 @@ class DeckList extends Component {
   }
 
   render() {
+    let uid = this.state.uid
+    if (!uid || uid.length < 1) {
+      return (
+        <View style={styles.root} />
+      )
+    }
     return (
       <View style={styles.root}>
         <Query
-        query={ALL_DECKS}
-        variables={{ first: FIRST, after: null }}
+        query={DECKS_BY_USER_UID}
+        variables={{ uid, first: FIRST, after: null }}
         notifyOnNetworkStatusChange={true}
       >
-        {({ data: { allDecks }, fetchMore, networkStatus}) => {
+        {({ data: { userByUid: { decksByUserId } }, fetchMore, networkStatus}) => {
 
-          if (allDecks.edges.length < 1) {
+          if (decksByUserId.edges.length < 1) {
             return (
               <Placeholder text={'Create a Deck to Get Started!'}></Placeholder>
             );
           }
-          let list = allDecks.edges.map(({ node }) => {
+          let list = decksByUserId.edges.map(({ node }) => {
             return { ...node };
           });
 
@@ -69,20 +96,20 @@ class DeckList extends Component {
                 keyExtractor={(node) => node.nodeId}
                 renderItem={this.renderItem}
                 ListFooterComponent={() => {
-                  if (allDecks.pageInfo.hasNextPage && networkStatus !== IS_FETCHING_MORE) {
+                  if (decksByUserId.pageInfo.hasNextPage && networkStatus !== IS_FETCHING_MORE) {
                       return (
                         <TouchableOpacity style={styles.moreContainer} onPress={() => {
                         fetchMore({
-                            variables: { first: FIRST, after: allDecks.pageInfo.endCursor},
+                            variables: { first: FIRST, after: decksByUserId.pageInfo.endCursor},
                             updateQuery: (previousResult, { fetchMoreResult }) => {
                               return {
-                                allDecks: {
+                                decksByUserId: {
                                   edges: [
-                                    ...previousResult.allDecks.edges,
-                                    ...fetchMoreResult.allDecks.edges,
+                                    ...previousResult.decksByUserId.edges,
+                                    ...fetchMoreResult.decksByUserId.edges,
                                   ],
-                                  pageInfo: fetchMoreResult.allDecks.pageInfo,
-                                  __typename: allDecks.__typename,
+                                  pageInfo: fetchMoreResult.decksByUserId.pageInfo,
+                                  __typename: decksByUserId.__typename,
                                 }
                               };
                             },
@@ -163,4 +190,11 @@ DeckList.defaultProps = {};
 
 DeckList.propTypes = {}
 
-export default DeckList;
+const mapStateToProps = state => ({
+  uid: getUID(state),
+});
+
+export default connect(
+  mapStateToProps,
+  null,
+)(DeckList);

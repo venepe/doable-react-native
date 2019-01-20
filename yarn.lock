@@ -711,7 +711,7 @@
   resolved "https://registry.yarnpkg.com/@types/websql/-/websql-0.0.27.tgz#621a666a7f02018e7cbb4abab956a25736c27d71"
   integrity sha1-Yhpman8CAY58u0q6uVaiVzbCfXE=
 
-"@types/zen-observable@^0.8.0":
+"@types/zen-observable@0.8.0", "@types/zen-observable@^0.8.0":
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/@types/zen-observable/-/zen-observable-0.8.0.tgz#8b63ab7f1aa5321248aad5ac890a485656dcea4d"
   integrity sha512-te5lMAWii1uEJ4FwLjzdlbw3+n0FZNOvFXHxQDKeT0dilh7HOzdMzV2TrJVUzq8ep7J4Na8OUYPRLSQkJHAlrg==
@@ -871,6 +871,14 @@ apollo-link-http@^1.5.9:
   dependencies:
     apollo-link "^1.2.6"
     apollo-link-http-common "^0.2.8"
+
+apollo-link-retry@^2.2.8:
+  version "2.2.8"
+  resolved "https://registry.yarnpkg.com/apollo-link-retry/-/apollo-link-retry-2.2.8.tgz#84be877118687285a346cad60af6a9e707afbf2f"
+  integrity sha512-bwGAjhYwuQuim6QhQYZ4LeHA+1bXmdGmd6s1LpTziR46sZIuPEEuaxTwvyZqrjbj8CkMCx5shcZeheQ8D/ZTmA==
+  dependencies:
+    "@types/zen-observable" "0.8.0"
+    apollo-link "^1.2.6"
 
 apollo-link-state@^0.4.2:
   version "0.4.2"

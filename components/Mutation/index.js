@@ -19,7 +19,7 @@ export const MutationWrapper = ({ children, ...rest }) => (
       if (error) {
         <View style={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
           <Text style={styles.error} type="error">{`Error! ${error.message}`}</Text>
-        </View>      
+        </View>
       }
 
       return children(mutate, { loading, error, data })
