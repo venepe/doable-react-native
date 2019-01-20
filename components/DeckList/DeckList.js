@@ -71,6 +71,7 @@ class DeckList extends Component {
         <View style={styles.root} />
       )
     }
+    console.log(uid);
     return (
       <View style={styles.root}>
         <Query
@@ -78,14 +79,14 @@ class DeckList extends Component {
         variables={{ uid, first: FIRST, after: null }}
         notifyOnNetworkStatusChange={true}
       >
-        {({ data: { userByUid: { decksByUserId } }, fetchMore, networkStatus}) => {
+        {({ data: { userByUid: { decksByUserUid } }, fetchMore, networkStatus}) => {
 
-          if (decksByUserId.edges.length < 1) {
+          if (decksByUserUid.edges.length < 1) {
             return (
               <Placeholder text={'Create a Deck to Get Started!'}></Placeholder>
             );
           }
-          let list = decksByUserId.edges.map(({ node }) => {
+          let list = decksByUserUid.edges.map(({ node }) => {
             return { ...node };
           });
 
@@ -96,20 +97,20 @@ class DeckList extends Component {
                 keyExtractor={(node) => node.nodeId}
                 renderItem={this.renderItem}
                 ListFooterComponent={() => {
-                  if (decksByUserId.pageInfo.hasNextPage && networkStatus !== IS_FETCHING_MORE) {
+                  if (decksByUserUid.pageInfo.hasNextPage && networkStatus !== IS_FETCHING_MORE) {
                       return (
                         <TouchableOpacity style={styles.moreContainer} onPress={() => {
                         fetchMore({
-                            variables: { first: FIRST, after: decksByUserId.pageInfo.endCursor},
+                            variables: { first: FIRST, after: decksByUserUid.pageInfo.endCursor},
                             updateQuery: (previousResult, { fetchMoreResult }) => {
                               return {
-                                decksByUserId: {
+                                decksByUserUid: {
                                   edges: [
-                                    ...previousResult.decksByUserId.edges,
-                                    ...fetchMoreResult.decksByUserId.edges,
+                                    ...previousResult.decksByUserUid.edges,
+                                    ...fetchMoreResult.decksByUserUid.edges,
                                   ],
-                                  pageInfo: fetchMoreResult.decksByUserId.pageInfo,
-                                  __typename: decksByUserId.__typename,
+                                  pageInfo: fetchMoreResult.decksByUserUid.pageInfo,
+                                  __typename: decksByUserUid.__typename,
                                 }
                               };
                             },

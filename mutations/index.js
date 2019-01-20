@@ -21,21 +21,7 @@ export const LOGON_USER = gql`
         id
         uid
         email
-        decksByUserId(first: 25) {
-          edges {
-              node {
-                nodeId
-                ...DeckItem
-              }
-            }
-            pageInfo {
-              startCursor
-              endCursor
-              hasNextPage
-            }
-        }
       }
     }
   }
-  ${DeckItem.fragments.deckItem}
 `

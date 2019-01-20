@@ -44,7 +44,7 @@ query searchDecks($search: String, $first: Int, $after: Cursor) {
 export const DECKS_BY_USER_UID = gql`
   query userByUid($uid: String!) {
     userByUid(uid: $uid) {
-      decksByUserId {
+      decksByUserUid {
         edges {
             node {
               nodeId
