@@ -37,7 +37,11 @@ class DocumentList extends Component {
 
   onPressRow({ id }) {
     const { navigation } = this.props;
-    this.props.navigation.navigate('DisplayModal');
+    const deckId = navigation.getParam('deckId');
+    this.props.navigation.navigate('CreateCardModal', {
+      documentId: id,
+      deckId,
+    });
   }
 
   renderPlaceholder() {

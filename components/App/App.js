@@ -6,6 +6,7 @@ import DocumentList from '../DocumentList';
 import Home from '../Home';
 import Display from '../Display';
 import SearchDeckList from '../SearchDeckList';
+import CreateCard from '../CreateCard';
 
 const MainStack = createStackNavigator({
   DeckList: { screen: DeckList },
@@ -24,6 +25,9 @@ const RootStack = createStackNavigator(
     },
     CreateDeckModal: {
       screen: CreateDeck,
+    },
+    CreateCardModal: {
+      screen: CreateCard,
     },
     DisplayModal: {
       screen: Display,
