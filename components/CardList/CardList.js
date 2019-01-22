@@ -8,11 +8,13 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { withApollo } from 'react-apollo';
 import { setActiveDeckId } from '../../actions';
 import NavDocument from '../NavDocument';
 import CardItem from '../CardItem';
 import Placeholder from '../Placeholder';
 import Query from '../Query';
+import { ARCHIVE_CARD } from '../../mutations';
 import { CARDS_BY_DECK_NODEID } from '../../queries';
 
 class CardList extends Component {
@@ -27,11 +29,12 @@ class CardList extends Component {
     super(props);
     this.renderItem = this.renderItem.bind(this);
     this.onPressRow = this.onPressRow.bind(this);
+    this.onDelete = this.onDelete.bind(this);
   }
 
   renderItem({ item }) {
     return (
-      <CardItem cardItem={item} onPress={this.onPressRow} />
+      <CardItem cardItem={item} onPress={this.onPressRow} onDelete={this.onDelete} />
     )
   }
 
@@ -40,6 +43,37 @@ class CardList extends Component {
     const { navigation } = this.props;
     const deckId = navigation.getParam('deckId');
     this.props.navigation.navigate('DisplayModal');
+  }
+
+  onDelete(item) {
+    const { navigation } = this.props;
+    const deckId = navigation.getParam('deckId');
+    const cardId = item.id;
+    this.props.client.mutate({
+      mutation: ARCHIVE_CARD,
+      variables: { input: {
+        id: cardId,
+        cardPatch: {
+          isArchived: true,
+        }
+      }},
+      update: ((cache, { data: { cardPatch } }) => {
+        const { deckById } = cache.readQuery({ query: CARDS_BY_DECK_NODEID, variables: {
+          id: deckId,
+        } });
+        const idx = deckById.cardsByDeckId.edges.findIndex(({ node }) => {
+          return node.id === deckId;
+        });
+        deckById.cardsByDeckId.edges.splice(idx, 1);
+        cache.writeQuery({
+          query: CARDS_BY_DECK_NODEID,
+          data: { deckById },
+          variables: {
+            id: deckId,
+          },
+        });
+      }),
+    })
   }
 
   renderPlaceholder() {
@@ -135,4 +169,4 @@ CardList.defaultProps = {};
 
 CardList.propTypes = {}
 
-export default CardList;
+export default withApollo(CardList);

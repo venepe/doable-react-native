@@ -42,6 +42,19 @@ export const CREATE_CARD = gql`
   }
 `
 
+export const ARCHIVE_CARD = gql`
+  mutation ArchiveCard($input: UpdateCardByIdInput!) {
+    updateCardById(input: $input) {
+      card {
+        nodeId
+        id
+        frontText
+        backText
+      }
+    }
+  }
+`
+
 export const LOGON_USER = gql`
   mutation($input:LogonUserInput!) {
     logonUser(input:$input) {

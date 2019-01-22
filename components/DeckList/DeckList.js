@@ -68,10 +68,8 @@ class DeckList extends Component {
   }
 
   onDelete(item) {
-    console.log('onDelete');
     const deckId = item.id;
     let uid = this.state.uid
-    console.log(deckId);
     this.props.client.mutate({
       mutation: ARCHIVE_DECK,
       variables: { input: {

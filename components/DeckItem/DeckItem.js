@@ -14,6 +14,7 @@ class DeckItem extends Component {
   static propTypes = {
     rowID: PropTypes.number,
     onPress: PropTypes.func,
+    onDelete: PropTypes.func,
   }
 
   static defaultProps = {
