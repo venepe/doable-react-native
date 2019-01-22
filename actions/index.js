@@ -1,5 +1,6 @@
 import { Alert } from 'react-native';
 import CardTypes from '../constants/CardTypes';
+import CardBuilderTypes from '../constants/CardBuilderTypes';
 import DeckTypes from '../constants/DeckTypes';
 import NetworkTypes from '../constants/NetworkTypes';
 import UserTypes from '../constants/UserTypes';
@@ -67,10 +68,32 @@ export const didFinishUploading = (payload = {}) => ({
   payload: { ...payload.payload, isLoading: false },
 });
 
+export const addFrontTextWord = payload => ({
+  type: CardBuilderTypes.ADD_FRONT_TEXT_WORD,
+  ...payload,
+});
+
+export const addBackTextWord = payload => ({
+  type: CardBuilderTypes.ADD_BACK_TEXT_WORD,
+  ...payload,
+});
+
+export const clearFrontText = () => ({
+  type: CardBuilderTypes.CLEAR_FRONT_TEXT_WORD,
+});
+
+export const clearBackText = () => ({
+  type: CardBuilderTypes.CLEAR_BACK_TEXT_WORD,
+});
+
 const actions = {
   setUID,
   didBeginUploading,
   didFinishUploading,
+  addFrontTextWord,
+  addBackTextWord,
+  clearFrontText,
+  clearBackText,
 };
 
 export default actions;
