@@ -9,11 +9,13 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons/index';
 import { connect } from 'react-redux';
+import { withApollo } from 'react-apollo';
 import DeckItem from '../DeckItem';
 import Placeholder from '../Placeholder';
 import Query, { IS_FETCHING_MORE } from '../Query';
 import NavSearchBar from '../NavSearchBar';
 import NavCreateDeck from '../NavCreateDeck';
+import { ARCHIVE_DECK } from '../../mutations';
 import { DECKS_BY_USER_UID } from '../../queries';
 import { getUID } from '../../reducers';
 import { getHeaderButtonColor } from '../../utilities';
@@ -37,6 +39,7 @@ class DeckList extends Component {
     super(props);
     this.renderItem = this.renderItem.bind(this);
     this.onPressRow = this.onPressRow.bind(this);
+    this.onDelete = this.onDelete.bind(this);
 
     this.state = {
       uid: props.uid,
@@ -54,7 +57,7 @@ class DeckList extends Component {
 
   renderItem({ item, index }) {
     return (
-      <DeckItem deckItem={item} key={index} rowID={index} onPress={this.onPressRow} />
+      <DeckItem deckItem={item} key={index} rowID={index} onPress={this.onPressRow} onDelete={this.onDelete} />
     )
   }
 
@@ -62,6 +65,38 @@ class DeckList extends Component {
     this.props.navigation.navigate('CardList', {
       deckId: item.id,
     });
+  }
+
+  onDelete(item) {
+    console.log('onDelete');
+    const deckId = item.id;
+    let uid = this.state.uid
+    console.log(deckId);
+    this.props.client.mutate({
+      mutation: ARCHIVE_DECK,
+      variables: { input: {
+        id: deckId,
+        deckPatch: {
+          isArchived: true,
+        }
+      }},
+      update: ((cache, { data: { deckPatch } }) => {
+        const { userByUid } = cache.readQuery({ query: DECKS_BY_USER_UID, variables: {
+          uid,
+        } });
+        const idx = userByUid.decksByUserUid.edges.findIndex(({ node }) => {
+          return node.id === deckId;
+        });
+        userByUid.decksByUserUid.edges.splice(idx, 1);
+        cache.writeQuery({
+          query: DECKS_BY_USER_UID,
+          data: { userByUid },
+          variables: {
+            uid,
+          },
+        });
+      }),
+    })
   }
 
   render() {
@@ -195,7 +230,7 @@ const mapStateToProps = state => ({
   uid: getUID(state),
 });
 
-export default connect(
+export default withApollo(connect(
   mapStateToProps,
   null,
-)(DeckList);
+)(DeckList));

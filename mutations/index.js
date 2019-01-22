@@ -15,6 +15,20 @@ export const CREATE_DECK = gql`
   }
 `
 
+export const ARCHIVE_DECK = gql`
+  mutation ArchiveDeck($input: UpdateDeckByIdInput!) {
+    updateDeckById(input: $input) {
+      deck {
+        nodeId
+        id
+        title
+        description
+        createdAt
+      }
+    }
+  }
+`
+
 export const CREATE_CARD = gql`
   mutation CreateCard($input: CreateCardInput!) {
     createCard(input: $input) {

@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import Swipeout from 'react-native-swipeout';
 import gql from 'graphql-tag';
 import { propType } from 'graphql-anywhere';
 import styles from './styles';
@@ -18,6 +19,7 @@ class DeckItem extends Component {
   static defaultProps = {
     rowID: 0,
     onPress: () => {},
+    onDelete: () => {},
   }
 
   constructor(props) {
@@ -31,10 +33,13 @@ class DeckItem extends Component {
 
   render() {
     let color = '#FF8A80';
-
+    const right = [
+      { text: 'Delete', color: '#FFFFFF', backgroundColor: '#FF1744', onPress: () => this.props.onDelete(deckItem) },
+    ];
     const deckItem = this.state.deckItem || {};
 
     return (
+      <Swipeout right={right} autoClose>
         <TouchableOpacity onPress={() => this.props.onPress(deckItem)}>
           <View style={[styles.card, styles.container]}>
             <View style={styles.infoContainer}>
@@ -44,6 +49,7 @@ class DeckItem extends Component {
             </View>
           </View>
         </TouchableOpacity>
+      </Swipeout>
     );
   }
 }

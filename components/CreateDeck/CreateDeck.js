@@ -62,7 +62,6 @@ class CreateDeck extends Component {
               uid,
             } });
             userByUid.decksByUserUid.edges.push({ __typename: 'DecksEdge', node: createDeck.deck });
-            console.log(createDeck.deck);
             cache.writeQuery({
               query: DECKS_BY_USER_UID,
               data: { userByUid },
