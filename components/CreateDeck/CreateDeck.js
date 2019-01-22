@@ -11,6 +11,7 @@ import { MaterialIcons } from '@expo/vector-icons/index';
 import { connect } from 'react-redux';
 import Mutation from '../Mutation';
 import { CREATE_DECK } from '../../mutations';
+import { DECKS_BY_USER_UID } from '../../queries';
 import { getUID } from '../../reducers';
 
 class CreateDeck extends Component {
@@ -56,6 +57,20 @@ class CreateDeck extends Component {
     return (
       <Mutation
           mutation={CREATE_DECK}
+          update={(cache, { data: { createDeck } }) => {
+            const { userByUid } = cache.readQuery({ query: DECKS_BY_USER_UID, variables: {
+              uid,
+            } });
+            userByUid.decksByUserUid.edges.push({ __typename: 'DecksEdge', node: createDeck.deck });
+            console.log(createDeck.deck);
+            cache.writeQuery({
+              query: DECKS_BY_USER_UID,
+              data: { userByUid },
+              variables: {
+                uid,
+              },
+            });
+          }}
           onCompleted={({ createDeck: { deck: { id }}}) => this.goBack()}
         >
           {mutate => (

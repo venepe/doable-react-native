@@ -9,6 +9,7 @@ export const CREATE_DECK = gql`
         id
         title
         description
+        createdAt
       }
     }
   }

@@ -16,7 +16,7 @@ import Draggable from '../Draggable';
 import BackText from '../BackText';
 import FrontText from '../FrontText';
 import { CREATE_CARD } from '../../mutations';
-import { DOCUMENT_BY_ID } from '../../queries';
+import { DOCUMENT_BY_ID, CARDS_BY_DECK_NODEID } from '../../queries';
 import { getBackText, getFrontText, getUID } from '../../reducers';
 import { clearFrontText, clearBackText } from '../../actions';
 
@@ -103,6 +103,16 @@ class CreateCard extends Component {
           frontText,
           backText,
         }}},
+        update: ((cache, { data: { createCard } }) => {
+          const { deckById } = cache.readQuery({ query: CARDS_BY_DECK_NODEID, variables: {
+            id: deckId,
+          } });
+          deckById.cardsByDeckId.edges.push({ node: createCard.card })
+          cache.writeQuery({
+            query: CARDS_BY_DECK_NODEID,
+            data: { deckById },
+          });
+        }),
       })
       .then(() => {
         console.log('yes');
