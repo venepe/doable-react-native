@@ -156,7 +156,7 @@ class CreateCard extends Component {
         notifyOnNetworkStatusChange={true}
       >
         {({ data: { documentById: { text } } }) => {
-          let words = text.split(' ');
+          let words = text.split(/\s+/);
           return (
             <View style={styles.container}>
             {

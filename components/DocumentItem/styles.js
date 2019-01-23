@@ -2,25 +2,24 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    marginTop: 1,
-    padding: 28,
-    paddingLeft: 15,
-  },
-  card: {
-    flexDirection: 'column',
-    backgroundColor: '#000000',
-    shadowColor: '#FAFAFA',
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    shadowOffset: {
-      height: 0,
-      width: 0,
-    },
+    marginTop: 5,
+    flexDirection: 'row',
+    height: 80,
   },
   title: {
-    color: '#FFFF00',
-    fontSize: 12,
+    color: '#FFFFFF',
+    fontSize: 16,
     fontWeight: '400',
+    flexWrap: 'wrap',
     // fontFamily: 'Roboto-Thin',
   },
+  image: {
+    margin: 10,
+    height: 50,
+    width: 50,
+  },
+  infoContainer: {
+    flex: 1,
+    flexWrap: 'wrap',
+  }
 });

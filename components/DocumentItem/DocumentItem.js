@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
+  Image,
   Text,
   TouchableOpacity,
   View,
@@ -35,16 +36,14 @@ class DocumentItem extends Component {
 
     const documentItem = this.state.documentItem || {};
     const opacity = 1.0;
-
-    console.log(documentItem.text);
+    const { text, imageUri } = documentItem;
 
     return (
         <TouchableOpacity onPress={() => this.props.onPress({ id: documentItem.id })}>
           <View style={[styles.document, styles.container, { opacity }]}>
+            <Image style={styles.image} source={{uri: imageUri}}></Image>
             <View style={styles.infoContainer}>
-              <View style={styles.infoSubContainer}>
-                <Text style={[styles.title]}>{documentItem.text}</Text>
-              </View>
+                <Text numberOfLines={3} style={[styles.title]}>{text}</Text>
             </View>
           </View>
         </TouchableOpacity>
