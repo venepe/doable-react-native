@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons/index';
+import { TextField } from 'react-native-material-textfield';
 import { connect } from 'react-redux';
 import Mutation from '../Mutation';
 import { CREATE_DECK } from '../../mutations';
@@ -36,10 +37,9 @@ class CreateDeck extends Component {
   constructor(props) {
     super(props);
     this.goBack = this.goBack.bind(this);
-    this.onPressSubmit = this.onPressSubmit.bind(this);
+    this.isDisabled = this.isDisabled.bind(this);
     this.state = {
       text: props.text,
-      label: props.label,
       uid: this.props.uid,
     }
   }
@@ -48,12 +48,18 @@ class CreateDeck extends Component {
     this.props.navigation.goBack();
   }
 
-  onPressSubmit() {
-    console.log('did press answer');
+  isDisabled() {
+    const { text = '' } = this.state;
+    if (text.trim().length > 0) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   render() {
     const uid = this.state.uid;
+    let checkCircleColor = this.isDisabled() ? '#616161' : '#FAFAFA'
     return (
       <Mutation
           mutation={CREATE_DECK}
@@ -75,26 +81,36 @@ class CreateDeck extends Component {
           {mutate => (
             <Fragment>
               <View style={styles.root}>
-                <TouchableOpacity style={styles.closeButton} onPress={this.goBack}>
-                  <MaterialIcons name="close" size={50} color="#F5F5F5" />
-                </TouchableOpacity>
+                <View style={styles.topContainer}>
+                  <TouchableOpacity style={styles.buttonContainer} onPress={this.goBack}>
+                    <MaterialIcons name="keyboard-arrow-down" size={40} color="#F5F5F5" />
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.buttonContainer} onPress={() => {
+                      if (!this.isDisabled()) {
+                        mutate({ variables: { input: { deck: { title: this.state.text, userUid: uid}}}});
+                      }
+                    }
+                  }>
+                    <MaterialIcons name="check-circle" size={40} color={checkCircleColor} />
+                  </TouchableOpacity>
+                </View>
                 <View style={styles.textContainer}>
-                  <Text style={styles.text}>{this.state.label}</Text>
-                  <TextInput
-                    style={[styles.textInput, {margin: 5}]}
-                    placeholder={'State Capitals'}
-                    onChangeText={(text) => this.setState({text})}
-                    value={this.state.email}
+                  <TextField
+                    label='Title'
+                    textColor={'rgba(255,138,128,1.0)'}
+                    tintColor={'rgba(0,176,255,1.0)'}
+                    baseColor={'rgba(0,176,255,1.0)'}
+                    fontSize={28}
+                    labelFontSize={20}
                     autoFocus={true}
                     keyboardType={'default'}
+                    multiline={true}
                     returnKeyType={'done'}
+                    value={this.state.text}
                     maxLength={150}
-                    autoCapitalize={'words'}
-                  />
+                    onChangeText={(text) => this.setState({text})}
+                />
                 </View>
-                <TouchableOpacity style={styles.submitButtonContiner} onPress={() => mutate({ variables: { input: { deck: { title: this.state.text, userUid: uid}}}})}>
-                  <Text style={styles.submitButtonText}>Submit</Text>
-                </TouchableOpacity>
               </View>
             </Fragment>
           )}
@@ -129,60 +145,24 @@ const styles = StyleSheet.create({
     backgroundColor: '#212121',
     padding: 10,
   },
-  rowContainer: {
+  topContainer: {
     flex: 1,
+    marginTop: 15,
+    maxHeight:  60,
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  card: {
-    backgroundColor: '#000000',
-    shadowColor: '#FAFAFA',
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    shadowOffset: {
-      height: 0,
-      width: 0,
-    },
+    justifyContent: 'space-between',
   },
   textContainer: {
     margin: 0,
   },
-  text: {
-    color: '#F5F5F5',
-    fontSize: 28,
-    fontWeight: '400',
-    // fontFamily: 'Roboto-Thin',
-  },
-  textInput: {
-    padding: 20,
-    color: '#F5F5F5',
-    fontSize: 28,
-    fontWeight: '400',
-    backgroundColor: '#9E9E9E',
-  },
-  submitButtonContiner: {
-    marginTop: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 25,
-    backgroundColor: '#FFFFFF',
-    fontSize: 28,
-    fontWeight: '400',
-    backgroundColor: '#9E9E9E',
-  },
-  submitButtonText: {
-    margin: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: 28,
-    fontWeight: '400',
-    backgroundColor: '#9E9E9E',
+  buttonContainer: {
+    backgroundColor: 'transparent',
+    width: 58,
   },
 });
 
 CreateDeck.defaultProps = {
-  label: 'Create Deck',
+  text: '',
 };
 
 CreateDeck.propTypes = {}
