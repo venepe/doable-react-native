@@ -76,6 +76,11 @@ export const setActiveCards = payload => ({
   ...payload,
 });
 
+export const removeActiveCardById = payload => ({
+  type: CardTypes.REMOVE_CARD_BY_ID,
+  ...payload,
+});
+
 export const didBeginUploading = () => ({
   type: NetworkTypes.BEGIN_UPLOAD,
   payload: { isLoading: true },

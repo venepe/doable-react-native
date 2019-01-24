@@ -32,6 +32,19 @@ const reducer = (state = initialState, action) => {
         activeCards,
       };
     }
+    case CardTypes.REMOVE_CARD_BY_ID:
+    {
+      const { id } = action.payload;
+      let { activeCards } = state;
+      const idx = activeCards.findIndex((card) => {
+        return card.id === id;
+      });
+      activeCards.splice(idx, 1);
+      return {
+        ...state,
+        activeCards,
+      };
+    }
     case UserTypes.SET_UID:
     {
       const { uid } = action.payload;
@@ -100,5 +113,6 @@ export const getUID = state => state.uid;
 export const getFrontText = state => state.frontText;
 export const getBackText = state => state.backText;
 export const getActiveCard = state => state.activeCard;
+export const getActiveCards = state => state.activeCards;
 
 export default reducer;

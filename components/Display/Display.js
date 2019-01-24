@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
+  Alert,
   Text,
   TouchableOpacity,
   View,
@@ -9,8 +10,9 @@ import {
 import { MaterialIcons } from '@expo/vector-icons/index';
 import Query from '../Query';
 import { connect } from 'react-redux';
-import { getActiveCard } from '../../reducers';
-import { getHeaderButtonColor } from '../../utilities';
+import { removeActiveCardById, setActiveCard, setActiveCards } from '../../actions'
+import { getActiveCard, getActiveCards } from '../../reducers';
+import { getHeaderButtonColor, getRandomInt } from '../../utilities';
 import styles from './styles';
 
 class Display extends Component {
@@ -36,6 +38,7 @@ class Display extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
         return {
           activeCard: nextProps.activeCard,
+          activeCards: nextProps.activeCards,
         }
       }
 
@@ -44,9 +47,12 @@ class Display extends Component {
     this.goBack = this.goBack.bind(this);
     this.onAnswer = this.onAnswer.bind(this);
     this.renderAnswer = this.renderAnswer.bind(this);
+    this.onCorrect = this.onCorrect.bind(this);
+    this.onWrong = this.onWrong.bind(this);
 
     this.state = {
       activeCard: props.activeCard,
+      activeCards: props.activeCards,
       show: false,
     };
 
@@ -55,8 +61,15 @@ class Display extends Component {
   componentDidUpdate(prevProps) {
     const props = this.props;
     if (props.activeCard !== prevProps.activeCard) {
+      // hidden logic... look at show
       this.setState({
         activeCard: props.activeCard,
+        show: false,
+      });
+    }
+    if (props.activeCards !== prevProps.activeCards) {
+      this.setState({
+        activeCards: props.activeCards,
       });
     }
   }
@@ -80,6 +93,37 @@ class Display extends Component {
     });
   }
 
+  onCorrect() {
+    const { activeCard, activeCards } = this.state;
+    if (activeCards.length > 1) {
+      const idx = activeCards.findIndex((card) => {
+        return card.id === id;
+      });
+      activeCards.splice(idx, 1);
+
+      let nextIdx = getRandomInt(activeCards.length);
+      let nextCard = activeCards[nextIdx];
+      this.props.setActiveCards({ payload: { activeCards } });
+      this.props.setActiveCard({ payload: { activeCard: nextCard } });
+    } else {
+      Alert.alert(
+        'Congrats!',
+        'You finished this deck.',
+        [
+          {text: 'Okay'},
+        ],
+        { cancelable: false }
+      );
+    }
+  }
+
+  onWrong() {
+    const { activeCard, activeCards } = this.state;
+    let nextIdx = getRandomInt(activeCards.length);
+    let nextCard = activeCards[nextIdx];
+    this.props.setActiveCard({ payload: { activeCard: nextCard } });
+  }
+
   render() {
     const { navigation } = this.props;
 
@@ -94,10 +138,10 @@ class Display extends Component {
         </View>
         <View style={styles.controlGroup}>
           <View style={styles.controlTopGroup}>
-            <TouchableOpacity style={styles.topButton} onPress={this.onPressSubmit}>
+            <TouchableOpacity style={styles.topButton} onPress={this.onWrong}>
               <MaterialIcons name="cancel" size={90} color={'#FF5252'} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.topButton} onPress={this.onPressSubmit}>
+            <TouchableOpacity style={styles.topButton} onPress={this.onCorrect}>
               <MaterialIcons name="check-circle" size={90} color={'#69F0AE'} />
             </TouchableOpacity>
           </View>
@@ -144,9 +188,10 @@ Display.defaultProps = {
 
 const mapStateToProps = state => ({
   activeCard: getActiveCard(state),
+  activeCards: getActiveCards(state),
 });
 
 export default connect(
   mapStateToProps,
-  null,
+  { setActiveCards, setActiveCard, removeActiveCardById },
 )(Display);
