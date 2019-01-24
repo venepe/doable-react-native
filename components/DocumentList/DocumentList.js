@@ -8,7 +8,8 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { setActiveDeckId } from '../../actions';
+import AppIntroSlider from 'react-native-app-intro-slider';
+import { uploadDocument } from '../../actions';
 import DocumentItem from '../DocumentItem';
 import NavAddButton from '../NavAddButton';
 import Placeholder from '../Placeholder';
@@ -27,6 +28,7 @@ class DocumentList extends Component {
     super(props);
     this.renderItem = this.renderItem.bind(this);
     this.onPressRow = this.onPressRow.bind(this);
+    this.onDone = this.onDone.bind(this);
   }
 
   renderItem({ item }) {
@@ -44,10 +46,10 @@ class DocumentList extends Component {
     });
   }
 
-  renderPlaceholder() {
-    return (
-      <Placeholder text={'Record an Document and Start Learning!'}></Placeholder>
-    );
+  onDone() {
+    const { navigation } = this.props;
+    const deckId = navigation.getParam('deckId');
+    this.props.uploadDocument({ payload: { deckId } });
   }
 
   render() {
@@ -77,7 +79,7 @@ class DocumentList extends Component {
             )
           } else {
             return (
-              <Placeholder text={'Record an Document and Start Learning!'}></Placeholder>
+              <AppIntroSlider slides={slides} onDone={() => this.onDone()}/>
             );
           }
         }}
@@ -131,10 +133,48 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: '400',
   },
+  image200: {
+    width: 200,
+    height: 200,
+  },
+  image320: {
+    width: 320,
+    height: 320,
+  },
 });
+
+const slides = [
+  {
+    key: 'capture',
+    title: 'Capture Your Card',
+    text: 'Take a picture of what you are learning.',
+    image: require('../../assets/camera.png'),
+    imageStyle: styles.image200,
+    backgroundColor: '#7E57C2',
+  },
+  {
+    key: 'ai',
+    title: 'Make Magic Happen',
+    text: 'Wait while we we convert your image to text',
+    image: require('../../assets/wand.png'),
+    imageStyle: styles.image200,
+    backgroundColor: '#FFB300',
+  },
+  {
+    key: 'select',
+    title: 'Make Your Card',
+    text: 'Drag the text to the front or back',
+    image: require('../../assets/list.png'),
+    imageStyle: styles.image200,
+    backgroundColor: '#26A69A',
+  }
+];
 
 DocumentList.defaultProps = {};
 
 DocumentList.propTypes = {}
 
-export default DocumentList;
+export default connect(
+  null,
+  { uploadDocument },
+)(DocumentList);

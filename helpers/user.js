@@ -1,8 +1,9 @@
 import { SecureStore } from 'expo';
 import jwtDecoder from 'jwt-decode';
-const TOKEN_KEY = 'TOKEN_KEY';
+import Keys from '../constants/Keys';
+
 export const getUser = () => {
-  return SecureStore.getItemAsync(TOKEN_KEY)
+  return SecureStore.getItemAsync(Keys.TOKEN_KEY)
       .then((token) => {
         const decodedToken = jwtDecoder(token);
         console.log(decodedToken);

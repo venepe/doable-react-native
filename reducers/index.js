@@ -1,12 +1,11 @@
 import CardTypes from '../constants/CardTypes';
 import CardBuilderTypes from '../constants/CardBuilderTypes';
-import DeckTypes from '../constants/DeckTypes';
 import NetworkTypes from '../constants/NetworkTypes';
 import UserTypes from '../constants/UserTypes';
 
 const initialState = {
   activeCard: {},
-  activeDeckId: '',
+  activeCards: [],
   uid: null,
   isLoading: false,
   frontText: '',
@@ -18,17 +17,19 @@ const reducer = (state = initialState, action) => {
     case CardTypes.SET_ACTIVE_CARD:
     {
       const { activeCard } = action.payload;
+
+      console.log(activeCard);
       return {
         ...state,
         activeCard,
       };
     }
-    case DeckTypes.SET_ACTIVE_DECK_ID:
+    case CardTypes.SET_ACTIVE_CARDS:
     {
-      const { activeDeckId } = action.payload;
+      const { activeCards } = action.payload;
       return {
         ...state,
-        activeDeckId,
+        activeCards,
       };
     }
     case UserTypes.SET_UID:
@@ -98,5 +99,6 @@ export const getIsLoading = state => state.isLoading;
 export const getUID = state => state.uid;
 export const getFrontText = state => state.frontText;
 export const getBackText = state => state.backText;
+export const getActiveCard = state => state.activeCard;
 
 export default reducer;

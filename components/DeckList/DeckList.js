@@ -15,6 +15,7 @@ import Placeholder from '../Placeholder';
 import Query, { IS_FETCHING_MORE } from '../Query';
 import NavSearchBar from '../NavSearchBar';
 import NavCreateDeck from '../NavCreateDeck';
+import LogonButton from '../LogonButton';
 import { ARCHIVE_DECK } from '../../mutations';
 import { DECKS_BY_USER_UID } from '../../queries';
 import { getUID } from '../../reducers';
@@ -101,7 +102,9 @@ class DeckList extends Component {
     let uid = this.state.uid
     if (!uid || uid.length < 1) {
       return (
-        <View style={styles.root} />
+        <View style={styles.root}>
+          <LogonButton />
+        </View>
       )
     }
     console.log(uid);
@@ -116,7 +119,7 @@ class DeckList extends Component {
 
           if (decksByUserUid.edges.length < 1) {
             return (
-              <Placeholder text={'Create a Deck to Get Started!'}></Placeholder>
+              <Placeholder text={'Learn with Doable \n Create Unlimited Decks'}></Placeholder>
             );
           }
           let list = decksByUserUid.edges.map(({ node }) => {
@@ -177,6 +180,7 @@ DeckList.navigationOptions = (props) => {
     headerStyle: {
       backgroundColor: '#000D11',
     },
+    headerTitle: 'Decks',
     headerTitleStyle: {
       color: '#F5F5F5',
     },

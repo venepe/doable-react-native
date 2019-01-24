@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { withApollo } from 'react-apollo';
-import { setActiveDeckId } from '../../actions';
+import { setActiveCard, setActiveCards } from '../../actions';
 import NavDocument from '../NavDocument';
 import CardItem from '../CardItem';
 import Placeholder from '../Placeholder';
@@ -38,9 +38,11 @@ class CardList extends Component {
     )
   }
 
-  onPressRow({ id }) {
-    const cardId = id;
+  onPressRow(card) {
+    console.log(card);
     const { navigation } = this.props;
+    this.props.setActiveCard({ payload: { activeCard: card } });
+    this.props.setActiveCards({ payload: { activeCards: card } });
     const deckId = navigation.getParam('deckId');
     this.props.navigation.navigate('DisplayModal');
   }
@@ -76,12 +78,6 @@ class CardList extends Component {
     })
   }
 
-  renderPlaceholder() {
-    return (
-      <Placeholder text={'Record an Card and Start Learning!'}></Placeholder>
-    );
-  }
-
   render() {
     const { navigation } = this.props;
     const deckId = navigation.getParam('deckId');
@@ -109,7 +105,7 @@ class CardList extends Component {
             )
           } else {
             return (
-              <Placeholder text={'Record an Card and Start Learning!'}></Placeholder>
+              <Placeholder text={'Unlimited Cards \n Unlimited Potential'}></Placeholder>
             );
           }
         }}
@@ -169,4 +165,7 @@ CardList.defaultProps = {};
 
 CardList.propTypes = {}
 
-export default withApollo(CardList);
+export default withApollo(connect(
+  null,
+  { setActiveCard, setActiveCards },
+)(CardList));

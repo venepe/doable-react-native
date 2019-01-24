@@ -1,74 +1,25 @@
 import React, { Component } from 'react';
-import { AuthSession, SecureStore } from 'expo';
+import { SecureStore } from 'expo';
 import PropTypes from 'prop-types';
-import jwtDecoder from 'jwt-decode';
-import Auth0 from 'react-native-auth0';
-import { withApollo } from 'react-apollo';
 import { connect } from 'react-redux';
+import jwtDecoder from 'jwt-decode';
 import App from '../App';
-import { getUID } from '../../reducers';
 import { setUID } from '../../actions';
-import { randomString } from '../../utilities';
-import { LOGON_USER } from '../../mutations';
-import client from '../../apolloClient';
-const auth0ClientId = 'Z1nFXf7pX2wRyf5Ps4ArqYTyJ6fs5eE9';
-const auth0Domain = 'https://d0able.auth0.com';
-const TOKEN_KEY = 'TOKEN_KEY';
-
-function toQueryString(params) {
-  return '?' + Object.entries(params)
-    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
-    .join('&');
-  }
-
+import { logonUser } from '../../helpers/logon';
+import Keys from '../../constants/Keys';
 
 class Base extends Component {
 
   componentDidMount() {
-    SecureStore.getItemAsync(TOKEN_KEY)
+    SecureStore.getItemAsync(Keys.TOKEN_KEY)
       .then((id_token) => {
         const decodedToken = jwtDecoder(id_token);
         const uid = decodedToken.sub;
         this.props.setUID({ payload: { uid  } })
       })
       .catch(() => {
-        const redirectUrl = AuthSession.getRedirectUrl();
-        console.log(`Redirect URL (add this to Auth0): ${redirectUrl}`);
-        AuthSession.startAsync({
-          authUrl: `${auth0Domain}/authorize` + toQueryString({
-            client_id: auth0ClientId,
-            response_type: 'id_token',
-            scope: 'openid profile email',
-            redirect_uri: redirectUrl,
-            nonce: randomString(),
-          }),
-          returnUrl: 'com.venepe.doable://d0able.auth0.com/ios/com.venepe.doable/callback',
-        }).then((result) => {
-          console.log(result);
-          const { params = {} } = result;
-          const { id_token = '' } = params;
-          const decodedToken = jwtDecoder(id_token);
-          const uid = decodedToken.sub;
-          const email = decodedToken.email;
-          return SecureStore.setItemAsync(TOKEN_KEY, id_token).then(() => {
-            return { uid, email }
-          });
-        })
-        .then(({ uid, email }) => {
-          return this.props.client.mutate({
-            mutation: LOGON_USER,
-            variables: { input: { uid, email } },
-          });
-        })
-        .then(({ data }) => {
-          const uid = data.logonUser.user.uid;
-          this.props.setUID({ payload: { uid  } })
-          console.log('reload');
-        });
+        logonUser();
       });
-
-
-
   }
 
   render() {
@@ -78,11 +29,7 @@ class Base extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  uid: getUID(state),
-});
-
-export default withApollo(connect(
+export default connect(
   null,
   { setUID },
-)(Base));
+)(Base);

@@ -25,9 +25,9 @@
 
     render() {
       return (
-        <View style={styles.create}>
-          <Button title={'Create'} color={getHeaderButtonColor()} onPress={this.onPress} />
-        </View>
+        <TouchableOpacity style={styles.create} onPress={this.onPress}>
+          <MaterialIcons name="add" size={40} color={getHeaderButtonColor()} />
+        </TouchableOpacity>
       );
     }
   }

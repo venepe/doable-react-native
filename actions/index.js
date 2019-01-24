@@ -1,7 +1,7 @@
 import { Alert } from 'react-native';
+import { ImagePicker, Permissions } from 'expo';
 import CardTypes from '../constants/CardTypes';
 import CardBuilderTypes from '../constants/CardBuilderTypes';
-import DeckTypes from '../constants/DeckTypes';
 import NetworkTypes from '../constants/NetworkTypes';
 import UserTypes from '../constants/UserTypes';
 import { getRandomInt } from '../utilities';
@@ -9,43 +9,56 @@ import { track } from '../helpers/analytics';
 import { getUser } from '../helpers/user';
 import { API_URL } from '../config';
 
-export const uploadImage = payload =>
+export const uploadDocument = payload =>
   (dispatch, getState) => {
-    let { payload: { uri, deckId } } = payload;
-    const { uid } = getState();
-    let name = uri.match(/\w+(?:\.\w+)*$/g)[0];
-    let type = 'image/jpeg';
-    const data = new FormData();
-    data.append('document', {
-      uri,
-      type,
-      name,
+    let { payload: { deckId } } = payload;
+    const permissions = Permissions.CAMERA_ROLL;
+    Permissions.askAsync(permissions).then(({ status }) => {
+      if (status === 'granted') {
+        ImagePicker.launchImageLibraryAsync({ mediaTypes: 'Images', allowsEditing: false })
+          .then((result) => {
+            if (!result.cancelled) {
+              const { uri } = result;
+              const { uid } = getState();
+
+              let name = uri.match(/\w+(?:\.\w+)*$/g)[0];
+              let type = 'image/jpeg';
+
+              const data = new FormData();
+              data.append('document', {
+                uri,
+                type,
+                name,
+              });
+
+              data.append('userUid', uid);
+              data.append('deckId', deckId);
+
+              dispatch(didBeginUploading());
+
+              return fetch(`${API_URL}/document`, {
+                  method: 'post',
+                  body: data,
+                })
+                .then(response => response.json())
+                .then(result => {
+                  dispatch(didFinishUploading({ payload: { document: result.document } }));
+                })
+                .catch((error) => {
+                  dispatch(didFinishUploading({ payload: { score: '' } }));
+                  Alert.alert(
+                    'Unable to Upload',
+                    'Verify that you are connected to the internet.',
+                    [
+                      {text: 'Okay'},
+                    ],
+                    { cancelable: false }
+                  )
+                });
+            }
+          });
+      }
     });
-
-    data.append('userUid', uid);
-    data.append('deckId', deckId);
-
-    dispatch(didBeginUploading());
-
-    return fetch(`${API_URL}/document`, {
-        method: 'post',
-        body: data,
-      })
-      .then(response => response.json())
-      .then(result => {
-        dispatch(didFinishUploading({ payload: { document: result.document } }));
-      })
-      .catch((error) => {
-        dispatch(didFinishUploading({ payload: { score: '' } }));
-        Alert.alert(
-          'Unable to Upload',
-          'Verify that you are connected to the internet.',
-          [
-            {text: 'Okay'},
-          ],
-          { cancelable: false }
-        )
-      });
   };
 
 export const setUID = payload => ({
@@ -53,8 +66,13 @@ export const setUID = payload => ({
   ...payload,
 });
 
-export const setActiveAudiocard = payload => ({
+export const setActiveCard = payload => ({
   type: CardTypes.SET_ACTIVE_CARD,
+  ...payload,
+});
+
+export const setActiveCards = payload => ({
+  type: CardTypes.SET_ACTIVE_CARDS,
   ...payload,
 });
 

@@ -44,7 +44,7 @@ class CardItem extends Component {
 
     return (
       <Swipeout right={right} autoClose>
-        <TouchableOpacity onPress={() => this.props.onPress({ id: cardItem.id })}>
+        <TouchableOpacity onPress={() => this.props.onPress(cardItem)}>
           <View style={[styles.card, styles.container, { opacity }]}>
             <View style={styles.infoContainer}>
               <View style={styles.infoSubContainer}>

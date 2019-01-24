@@ -37,4 +37,22 @@ export default StyleSheet.create({
     justifyContent: 'center',
     margin: 20,
   },
+  controlGroup: {
+    alignItems: 'center',
+  },
+  controlTopGroup: {
+    flexDirection: 'row',
+  },
+  controlBottomGroup: {
+    flexDirection: 'row',
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  topButton: {
+    backgroundColor: 'transparent',
+  },
+  bottomButton: {
+    backgroundColor: 'transparent',
+  },
 });

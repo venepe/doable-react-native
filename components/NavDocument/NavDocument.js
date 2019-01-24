@@ -35,15 +35,15 @@ class NavDocument extends Component {
 
   render() {
     return (
-      <View style={styles.play}>
-        <Button title={'Add'} color={getHeaderButtonColor()} onPress={this.onPress} />
-      </View>
+      <TouchableOpacity style={styles.container} onPress={this.onPress}>
+        <MaterialIcons name="add" size={40} color={getHeaderButtonColor()} />
+      </TouchableOpacity>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  play: {
+  container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
