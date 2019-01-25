@@ -12,7 +12,7 @@ import Query from '../Query';
 import { connect } from 'react-redux';
 import { removeActiveCardById, setActiveCard, setActiveCards } from '../../actions'
 import { getActiveCard, getActiveCards } from '../../reducers';
-import { getHeaderButtonColor, getRandomInt } from '../../utilities';
+import { getHeaderButtonColor, getRandomIndex, getRandomInt } from '../../utilities';
 import styles from './styles';
 
 class Display extends Component {
@@ -49,13 +49,13 @@ class Display extends Component {
     this.renderAnswer = this.renderAnswer.bind(this);
     this.onCorrect = this.onCorrect.bind(this);
     this.onWrong = this.onWrong.bind(this);
+    this.getCurrentCardIndex = this.getCurrentCardIndex.bind(this);
 
     this.state = {
       activeCard: props.activeCard,
       activeCards: props.activeCards,
       show: false,
     };
-
   }
 
   componentDidUpdate(prevProps) {
@@ -96,32 +96,47 @@ class Display extends Component {
   onCorrect() {
     const { activeCard, activeCards } = this.state;
     if (activeCards.length > 1) {
-      const idx = activeCards.findIndex((card) => {
-        return card.id === id;
-      });
+      const idx = this.getCurrentCardIndex();
       activeCards.splice(idx, 1);
 
       let nextIdx = getRandomInt(activeCards.length);
       let nextCard = activeCards[nextIdx];
       this.props.setActiveCards({ payload: { activeCards } });
       this.props.setActiveCard({ payload: { activeCard: nextCard } });
+      this.setState({
+        show: false,
+      });
     } else {
       Alert.alert(
         'Congrats!',
         'You finished this deck.',
         [
-          {text: 'Okay'},
+          { text: 'Okay', onPress: () => this.goBack() },
         ],
         { cancelable: false }
       );
     }
   }
 
+  getCurrentCardIndex() {
+    const { activeCard, activeCards } = this.state;
+    let id = activeCard.id;
+    const idx = activeCards.findIndex((card) => {
+      return card.id === id;
+    });
+    return idx;
+  }
+
   onWrong() {
     const { activeCard, activeCards } = this.state;
-    let nextIdx = getRandomInt(activeCards.length);
+    const idx = this.getCurrentCardIndex();
+
+    let nextIdx = getRandomIndex(idx, activeCards.length);
     let nextCard = activeCards[nextIdx];
     this.props.setActiveCard({ payload: { activeCard: nextCard } });
+    this.setState({
+      show: false,
+    });
   }
 
   render() {

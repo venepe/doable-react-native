@@ -39,11 +39,16 @@ class CardList extends Component {
   }
 
   onPressRow(card) {
-    console.log(card);
-    const { navigation } = this.props;
-    this.props.setActiveCard({ payload: { activeCard: card } });
-    this.props.setActiveCards({ payload: { activeCards: card } });
+    const { client, navigation } = this.props;
     const deckId = navigation.getParam('deckId');
+    const { deckById } = client.readQuery({ query: CARDS_BY_DECK_NODEID, variables: {
+      id: deckId,
+    } });
+    let cards = deckById.cardsByDeckId.edges.map(({ node }) => {
+      return { ...node };
+    });
+    this.props.setActiveCard({ payload: { activeCard: card } });
+    this.props.setActiveCards({ payload: { activeCards: cards } });
     this.props.navigation.navigate('DisplayModal');
   }
 
