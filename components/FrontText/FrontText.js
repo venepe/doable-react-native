@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 import {
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { MaterialIcons } from '@expo/vector-icons/index';
 import { getFrontText } from '../../reducers';
+const PLACEHOLDER = 'Front Text Here';
 
 class FrontText extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -19,6 +22,7 @@ class FrontText extends Component {
 
   constructor(props) {
     super(props);
+    this.onEdit = this.onEdit.bind(this);
 
     this.state = {
       frontText: '',
@@ -34,11 +38,19 @@ class FrontText extends Component {
     }
   }
 
+  onEdit() {
+
+  }
+
   render() {
+    let { frontText } = this.state;
+    if (frontText.length < 1) {
+      frontText = PLACEHOLDER;
+    }
 
     return (
       <View style={styles.root}>
-        <Text style={styles.text}>{this.state.frontText}</Text>
+        <Text style={styles.title}>{frontText}</Text>
       </View>
     );
   }
@@ -46,10 +58,24 @@ class FrontText extends Component {
 
 const styles = StyleSheet.create({
   root: {
+    backgroundColor: 'white',
+  },
+  editButtonContainer: {
+    backgroundColor: 'transparent',
+    padding: 10,
+    marginTop: 15,
+    width: 58,
+  },
+  title: {
+    color: '#00B0FF',
+    fontSize: 28,
+    fontWeight: '400',
+    padding: 5,
+    // fontFamily: 'Roboto-Thin',
   },
   text: {
-    color: '#1DE9B6',
-    fontSize: 14,
+    color: '#FF8A80',
+    fontSize: 28,
     fontWeight: '400',
     padding: 5,
     // fontFamily: 'Roboto-Thin',

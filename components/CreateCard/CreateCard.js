@@ -13,6 +13,7 @@ import gql from 'graphql-tag';
 import { propType } from 'graphql-anywhere';
 import Query from '../Query';
 import Draggable from '../Draggable';
+import WordButton from '../WordButton';
 import BackText from '../BackText';
 import FrontText from '../FrontText';
 import { CREATE_CARD } from '../../mutations';
@@ -58,8 +59,6 @@ class CreateCard extends Component {
     this.onPressSubmit = this.onPressSubmit.bind(this);
     this.isDisabled = this.isDisabled.bind(this);
     this.state = {
-      text: props.text,
-      label: props.label,
       uid: props.uid,
       backText: props.backText,
       frontText: props.frontText,
@@ -144,12 +143,10 @@ class CreateCard extends Component {
             <MaterialIcons name="check-circle" size={40} color={checkCircleColor} />
           </TouchableOpacity>
         </View>
-        <Text>Front Text</Text>
         <FrontText style={styles.frontContainer} />
         <Text>Back Text</Text>
         <BackText style={styles.backContainer} />
       <View style={styles.rowContainer}>
-        <View style={styles.frontDropContainer}></View>
         <Query
         query={DOCUMENT_BY_ID}
         variables={{ id: documentId }}
@@ -162,7 +159,7 @@ class CreateCard extends Component {
             {
               words.map((word, idx) => {
                 return (
-                  <Draggable word={word} />
+                  <WordButton word={word} />
                 )
               })
             }
@@ -170,7 +167,6 @@ class CreateCard extends Component {
           )
         }}
         </Query>
-        <View style={styles.backDropContainer}></View>
       </View>
       </View>
     )
@@ -248,9 +244,7 @@ const styles = StyleSheet.create({
   }
 });
 
-CreateCard.defaultProps = {
-  label: 'Create Card',
-};
+CreateCard.defaultProps = {};
 
 CreateCard.fragments = {
   document: gql`
