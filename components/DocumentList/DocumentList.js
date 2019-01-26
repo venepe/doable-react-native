@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
+  ActivityIndicator,
   FlatList,
   StyleSheet,
   Text,
@@ -14,6 +15,7 @@ import DocumentItem from '../DocumentItem';
 import NavAddButton from '../NavAddButton';
 import Placeholder from '../Placeholder';
 import Query from '../Query';
+import { getIsLoading } from '../../reducers';
 import { DOCUMENT_BY_CARD_NODEID } from '../../queries';
 
 class DocumentList extends Component {
@@ -24,11 +26,32 @@ class DocumentList extends Component {
     }).isRequired,
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.isLoading.length > 0) {
+          return {
+            isLoading: nextProps.isLoading,
+          }
+        }
+      }
+
   constructor(props) {
     super(props);
     this.renderItem = this.renderItem.bind(this);
     this.onPressRow = this.onPressRow.bind(this);
     this.onDone = this.onDone.bind(this);
+
+    this.state = {
+      isLoading: props.isLoading,
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const props = this.props;
+    if (props.isLoading !== prevProps.isLoading) {
+      this.setState({
+        isLoading: props.isLoading,
+      });
+    }
   }
 
   renderItem({ item }) {
@@ -58,6 +81,7 @@ class DocumentList extends Component {
 
     return (
       <View style={styles.root}>
+        <ActivityIndicator animating={this.state.isLoading} hidesWhenStopped={true} size="large" color="#FAFAFA" />
         <Query
         query={DOCUMENT_BY_CARD_NODEID}
         variables={{ id: deckId }}
@@ -175,7 +199,11 @@ DocumentList.defaultProps = {};
 
 DocumentList.propTypes = {}
 
+const mapStateToProps = state => ({
+  isLoading: getIsLoading(state),
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { uploadDocument },
 )(DocumentList);
