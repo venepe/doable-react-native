@@ -45,7 +45,7 @@ class Display extends Component {
   constructor(props) {
     super(props);
     this.goBack = this.goBack.bind(this);
-    this.onAnswer = this.onAnswer.bind(this);
+    this.onShow = this.onShow.bind(this);
     this.renderAnswer = this.renderAnswer.bind(this);
     this.onCorrect = this.onCorrect.bind(this);
     this.onWrong = this.onWrong.bind(this);
@@ -87,9 +87,11 @@ class Display extends Component {
     }
   }
 
-  onAnswer() {
+  onShow() {
+    let { show } = this.state;
+    show = !show;
     this.setState({
-      show: true,
+      show,
     });
   }
 
@@ -143,7 +145,7 @@ class Display extends Component {
     const { navigation } = this.props;
 
     return (
-      <TouchableOpacity style={styles.container} onPress={this.onAnswer}>
+      <TouchableOpacity style={styles.container} onPress={this.onShow}>
         <View style={styles.subContainer}>
             <TouchableOpacity style={styles.backButtonContainer} onPress={this.goBack}>
               <MaterialIcons name="keyboard-arrow-down" size={40} color="#FAFAFA" />
