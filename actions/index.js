@@ -11,6 +11,25 @@ import { API_URL } from '../config';
 import client from '../apolloClient';
 import { DOCUMENT_BY_CARD_NODEID } from '../queries';
 
+function updateProgress (oEvent) {
+  if (oEvent.lengthComputable) {
+    let percentComplete = oEvent.loaded / oEvent.total * 100;
+    console.log(percentComplete);
+  }
+}
+
+function transferComplete(evt) {
+  console.log('The transfer is complete.');
+}
+
+function transferFailed(evt) {
+  console.log('An error occurred while transferring the file.');
+}
+
+function transferCanceled(evt) {
+  console.log('The transfer has been canceled by the user.');
+}
+
 export const uploadDocument = payload =>
   (dispatch, getState) => {
     let { payload: { deckId } } = payload;
@@ -38,36 +57,47 @@ export const uploadDocument = payload =>
 
               dispatch(didBeginUploading());
 
-              return fetch(`${API_URL}/document`, {
-                  method: 'post',
-                  body: data,
-                })
-                .then(response => response.json())
-                .then(result => {
-                  let { document } = result;
-                  document.__typename = 'Document';
-                  const { deckById } = client.readQuery({ query: DOCUMENT_BY_CARD_NODEID, variables: {
-                    id: deckId,
-                  } });
+              const oReq = new XMLHttpRequest();
 
-                  deckById.documentsByDeckId.edges.unshift({ __typename: 'DocumentsEdge', node: document })
-                  client.writeQuery({
-                    query: DOCUMENT_BY_CARD_NODEID,
-                    data: { deckById },
-                  });
-                  dispatch(didFinishUploading({ payload: { document: result.document } }));
-                })
-                .catch((error) => {
-                  dispatch(didFinishUploading({ payload: { document: '' } }));
-                  Alert.alert(
-                    'Unable to Upload',
-                    'Verify that you are connected to the internet.',
-                    [
-                      {text: 'Okay'},
-                    ],
-                    { cancelable: false }
-                  )
-                });
+              oReq.upload.addEventListener('progress', updateProgress);
+              oReq.upload.addEventListener('load', transferComplete);
+              oReq.upload.addEventListener('error', transferFailed);
+              oReq.upload.addEventListener('abort', transferCanceled);
+
+              oReq.open('POST', `${API_URL}/document`, true);
+              oReq.setRequestHeader('Content-Type', 'application/json');
+
+              oReq.send(data);
+
+              oReq.onreadystatechange = () => {
+                if (oReq.readyState == XMLHttpRequest.DONE) {
+                  if (oReq.status === 200) {
+                    let result = JSON.parse(oReq.responseText);
+                    let { document } = result;
+                    document.__typename = 'Document';
+                    const { deckById } = client.readQuery({ query: DOCUMENT_BY_CARD_NODEID, variables: {
+                      id: deckId,
+                    } });
+
+                    deckById.documentsByDeckId.edges.unshift({ __typename: 'DocumentsEdge', node: document })
+                    client.writeQuery({
+                      query: DOCUMENT_BY_CARD_NODEID,
+                      data: { deckById },
+                    });
+                    dispatch(didFinishUploading({ payload: { document: result.document } }));
+                  } else {
+                    dispatch(didFinishUploading({ payload: { document: '' } }));
+                    Alert.alert(
+                      'Unable to Upload',
+                      'Verify that you are connected to the internet.',
+                      [
+                        {text: 'Okay'},
+                      ],
+                      { cancelable: false }
+                    );
+                  }
+                }
+              }
             }
           });
       }
