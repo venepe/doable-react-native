@@ -1,21 +1,17 @@
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import CreateDeck from '../CreateDeck';
+import CreateCard from '../CreateCard';
 import DeckList from '../DeckList';
 import CardList from '../CardList';
 import DocumentList from '../DocumentList';
 import Home from '../Home';
 import Display from '../Display';
-import SearchDeckList from '../SearchDeckList';
-import CreateCard from '../CreateCard';
 
 const MainStack = createStackNavigator({
   DeckList: { screen: DeckList },
-  SearchDeckList: { screen: SearchDeckList },
   CardList: { screen: CardList },
   DocumentList: { screen: DocumentList },
   Home: { screen: Home },
-
-  // CreateDeck: { screen: CreateDeck },
 });
 
 const RootStack = createStackNavigator(
@@ -26,11 +22,11 @@ const RootStack = createStackNavigator(
     CreateDeckModal: {
       screen: CreateDeck,
     },
-    CreateCardModal: {
-      screen: CreateCard,
-    },
     DisplayModal: {
       screen: Display,
+    },
+    CreateCardModal: {
+      screen: CreateCard,
     },
   },
   {

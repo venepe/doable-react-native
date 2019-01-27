@@ -19,8 +19,10 @@ import FrontText from '../FrontText';
 import { CREATE_CARD } from '../../mutations';
 import { DOCUMENT_BY_ID, CARDS_BY_DECK_NODEID } from '../../queries';
 import { getBackText, getFrontText, getUID } from '../../reducers';
-import { clearFrontText, clearBackText } from '../../actions';
-
+import { addFrontTextWord, clearFrontText, clearBackText } from '../../actions';
+console.log('addFrontTextWord');
+console.log(addFrontTextWord);
+console.log('addFrontTextWord');
 class CreateCard extends Component {
   static propTypes = {
     navigation: PropTypes.shape({
@@ -41,16 +43,10 @@ class CreateCard extends Component {
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.backText.length > 0) {
           return {
             backText: nextProps.backText,
-          }
-        }
-        if (nextProps.frontText.length > 0) {
-          return {
             frontText: nextProps.frontText,
           }
-        }
       }
 
   constructor(props) {
@@ -58,6 +54,7 @@ class CreateCard extends Component {
     this.goBack = this.goBack.bind(this);
     this.onPressSubmit = this.onPressSubmit.bind(this);
     this.isDisabled = this.isDisabled.bind(this);
+    this.onPressWord = this.onPressWord.bind(this);
     this.state = {
       uid: props.uid,
       backText: props.backText,
@@ -77,6 +74,12 @@ class CreateCard extends Component {
         frontText: props.frontText,
       });
     }
+  }
+
+  onPressWord({ word }) {
+    console.log(Object.keys(this.props));
+    const { frontText, backText } = this.props;
+    this.props.addFrontTextWord( { payload: { frontTextWord: word } });
   }
 
   goBack() {
@@ -159,7 +162,7 @@ class CreateCard extends Component {
             {
               words.map((word, idx) => {
                 return (
-                  <WordButton word={word} />
+                  <WordButton word={word} index={idx} onPress={this.onPressWord} />
                 )
               })
             }
@@ -270,5 +273,5 @@ const mapStateToProps = state => ({
 
 export default withApollo(connect(
   mapStateToProps,
-  { clearBackText, clearFrontText },
+  { addFrontTextWord, clearBackText, clearFrontText },
 )(CreateCard));

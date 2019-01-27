@@ -2,7 +2,7 @@ import CardTypes from '../constants/CardTypes';
 import CardBuilderTypes from '../constants/CardBuilderTypes';
 import NetworkTypes from '../constants/NetworkTypes';
 import UserTypes from '../constants/UserTypes';
-
+console.log('reducer');
 const initialState = {
   activeCard: {},
   activeCards: [],

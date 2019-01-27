@@ -8,8 +8,9 @@ import { getRandomInt } from '../utilities';
 import { track } from '../helpers/analytics';
 import { getUser } from '../helpers/user';
 import { API_URL } from '../config';
-import client from '../apolloClient';
 import { DOCUMENT_BY_CARD_NODEID } from '../queries';
+
+console.log('actions loading');
 
 export const uploadDocument = payload =>
   (dispatch, getState) => {
@@ -45,16 +46,16 @@ export const uploadDocument = payload =>
                 .then(response => response.json())
                 .then(result => {
                   let { document } = result;
-                  document.__typename = 'Document';
-                  const { deckById } = client.readQuery({ query: DOCUMENT_BY_CARD_NODEID, variables: {
-                    id: deckId,
-                  } });
-
-                  deckById.documentsByDeckId.edges.push({ __typename: 'DocumentsEdge', node: document })
-                  client.writeQuery({
-                    query: DOCUMENT_BY_CARD_NODEID,
-                    data: { deckById },
-                  });
+                  // document.__typename = 'Document';
+                  // const { deckById } = client.readQuery({ query: DOCUMENT_BY_CARD_NODEID, variables: {
+                  //   id: deckId,
+                  // } });
+                  //
+                  // deckById.documentsByDeckId.edges.push({ __typename: 'DocumentsEdge', node: document })
+                  // client.writeQuery({
+                  //   query: DOCUMENT_BY_CARD_NODEID,
+                  //   data: { deckById },
+                  // });
                   dispatch(didFinishUploading({ payload: { document: result.document } }));
                 })
                 .catch((error) => {

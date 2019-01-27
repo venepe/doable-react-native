@@ -89,7 +89,6 @@ class DocumentList extends Component {
       >
         {({ data: { deckById }, fetchMore, networkStatus}) => {
           if (deckById && deckById.documentsByDeckId.edges.length > 0) {
-            console.log(deckById);
             let list = deckById.documentsByDeckId.edges.map(({ node }) => {
               return { ...node };
             });

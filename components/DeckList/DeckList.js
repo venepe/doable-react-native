@@ -107,7 +107,6 @@ class DeckList extends Component {
         </View>
       )
     }
-    console.log(uid);
     return (
       <View style={styles.root}>
         <Query

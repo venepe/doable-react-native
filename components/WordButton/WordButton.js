@@ -8,12 +8,34 @@ import {
 
 class WordButton extends Component {
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+        return {
+          word: nextProps.word,
+          index: nextProps.index,
+        }
+      }
+
   constructor(props) {
     super(props);
     this.onPress = this.onPress.bind(this);
     this.state = {
       isActive: false,
       word: props.word,
+      index: props.index,
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const props = this.props;
+    if (props.word !== prevProps.word) {
+      this.setState({
+        word: props.word,
+      });
+    }
+    if (props.index !== prevProps.index) {
+      this.setState({
+        index: props.index,
+      });
     }
   }
 
@@ -46,6 +68,7 @@ const styles = StyleSheet.create({
 });
 
 WordButton.defaultProps = {
+  index: -1,
   word: '',
   onPress: () => {},
 };
