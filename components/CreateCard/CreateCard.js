@@ -20,9 +20,6 @@ import { CREATE_CARD } from '../../mutations';
 import { DOCUMENT_BY_ID, CARDS_BY_DECK_NODEID } from '../../queries';
 import { getBackText, getFrontText, getUID } from '../../reducers';
 import { addFrontTextWord, clearFrontText, clearBackText } from '../../actions';
-console.log('addFrontTextWord');
-console.log(addFrontTextWord);
-console.log('addFrontTextWord');
 class CreateCard extends Component {
   static propTypes = {
     navigation: PropTypes.shape({
@@ -77,7 +74,6 @@ class CreateCard extends Component {
   }
 
   onPressWord({ word }) {
-    console.log(Object.keys(this.props));
     const { frontText, backText } = this.props;
     this.props.addFrontTextWord( { payload: { frontTextWord: word } });
   }
@@ -89,10 +85,7 @@ class CreateCard extends Component {
   }
 
   onPressSubmit() {
-    console.log('onPressSubmit');
-    console.log(this.isDisabled());
     if (!this.isDisabled()) {
-      console.log('did press answer');
       const { navigation } = this.props;
       const { backText, frontText } = this.state;
       const documentId = navigation.getParam('documentId');
@@ -117,7 +110,6 @@ class CreateCard extends Component {
         }),
       })
       .then(() => {
-        console.log('yes');
         this.goBack();
       });
     }
