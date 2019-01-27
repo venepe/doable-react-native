@@ -108,7 +108,6 @@ class CreateCard extends Component {
     const indexToRemove = WORDS_TO_INDEX[editingText].findIndex((elm) => {
       return elm === index;
     });
-    console.log(indexToRemove);
     if (editingText === EDITING.FRONT_TEXT) {
       if (isActive) {
         WORDS_TO_INDEX[editingText].push(index);
@@ -152,7 +151,7 @@ class CreateCard extends Component {
           const { deckById } = cache.readQuery({ query: CARDS_BY_DECK_NODEID, variables: {
             id: deckId,
           } });
-          deckById.cardsByDeckId.edges.push({ node: createCard.card })
+          deckById.cardsByDeckId.edges.unshift({ node: createCard.card })
           cache.writeQuery({
             query: CARDS_BY_DECK_NODEID,
             data: { deckById },

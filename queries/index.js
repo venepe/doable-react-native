@@ -44,7 +44,7 @@ query searchDecks($search: String, $first: Int, $after: Cursor) {
 export const DECKS_BY_USER_UID = gql`
   query userByUid($uid: String!) {
     userByUid(uid: $uid) {
-      decksByUserUid {
+      decksByUserUid(orderBy: PRIMARY_KEY_DESC) {
         edges {
             node {
               nodeId
@@ -65,7 +65,7 @@ export const DECKS_BY_USER_UID = gql`
 export const CARDS_BY_DECK_NODEID = gql`
   query deckById($id: Int!) {
     deckById(id: $id) {
-      cardsByDeckId {
+      cardsByDeckId(orderBy: PRIMARY_KEY_DESC) {
         edges {
           node {
             ...CardItem
@@ -80,7 +80,7 @@ export const CARDS_BY_DECK_NODEID = gql`
 export const DOCUMENT_BY_CARD_NODEID = gql`
   query deckById($id: Int!) {
     deckById(id: $id) {
-      documentsByDeckId {
+      documentsByDeckId(orderBy: PRIMARY_KEY_DESC) {
         edges {
           node {
             ...DocumentItem

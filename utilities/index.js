@@ -10,7 +10,7 @@ export const getCardsForDeck = (deck) => {
 }
 
 export const getHeaderButtonColor = () => {
-  return Platform.OS === 'ios' ? '#FFFFFF' : 'transparent';
+  return Platform.OS === 'ios' ? '#FFFFFF' : '#FFFFFF';
 }
 
 export const getRandomInt = (length) => {

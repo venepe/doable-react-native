@@ -50,7 +50,7 @@ export const uploadDocument = payload =>
                     id: deckId,
                   } });
 
-                  deckById.documentsByDeckId.edges.push({ __typename: 'DocumentsEdge', node: document })
+                  deckById.documentsByDeckId.edges.unshift({ __typename: 'DocumentsEdge', node: document })
                   client.writeQuery({
                     query: DOCUMENT_BY_CARD_NODEID,
                     data: { deckById },

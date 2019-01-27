@@ -67,7 +67,7 @@ class CreateDeck extends Component {
             const { userByUid } = cache.readQuery({ query: DECKS_BY_USER_UID, variables: {
               uid,
             } });
-            userByUid.decksByUserUid.edges.push({ __typename: 'DecksEdge', node: createDeck.deck });
+            userByUid.decksByUserUid.edges.unshift({ __typename: 'DecksEdge', node: createDeck.deck });
             cache.writeQuery({
               query: DECKS_BY_USER_UID,
               data: { userByUid },

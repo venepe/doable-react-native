@@ -88,6 +88,15 @@
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
       <!-- ADD DETACH APP SPECIFIC INTENT FILTERS -->
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data
+          android:host="d0able.auth0.com"
+          android:pathPrefix="/android/${applicationId}/callback"
+          android:scheme="${applicationId}" />
+      </intent-filter>
     </activity>
 
     <activity
