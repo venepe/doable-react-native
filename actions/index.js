@@ -14,10 +14,18 @@ import { DOCUMENT_BY_CARD_NODEID } from '../queries';
 export const uploadDocument = payload =>
   (dispatch, getState) => {
     let { payload: { deckId } } = payload;
-    const permissions = Permissions.CAMERA_ROLL;
-    Permissions.askAsync(permissions).then(({ status }) => {
+    const permissions = [Permissions.CAMERA_ROLL, Permissions.CAMERA];
+    Permissions.askAsync(Permissions.CAMERA_ROLL).then(({ status }) => {
+      if (status !== 'granted') {
+        throw new Error();
+      }
+    })
+    .then(() => {
+      return Permissions.askAsync(Permissions.CAMERA)
+    })
+    .then(({ status }) => {
       if (status === 'granted') {
-        ImagePicker.launchImageLibraryAsync({ mediaTypes: 'Images', allowsEditing: false })
+        ImagePicker.launchCameraAsync({ mediaTypes: 'Images', allowsEditing: false })
           .then((result) => {
             if (!result.cancelled) {
               const { uri } = result;
@@ -48,7 +56,7 @@ export const uploadDocument = payload =>
               });
 
               oReq.open('POST', `${API_URL}/document`, true);
-              oReq.setRequestHeader('Content-Type', 'application/json');
+              oReq.setRequestHeader('Content-Type', 'multipart/form-data');
 
               oReq.send(data);
 
@@ -84,23 +92,24 @@ export const uploadDocument = payload =>
                       { cancelable: false }
                     );
                   }
-                } else {
-                  dispatch(didFinishUploading({ payload: { document: '' } }));
-                  let errorMessage = 'Verify that you are connected to the internet.'
-                  Alert.alert(
-                    'Document Failed',
-                    errorMessage,
-                    [
-                      {text: 'Okay'},
-                    ],
-                    { cancelable: false }
-                  );
                 }
               }
             }
           });
+      } else {
+        throw new Error();
       }
-    });
+    })
+    .catch((e) => {
+      Alert.alert(
+        'Document Failed',
+        'Verify Permissions',
+        [
+          {text: 'Okay'},
+        ],
+        { cancelable: false }
+      );
+    })
   };
 
 export const setUID = payload => ({
