@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import {
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -211,7 +212,7 @@ class CreateCard extends Component {
         {({ data: { documentById: { text } } }) => {
           let words = text.split(/\s+/);
           return (
-            <View style={styles.container}>
+            <ScrollView contentContainerStyle={styles.container}>
             {
               words.map((word, idx) => {
                 return (
@@ -224,7 +225,7 @@ class CreateCard extends Component {
                 )
               })
             }
-            </View>
+            </ScrollView>
           )
         }}
         </Query>
@@ -281,7 +282,6 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
   },
   container: {
-    flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
