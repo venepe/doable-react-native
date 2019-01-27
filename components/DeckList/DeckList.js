@@ -139,13 +139,16 @@ class DeckList extends Component {
                             variables: { first: FIRST, after: decksByUserUid.pageInfo.endCursor},
                             updateQuery: (previousResult, { fetchMoreResult }) => {
                               return {
-                                decksByUserUid: {
-                                  edges: [
-                                    ...previousResult.decksByUserUid.edges,
-                                    ...fetchMoreResult.decksByUserUid.edges,
-                                  ],
-                                  pageInfo: fetchMoreResult.decksByUserUid.pageInfo,
-                                  __typename: decksByUserUid.__typename,
+                                userByUid: {
+                                  __typename: previousResult.userByUid.__typename,
+                                  decksByUserUid: {
+                                    edges: [
+                                      ...previousResult.userByUid.decksByUserUid.edges,
+                                      ...fetchMoreResult.userByUid.decksByUserUid.edges,
+                                    ],
+                                    pageInfo: fetchMoreResult.userByUid.decksByUserUid.pageInfo,
+                                    __typename: decksByUserUid.__typename,
+                                  }
                                 }
                               };
                             },
