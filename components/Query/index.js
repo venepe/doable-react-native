@@ -15,14 +15,14 @@ export const QueryWrapper = ({ children, ...rest }) => (
   <Query {...rest}>
     {({ loading, error, data, fetchMore, networkStatus, refetch }) => {
       if (loading && networkStatus !== 3) {
-        return <ActivityIndicator size="large" color="#FAFAFA" />
+        return <ActivityIndicator size='large' color='#FAFAFA' />
       }
 
       if (error) {
         return (
             <View style={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
-              <Text style={styles.error} type="error">{`Error! ${error.message}`}</Text>
-              <Button color={'#FAFAFA'} onClick={() => {refetch()}} title={'Retry?'}></Button>
+              <Text style={styles.error} type='error'>{`Error! ${error.message}`}</Text>
+              <Button color={'#9E9E9E'} onPress={() => {refetch()}} title={'Retry?'}></Button>
             </View>
         )
       }
