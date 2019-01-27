@@ -39,6 +39,7 @@ class DocumentList extends Component {
     this.renderItem = this.renderItem.bind(this);
     this.onPressRow = this.onPressRow.bind(this);
     this.onDone = this.onDone.bind(this);
+    this.renderActivityIndicator = this.renderActivityIndicator.bind(this);
 
     this.state = {
       isLoading: props.isLoading,
@@ -75,13 +76,21 @@ class DocumentList extends Component {
     this.props.uploadDocument({ payload: { deckId } });
   }
 
+  renderActivityIndicator() {
+    if (this.state.isLoading) {
+      return (
+        <ActivityIndicator size="large" color="#FAFAFA" />
+      );
+    }
+  }
+
   render() {
     const { navigation } = this.props;
     const deckId = navigation.getParam('deckId');
 
     return (
       <View style={styles.root}>
-        <ActivityIndicator animating={this.state.isLoading} hidesWhenStopped={true} size="large" color="#FAFAFA" />
+        {this.renderActivityIndicator()}
         <Query
         query={DOCUMENT_BY_CARD_NODEID}
         variables={{ id: deckId }}
@@ -178,7 +187,7 @@ const slides = [
   },
   {
     key: 'ai',
-    title: 'Make Magic Happen',
+    title: 'We Identify Text',
     text: 'Wait while we we convert your image to text',
     image: require('../../assets/wand.png'),
     imageStyle: styles.image200,
@@ -187,7 +196,7 @@ const slides = [
   {
     key: 'select',
     title: 'Make Your Card',
-    text: 'Drag the text to the front or back',
+    text: 'Tap the text to the front or back',
     image: require('../../assets/list.png'),
     imageStyle: styles.image200,
     backgroundColor: '#26A69A',
