@@ -35,7 +35,7 @@ class DeckItem extends Component {
   render() {
     let color = '#FF8A80';
     const right = [
-      { text: 'Delete', color: '#FFFFFF', backgroundColor: '#FF1744', onPress: () => this.props.onDelete(deckItem) },
+      { text: 'Archive', color: '#FFFFFF', backgroundColor: '#FF1744', onPress: () => this.props.onDelete(deckItem) },
     ];
     const deckItem = this.state.deckItem || {};
 

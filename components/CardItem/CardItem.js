@@ -39,7 +39,7 @@ class CardItem extends Component {
     const opacity = 1.0;
 
     const right = [
-      { text: 'Delete', color: '#FFFFFF', backgroundColor: '#FF1744', onPress: () => this.props.onDelete(cardItem) },
+      { text: 'Archive', color: '#FFFFFF', backgroundColor: '#FF1744', onPress: () => this.props.onDelete(cardItem) },
     ];
 
     return (
