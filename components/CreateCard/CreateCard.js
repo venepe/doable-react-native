@@ -299,6 +299,7 @@ const styles = StyleSheet.create({
   },
   topBottomContainer: {
     flex: 1,
+    marginTop: 5,
     maxHeight:  72,
     flexDirection: 'row',
     justifyContent: 'space-between',
