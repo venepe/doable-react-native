@@ -12,14 +12,18 @@ import { connect } from 'react-redux';
 import gql from 'graphql-tag';
 import { propType } from 'graphql-anywhere';
 import Query from '../Query';
-import Draggable from '../Draggable';
 import WordButton from '../WordButton';
 import BackText from '../BackText';
 import FrontText from '../FrontText';
 import { CREATE_CARD } from '../../mutations';
 import { DOCUMENT_BY_ID, CARDS_BY_DECK_NODEID } from '../../queries';
 import { getBackText, getFrontText, getUID } from '../../reducers';
-import { addFrontTextWord, clearFrontText, clearBackText } from '../../actions';
+import { addFrontTextWord, addBackTextWord, clearFrontText, clearBackText } from '../../actions';
+const EDITING = {
+  FRONT_TEXT: 'FRONT_TEXT',
+  BACK_TEXT: 'BACK_TEXT',
+};
+
 class CreateCard extends Component {
   static propTypes = {
     navigation: PropTypes.shape({
@@ -52,10 +56,12 @@ class CreateCard extends Component {
     this.onPressSubmit = this.onPressSubmit.bind(this);
     this.isDisabled = this.isDisabled.bind(this);
     this.onPressWord = this.onPressWord.bind(this);
+    this.setEditingText = this.setEditingText.bind(this);
     this.state = {
       uid: props.uid,
       backText: props.backText,
       frontText: props.frontText,
+      editingText: EDITING.FRONT_TEXT,
     }
   }
 
@@ -75,7 +81,12 @@ class CreateCard extends Component {
 
   onPressWord({ word }) {
     const { frontText, backText } = this.props;
-    this.props.addFrontTextWord( { payload: { frontTextWord: word } });
+    const { editingText } = this.state;
+    if (editingText === EDITING.FRONT_TEXT) {
+      this.props.addFrontTextWord( { payload: { frontTextWord: word } });
+    } else {
+      this.props.addBackTextWord( { payload: { backTextWord: word } });
+    }
   }
 
   goBack() {
@@ -123,11 +134,20 @@ class CreateCard extends Component {
     return true;
   }
 
+  setEditingText(editingText) {
+    this.setState({
+      editingText,
+    });
+  }
+
   render() {
-    const { navigation } = this.props;
+    const { navigation, backText, frontText } = this.props;
+    let { editingText } = this.state;
     const documentId = navigation.getParam('documentId');
-    const { backText, frontText } = this.props;
     let checkCircleColor = this.isDisabled() ? '#616161' : '#FAFAFA'
+    let isFrontLabelActive = editingText === EDITING.FRONT_TEXT;
+    let isBackLabelActive = editingText === EDITING.BACK_TEXT;
+
     return (
       <View style={styles.root}>
         <View style={styles.topBottomContainer}>
@@ -138,9 +158,12 @@ class CreateCard extends Component {
             <MaterialIcons name="check-circle" size={40} color={checkCircleColor} />
           </TouchableOpacity>
         </View>
-        <FrontText style={styles.frontContainer} />
-        <Text>Back Text</Text>
-        <BackText style={styles.backContainer} />
+        <TouchableOpacity onPress={() => this.setEditingText(EDITING.FRONT_TEXT)}>
+          <FrontText isActive={isFrontLabelActive} style={styles.frontContainer} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => this.setEditingText(EDITING.BACK_TEXT)}>
+          <BackText isActive={isBackLabelActive} style={styles.backContainer} />
+        </TouchableOpacity>
       <View style={styles.rowContainer}>
         <Query
         query={DOCUMENT_BY_ID}
@@ -154,7 +177,7 @@ class CreateCard extends Component {
             {
               words.map((word, idx) => {
                 return (
-                  <WordButton word={word} index={idx} onPress={this.onPressWord} />
+                  <WordButton key={idx} word={word} index={idx} onPress={this.onPressWord} />
                 )
               })
             }
@@ -265,5 +288,5 @@ const mapStateToProps = state => ({
 
 export default withApollo(connect(
   mapStateToProps,
-  { addFrontTextWord, clearBackText, clearFrontText },
+  { addFrontTextWord, addBackTextWord, clearBackText, clearFrontText },
 )(CreateCard));

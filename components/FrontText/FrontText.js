@@ -7,25 +7,23 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { MaterialIcons } from '@expo/vector-icons/index';
 import { getFrontText } from '../../reducers';
 const PLACEHOLDER = 'Front Text Here';
 
 class FrontText extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.frontText.length > 0) {
-          return {
-            frontText: nextProps.frontText,
-          }
+        return {
+          frontText: nextProps.frontText,
+          isActive: nextProps.isActive,
         }
       }
 
   constructor(props) {
     super(props);
-    this.onEdit = this.onEdit.bind(this);
 
     this.state = {
       frontText: '',
+      isActive: props.isActive,
     };
   }
 
@@ -36,21 +34,23 @@ class FrontText extends Component {
         frontText: props.frontText,
       });
     }
-  }
-
-  onEdit() {
-
+    if (props.isActive !== prevProps.isActive) {
+      this.setState({
+        isActive: props.isActive,
+      });
+    }
   }
 
   render() {
-    let { frontText } = this.state;
+    let { frontText, isActive } = this.state;
     if (frontText.length < 1) {
       frontText = PLACEHOLDER;
     }
-
+    let opacity = isActive ? 1.0 : .5;
+    let fontSize = isActive ? 28 : 20;
     return (
-      <View style={styles.root}>
-        <Text style={styles.title}>{frontText}</Text>
+      <View style={[styles.root, {opacity}]}>
+        <Text style={[styles.text, {fontSize}]}>{frontText}</Text>
       </View>
     );
   }
@@ -58,23 +58,9 @@ class FrontText extends Component {
 
 const styles = StyleSheet.create({
   root: {
-    backgroundColor: 'white',
-  },
-  editButtonContainer: {
-    backgroundColor: 'transparent',
-    padding: 10,
-    marginTop: 15,
-    width: 58,
-  },
-  title: {
-    color: '#00B0FF',
-    fontSize: 28,
-    fontWeight: '400',
-    padding: 5,
-    // fontFamily: 'Roboto-Thin',
   },
   text: {
-    color: '#FF8A80',
+    color: '#00B0FF',
     fontSize: 28,
     fontWeight: '400',
     padding: 5,

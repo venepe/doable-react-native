@@ -7,13 +7,13 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { getBackText } from '../../reducers';
+const PLACEHOLDER = 'Back Text Here';
 
 class BackText extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.backText.length > 0) {
-          return {
-            backText: nextProps.backText,
-          }
+        return {
+          backText: nextProps.backText,
+          isActive: nextProps.isActive,
         }
       }
 
@@ -22,6 +22,7 @@ class BackText extends Component {
 
     this.state = {
       backText: '',
+      isActive: props.isActive,
     };
   }
 
@@ -32,13 +33,25 @@ class BackText extends Component {
         backText: props.backText,
       });
     }
+    if (props.isActive !== prevProps.isActive) {
+      this.setState({
+        isActive: props.isActive,
+      });
+    }
   }
 
   render() {
 
+    let { backText, isActive } = this.state;
+    if (backText.length < 1) {
+      backText = PLACEHOLDER;
+    }
+
+    let opacity = isActive ? 1.0 : .5;
+    let fontSize = isActive ? 28 : 20;
     return (
-      <View style={styles.root}>
-        <Text style={styles.text}>{this.state.backText}</Text>
+      <View style={[styles.root, {opacity}]}>
+        <Text style={[styles.text, {fontSize}]}>{backText}</Text>
       </View>
     );
   }
@@ -48,8 +61,8 @@ const styles = StyleSheet.create({
   root: {
   },
   text: {
-    color: '#00B0FF',
-    fontSize: 14,
+    color: '#FF8A80',
+    fontSize: 28,
     fontWeight: '400',
     padding: 5,
     // fontFamily: 'Roboto-Thin',
