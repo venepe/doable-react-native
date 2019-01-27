@@ -69,16 +69,32 @@ export const uploadDocument = payload =>
                     });
                     dispatch(didFinishUploading({ payload: { document: result.document } }));
                   } else {
+                    let errorMessage = 'Verify that you are connected to the internet.'
+                    if (oReq.status === 400) {
+                      let result = JSON.parse(oReq.responseText);
+                      errorMessage = result.message;
+                    }
                     dispatch(didFinishUploading({ payload: { document: '' } }));
                     Alert.alert(
-                      'Unable to Upload',
-                      'Verify that you are connected to the internet.',
+                      'Document Failed',
+                      errorMessage,
                       [
                         {text: 'Okay'},
                       ],
                       { cancelable: false }
                     );
                   }
+                } else {
+                  dispatch(didFinishUploading({ payload: { document: '' } }));
+                  let errorMessage = 'Verify that you are connected to the internet.'
+                  Alert.alert(
+                    'Document Failed',
+                    errorMessage,
+                    [
+                      {text: 'Okay'},
+                    ],
+                    { cancelable: false }
+                  );
                 }
               }
             }
