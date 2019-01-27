@@ -114,6 +114,16 @@ export const addBackTextWord = payload => ({
   ...payload,
 });
 
+export const removeFrontTextWordAtIndex = payload => ({
+  type: CardBuilderTypes.REMOVE_FRONT_TEXT_WORD_AT_INDEX,
+  ...payload,
+});
+
+export const removeBackTextWordAtIndex = payload => ({
+  type: CardBuilderTypes.REMOVE_BACK_TEXT_WORD_AT_INDEX,
+  ...payload,
+});
+
 export const clearFrontText = () => ({
   type: CardBuilderTypes.CLEAR_FRONT_TEXT_WORD,
 });

@@ -12,6 +12,7 @@ class WordButton extends Component {
         return {
           word: nextProps.word,
           index: nextProps.index,
+          isActive: nextProps.isActive,
         }
       }
 
@@ -19,9 +20,10 @@ class WordButton extends Component {
     super(props);
     this.onPress = this.onPress.bind(this);
     this.state = {
-      isActive: false,
+      isActive: props.isActive,
       word: props.word,
       index: props.index,
+      backgroundColor: props.backgroundColor,
     }
   }
 
@@ -40,15 +42,16 @@ class WordButton extends Component {
   }
 
   onPress() {
-    const { isActive, word } = this.state;
+    let { isActive, word, index } = this.state;
+    isActive = !isActive;
     this.setState({
-      isActive: !isActive,
+      isActive,
     });
-    this.props.onPress({ word });
+    this.props.onPress({ word, index, isActive });
   }
 
   render() {
-    let backgroundColor = this.state.isActive ? '#00B0FF' : '#FFFF00';
+    let backgroundColor = this.state.isActive ? this.props.backgroundColor : '#FFFF00';
     return (
       <TouchableOpacity style={{backgroundColor, margin: 5}} onPress={() => this.onPress()}>
         <Text style={styles.text}>{this.state.word}</Text>

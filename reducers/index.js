@@ -89,6 +89,30 @@ const reducer = (state = initialState, action) => {
         backText,
       };
     }
+    case CardBuilderTypes.REMOVE_FRONT_TEXT_WORD_AT_INDEX:
+    {
+      const { index } = action.payload;
+      let { frontText } = state;
+      let words = frontText.trim().split(' ');
+      words.splice(index, 1);
+      frontText = words.join(' ');
+      return {
+        ...state,
+        frontText,
+      };
+    }
+    case CardBuilderTypes.REMOVE_BACK_TEXT_WORD_AT_INDEX:
+    {
+      const { index } = action.payload;
+      let { backText } = state;
+      let words = backText.trim().split(' ');
+      words.splice(index, 1);
+      backText = words.join(' ');
+      return {
+        ...state,
+        backText,
+      };
+    }
     case CardBuilderTypes.CLEAR_FRONT_TEXT_WORD:
     {
       return {

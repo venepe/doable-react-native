@@ -18,10 +18,32 @@ import FrontText from '../FrontText';
 import { CREATE_CARD } from '../../mutations';
 import { DOCUMENT_BY_ID, CARDS_BY_DECK_NODEID } from '../../queries';
 import { getBackText, getFrontText, getUID } from '../../reducers';
-import { addFrontTextWord, addBackTextWord, clearFrontText, clearBackText } from '../../actions';
+import {
+  addFrontTextWord,
+  addBackTextWord,
+  clearFrontText,
+  clearBackText,
+  removeFrontTextWordAtIndex,
+  removeBackTextWordAtIndex,
+  } from '../../actions';
 const EDITING = {
   FRONT_TEXT: 'FRONT_TEXT',
   BACK_TEXT: 'BACK_TEXT',
+};
+
+let STATUSES = {
+  FRONT_TEXT: {},
+  BACK_TEXT: {},
+};
+
+const WORDS_TO_INDEX = {
+  FRONT_TEXT: [],
+  BACK_TEXT: [],
+};
+
+let BACKGROUND_COLOR = {
+  FRONT_TEXT: '#00B0FF',
+  BACK_TEXT: '#FF8A80',
 };
 
 class CreateCard extends Component {
@@ -79,13 +101,30 @@ class CreateCard extends Component {
     }
   }
 
-  onPressWord({ word }) {
+  onPressWord({ index, word, isActive }) {
     const { frontText, backText } = this.props;
     const { editingText } = this.state;
+    STATUSES[editingText][index] = isActive;
+    const indexToRemove = WORDS_TO_INDEX[editingText].findIndex((elm) => {
+      return elm === index;
+    });
+    console.log(indexToRemove);
     if (editingText === EDITING.FRONT_TEXT) {
-      this.props.addFrontTextWord( { payload: { frontTextWord: word } });
+      if (isActive) {
+        WORDS_TO_INDEX[editingText].push(index);
+        this.props.addFrontTextWord( { payload: { frontTextWord: word } });
+      } else {
+        WORDS_TO_INDEX[editingText].splice(indexToRemove, 1);
+        this.props.removeFrontTextWordAtIndex( { payload: { index: indexToRemove } });
+      }
     } else {
-      this.props.addBackTextWord( { payload: { backTextWord: word } });
+      if (isActive) {
+        WORDS_TO_INDEX[editingText].push(index);
+        this.props.addBackTextWord( { payload: { backTextWord: word } });
+      } else {
+        WORDS_TO_INDEX[editingText].splice(indexToRemove, 1);
+        this.props.removeBackTextWordAtIndex( { payload: { index: indexToRemove } });
+      }
     }
   }
 
@@ -177,7 +216,12 @@ class CreateCard extends Component {
             {
               words.map((word, idx) => {
                 return (
-                  <WordButton key={idx} word={word} index={idx} onPress={this.onPressWord} />
+                  <WordButton key={idx}
+                    isActive={STATUSES[editingText][idx] === true}
+                    backgroundColor={BACKGROUND_COLOR[editingText]}
+                    word={word} index={idx}
+                    onPress={this.onPressWord}
+                    />
                 )
               })
             }
@@ -288,5 +332,12 @@ const mapStateToProps = state => ({
 
 export default withApollo(connect(
   mapStateToProps,
-  { addFrontTextWord, addBackTextWord, clearBackText, clearFrontText },
+  {
+    addFrontTextWord,
+    addBackTextWord,
+    clearBackText,
+    clearFrontText,
+    removeFrontTextWordAtIndex,
+    removeBackTextWordAtIndex,
+  },
 )(CreateCard));
