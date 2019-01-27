@@ -11,25 +11,6 @@ import { API_URL } from '../config';
 import client from '../apolloClient';
 import { DOCUMENT_BY_CARD_NODEID } from '../queries';
 
-function updateProgress (oEvent) {
-  if (oEvent.lengthComputable) {
-    let percentComplete = oEvent.loaded / oEvent.total * 100;
-    console.log(percentComplete);
-  }
-}
-
-function transferComplete(evt) {
-  console.log('The transfer is complete.');
-}
-
-function transferFailed(evt) {
-  console.log('An error occurred while transferring the file.');
-}
-
-function transferCanceled(evt) {
-  console.log('The transfer has been canceled by the user.');
-}
-
 export const uploadDocument = payload =>
   (dispatch, getState) => {
     let { payload: { deckId } } = payload;
@@ -59,10 +40,12 @@ export const uploadDocument = payload =>
 
               const oReq = new XMLHttpRequest();
 
-              oReq.upload.addEventListener('progress', updateProgress);
-              oReq.upload.addEventListener('load', transferComplete);
-              oReq.upload.addEventListener('error', transferFailed);
-              oReq.upload.addEventListener('abort', transferCanceled);
+              oReq.upload.addEventListener('progress', (oEvent) => {
+                if (oEvent.lengthComputable) {
+                  let uploadProgress = oEvent.loaded / oEvent.total;
+                  dispatch(onUploadProgress({ payload: { uploadProgress } }));
+                }
+              });
 
               oReq.open('POST', `${API_URL}/document`, true);
               oReq.setRequestHeader('Content-Type', 'application/json');
@@ -126,12 +109,17 @@ export const removeActiveCardById = payload => ({
 
 export const didBeginUploading = () => ({
   type: NetworkTypes.BEGIN_UPLOAD,
-  payload: { isLoading: true },
+  payload: { isLoading: true, progress: 0 },
 });
 
 export const didFinishUploading = (payload = {}) => ({
   type: NetworkTypes.FINISH_UPLOAD,
   payload: { ...payload.payload, isLoading: false },
+});
+
+export const onUploadProgress = payload => ({
+  type: NetworkTypes.ON_UPLOAD_PROGRESS,
+  payload: { ...payload.payload, isLoading: true },
 });
 
 export const addFrontTextWord = payload => ({
@@ -166,6 +154,7 @@ const actions = {
   setUID,
   didBeginUploading,
   didFinishUploading,
+  onUploadProgress,
   addFrontTextWord,
   addBackTextWord,
   clearFrontText,

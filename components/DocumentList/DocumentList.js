@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  ActivityIndicator,
   FlatList,
   StyleSheet,
   Text,
@@ -14,6 +13,7 @@ import { uploadDocument } from '../../actions';
 import DocumentItem from '../DocumentItem';
 import NavAddButton from '../NavAddButton';
 import Placeholder from '../Placeholder';
+import DocumentUploadIndicator from '../DocumentUploadIndicator';
 import Query from '../Query';
 import { getIsLoading } from '../../reducers';
 import { DOCUMENT_BY_CARD_NODEID } from '../../queries';
@@ -79,7 +79,7 @@ class DocumentList extends Component {
   renderActivityIndicator() {
     if (this.state.isLoading) {
       return (
-        <ActivityIndicator size="large" color="#FAFAFA" />
+        <DocumentUploadIndicator />
       );
     }
   }

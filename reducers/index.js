@@ -2,7 +2,7 @@ import CardTypes from '../constants/CardTypes';
 import CardBuilderTypes from '../constants/CardBuilderTypes';
 import NetworkTypes from '../constants/NetworkTypes';
 import UserTypes from '../constants/UserTypes';
-console.log('reducer');
+
 const initialState = {
   activeCard: {},
   activeCards: [],
@@ -10,6 +10,7 @@ const initialState = {
   isLoading: false,
   frontText: '',
   backText: '',
+  uploadProgress: 0,
 };
 
 const reducer = (state = initialState, action) => {
@@ -67,6 +68,15 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading,
+      };
+    }
+    case NetworkTypes.ON_UPLOAD_PROGRESS:
+    {
+      const { isLoading, uploadProgress } = action.payload;
+      return {
+        ...state,
+        isLoading,
+        uploadProgress,
       };
     }
     case CardBuilderTypes.ADD_FRONT_TEXT_WORD:
@@ -133,6 +143,7 @@ const reducer = (state = initialState, action) => {
 };
 
 export const getIsLoading = state => state.isLoading;
+export const getUploadProgress = state => state.uploadProgress;
 export const getUID = state => state.uid;
 export const getFrontText = state => state.frontText;
 export const getBackText = state => state.backText;
