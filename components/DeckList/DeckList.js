@@ -20,7 +20,7 @@ import { ARCHIVE_DECK } from '../../mutations';
 import { DECKS_BY_USER_UID } from '../../queries';
 import { getUID } from '../../reducers';
 import { getHeaderButtonColor } from '../../utilities';
-const FIRST = 25;
+import GraphQLValues from '../../constants/GraphQLValues';
 
 class DeckList extends Component {
   static propTypes = {
@@ -82,6 +82,8 @@ class DeckList extends Component {
       update: ((cache, { data: { deckPatch } }) => {
         const { userByUid } = cache.readQuery({ query: DECKS_BY_USER_UID, variables: {
           uid,
+          first: GraphQLValues.FIRST,
+          after: null,
         } });
         const idx = userByUid.decksByUserUid.edges.findIndex(({ node }) => {
           return node.id === deckId;
@@ -92,6 +94,8 @@ class DeckList extends Component {
           data: { userByUid },
           variables: {
             uid,
+            first: GraphQLValues.FIRST,
+            after: null,
           },
         });
       }),
@@ -111,7 +115,7 @@ class DeckList extends Component {
       <View style={styles.root}>
         <Query
         query={DECKS_BY_USER_UID}
-        variables={{ uid, first: FIRST, after: null }}
+        variables={{ uid, first: GraphQLValues.FIRST, after: null }}
         notifyOnNetworkStatusChange={true}
       >
         {({ data: { userByUid: { decksByUserUid } }, fetchMore, networkStatus}) => {
@@ -136,7 +140,7 @@ class DeckList extends Component {
                       return (
                         <TouchableOpacity style={styles.moreContainer} onPress={() => {
                         fetchMore({
-                            variables: { first: FIRST, after: decksByUserUid.pageInfo.endCursor},
+                            variables: { first: GraphQLValues.FIRST, after: decksByUserUid.pageInfo.endCursor},
                             updateQuery: (previousResult, { fetchMoreResult }) => {
                               return {
                                 userByUid: {

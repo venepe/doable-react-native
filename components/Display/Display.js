@@ -163,15 +163,7 @@ class Display extends Component {
             </TouchableOpacity>
           </View>
           <View style={styles.controlBottomGroup}>
-            <View></View>
-            <TouchableOpacity style={styles.bottomButton} onPress={this.onPressSubmit}>
-              <MaterialIcons name="shuffle" size={40} color={'#FF5252'} />
-            </TouchableOpacity>
-            <View></View>
-            <TouchableOpacity style={styles.bottomButton} onPress={this.onPressSubmit}>
-              <MaterialIcons name="repeat" size={40} color={'#FF5252'} />
-            </TouchableOpacity>
-            <View></View>
+
           </View>
         </View>
       </TouchableOpacity>

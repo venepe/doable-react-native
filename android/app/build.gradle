@@ -22,8 +22,8 @@ android {
   defaultConfig {
     applicationId 'com.venepe.doable'
     targetSdkVersion 26
-    versionCode 1
-    versionName '1.0.0'
+    versionCode 3
+    versionName '1.0.1'
     ndk {
       abiFilters 'armeabi-v7a', 'x86'
     }
@@ -174,13 +174,13 @@ dependencies {
   testImplementation 'com.android.support.test:runner:1.0.2-alpha1'
   testImplementation 'com.android.support.test:rules:1.0.2-alpha1'
 
-  
+
   implementation('host.exp.exponent:expoview:31.0.0@aar') {
     transitive = true
     exclude group: 'com.squareup.okhttp3', module: 'okhttp'
     exclude group: 'com.squareup.okhttp3', module: 'okhttp-urlconnection'
   }
-  
+
 
 }
 
