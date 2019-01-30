@@ -90,15 +90,15 @@ const slides = [
   {
     key: 'capture',
     title: 'Capture Your Card',
-    text: 'Take a picture of what you are learning.',
+    text: '',
     image: require('../../assets/camera.png'),
     imageStyle: styles.image200,
     backgroundColor: '#651FFF',
   },
   {
     key: 'ai',
-    title: 'We Identify Text',
-    text: 'Wait while we we convert your image to text',
+    title: 'We Identify The Text',
+    text: '',
     image: require('../../assets/wand.png'),
     imageStyle: styles.image200,
     backgroundColor: '#2979FF',
@@ -106,7 +106,7 @@ const slides = [
   {
     key: 'select',
     title: 'Make Your Card',
-    text: 'Tap the text to the front or back',
+    text: '',
     image: require('../../assets/list.png'),
     imageStyle: styles.image200,
     backgroundColor: '#00BFA5',
