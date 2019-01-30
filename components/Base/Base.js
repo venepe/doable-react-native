@@ -17,9 +17,6 @@ class Base extends Component {
         const uid = decodedToken.sub;
         this.props.setUID({ payload: { uid  } })
       })
-      .catch(() => {
-        logonUser();
-      });
   }
 
   render() {

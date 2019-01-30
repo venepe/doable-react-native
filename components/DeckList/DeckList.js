@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons/index';
+import { NavigationActions, StackActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import { withApollo } from 'react-apollo';
 import DeckItem from '../DeckItem';
@@ -16,6 +17,7 @@ import Query, { IS_FETCHING_MORE } from '../Query';
 import NavSearchBar from '../NavSearchBar';
 import NavCreateDeck from '../NavCreateDeck';
 import LogonButton from '../LogonButton';
+import NavSettingsButton from '../NavSettingsButton';
 import { ARCHIVE_DECK } from '../../mutations';
 import { DECKS_BY_USER_UID } from '../../queries';
 import { getUID } from '../../reducers';
@@ -41,6 +43,7 @@ class DeckList extends Component {
     this.renderItem = this.renderItem.bind(this);
     this.onPressRow = this.onPressRow.bind(this);
     this.onDelete = this.onDelete.bind(this);
+    this.navigateToWelcome = this.navigateToWelcome.bind(this);
 
     this.state = {
       uid: props.uid,
@@ -102,14 +105,19 @@ class DeckList extends Component {
     })
   }
 
+  navigateToWelcome() {
+    const resetAction = StackActions.reset({
+    index: 0,
+    actions: [
+      NavigationActions.navigate({ routeName: 'Welcome'})
+    ] })
+    this.props.navigation.dispatch(resetAction);
+  }
+
   render() {
     let uid = this.state.uid
     if (!uid || uid.length < 1) {
-      return (
-        <View style={styles.root}>
-          <LogonButton />
-        </View>
-      )
+      this.navigateToWelcome();
     }
     return (
       <View style={styles.root}>
@@ -194,6 +202,9 @@ DeckList.navigationOptions = (props) => {
     headerBackTitleStyle: {
       color: '#FFFFFF',
     },
+    headerLeft: (
+      <NavSettingsButton onPress={navigation.toggleDrawer} />
+    ),
     headerRight: (
      <NavCreateDeck navigation={navigation} />
    ),

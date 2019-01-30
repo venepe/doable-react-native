@@ -10,15 +10,26 @@ import {
 
 class LogonButton extends Component {
 
+  constructor(props) {
+    super(props);
+    this.onPress = this.onPress.bind(this);
+  }
+
   onPress() {
-    logonUser();
+    logonUser()
+      .then(() => {
+        this.props.didLogin();
+      });
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <TouchableOpacity style={styles.buttonContainer} onPress={() => this.onPress()}>
+        <TouchableOpacity style={styles.loginButtonContainer} onPress={() => this.onPress()}>
           <Text style={styles.text}>Log In</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.signupButtonContainer} onPress={() => this.onPress()}>
+          <Text style={styles.text}>Sign Up</Text>
         </TouchableOpacity>
       </View>
     );
@@ -31,14 +42,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
   },
-  buttonContainer: {
+  loginButtonContainer: {
     flex: 1,
     height: 50,
     justifyContent: 'center',
     backgroundColor: '#FF8A80',
   },
+  signupButtonContainer: {
+    flex: 1,
+    height: 50,
+    justifyContent: 'center',
+    backgroundColor: '#00B0FF',
+  },
   text: {
-    color: '#00B0FF',
+    color: '#FAFAFA',
     fontSize: 18,
     fontWeight: '400',
     // fontFamily: 'Roboto-Thin',
