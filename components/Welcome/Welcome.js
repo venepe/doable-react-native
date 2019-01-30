@@ -6,13 +6,34 @@ import {
 } from 'react-native';
 import { NavigationActions, StackActions } from 'react-navigation';
 import AppIntroSlider from 'react-native-app-intro-slider';
+import { connect } from 'react-redux';
+import { getUID } from '../../reducers';
 import LogonButton from '../LogonButton';
 
 class Welcome extends Component {
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+        return {
+          uid: nextProps.uid,
+        }
+      }
+
   constructor(props) {
     super(props);
     this.navigateToDeckList = this.navigateToDeckList.bind(this);
+
+    this.state = {
+      uid: props.uid,
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const props = this.props;
+    if (props.uid !== prevProps.uid) {
+      this.setState({
+        uid: props.uid,
+      });
+    }
   }
 
   navigateToDeckList() {
@@ -25,11 +46,16 @@ class Welcome extends Component {
   }
 
   render() {
+    const { uid } = this.state;
+    if (uid && uid.length > 0) {
+      this.navigateToDeckList();
+    }
+
     return (
       <View style={styles.root}>
         <AppIntroSlider slides={slides} />
         <View style={{height: 50}}>
-        <LogonButton didLogin={this.navigateToDeckList} />
+          <LogonButton didLogin={this.navigateToDeckList} />
         </View>
       </View>
     )
@@ -67,7 +93,7 @@ const slides = [
     text: 'Take a picture of what you are learning.',
     image: require('../../assets/camera.png'),
     imageStyle: styles.image200,
-    backgroundColor: '#7E57C2',
+    backgroundColor: '#651FFF',
   },
   {
     key: 'ai',
@@ -75,7 +101,7 @@ const slides = [
     text: 'Wait while we we convert your image to text',
     image: require('../../assets/wand.png'),
     imageStyle: styles.image200,
-    backgroundColor: '#FFB300',
+    backgroundColor: '#2979FF',
   },
   {
     key: 'select',
@@ -83,7 +109,7 @@ const slides = [
     text: 'Tap the text to the front or back',
     image: require('../../assets/list.png'),
     imageStyle: styles.image200,
-    backgroundColor: '#26A69A',
+    backgroundColor: '#00BFA5',
   }
 ];
 
@@ -91,4 +117,10 @@ Welcome.defaultProps = {};
 
 Welcome.propTypes = {}
 
-export default Welcome;
+const mapStateToProps = state => ({
+  uid: getUID(state),
+});
+
+export default connect(
+  mapStateToProps,
+)(Welcome);

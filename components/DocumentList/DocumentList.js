@@ -170,10 +170,6 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
   },
-  image320: {
-    width: 320,
-    height: 320,
-  },
 });
 
 const slides = [
@@ -183,7 +179,7 @@ const slides = [
     text: 'Take a picture of what you are learning.',
     image: require('../../assets/camera.png'),
     imageStyle: styles.image200,
-    backgroundColor: '#7E57C2',
+    backgroundColor: '#651FFF',
   },
   {
     key: 'ai',
@@ -191,7 +187,7 @@ const slides = [
     text: 'Wait while we we convert your image to text',
     image: require('../../assets/wand.png'),
     imageStyle: styles.image200,
-    backgroundColor: '#FFB300',
+    backgroundColor: '#2979FF',
   },
   {
     key: 'select',
@@ -199,7 +195,7 @@ const slides = [
     text: 'Tap the text to the front or back',
     image: require('../../assets/list.png'),
     imageStyle: styles.image200,
-    backgroundColor: '#26A69A',
+    backgroundColor: '#00BFA5',
   }
 ];
 

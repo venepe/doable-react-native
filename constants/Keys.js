@@ -1,3 +1,3 @@
 export default {
-  TOKEN_KEY: 'TOKEN_KE',
+  TOKEN_KEY: 'TOKEN_KEY',
 };
