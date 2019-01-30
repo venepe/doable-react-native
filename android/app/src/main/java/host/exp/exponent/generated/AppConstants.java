@@ -11,10 +11,9 @@ import host.exp.exponent.Constants;
 @DoNotStrip
 public class AppConstants {
 
-  public static final String VERSION_NAME = "2.9.2";
+  public static final String VERSION_NAME = "2.10.5";
   public static String INITIAL_URL = "exp://exp.host/@venepe/Doable";
-  public static final boolean IS_DETACHED = true;
-  public static final String SHELL_APP_SCHEME = "exp38f6079f65e6490fa4949926b2c5cdf7";
+  public static final String SHELL_APP_SCHEME = "exp97d26f1d67d446ad9dba070ea5607fad";
   public static final String RELEASE_CHANNEL = "default";
   public static boolean SHOW_LOADING_VIEW_IN_SHELL_APP = false;
   public static boolean ARE_REMOTE_UPDATES_ENABLED = true;
@@ -24,16 +23,9 @@ public class AppConstants {
   static {
     List<Constants.EmbeddedResponse> embeddedResponses = new ArrayList<>();
 
-    
-        
-        
-        
-        
-        // ADD EMBEDDED RESPONSES HERE
-        // START EMBEDDED RESPONSES
-        embeddedResponses.add(new Constants.EmbeddedResponse("https://exp.host/@venepe/Doable", "assets://shell-app-manifest.json", "application/json"));
-        embeddedResponses.add(new Constants.EmbeddedResponse("https://d1wp6m56sqw74a.cloudfront.net/%40venepe%2FDoable%2F1.0.0%2Ff5a48fe8ef94f7b4ded30a9c658176d6-31.0.0-android.js", "assets://shell-app.bundle", "application/javascript"));
-        // END EMBEDDED RESPONSES
+    // ADD EMBEDDED RESPONSES HERE
+    // START EMBEDDED RESPONSES
+    // END EMBEDDED RESPONSES
     EMBEDDED_RESPONSES = embeddedResponses;
   }
 
@@ -42,7 +34,6 @@ public class AppConstants {
     Constants.ExpoViewAppConstants constants = new Constants.ExpoViewAppConstants();
     constants.VERSION_NAME = VERSION_NAME;
     constants.INITIAL_URL = INITIAL_URL;
-    constants.IS_DETACHED = IS_DETACHED;
     constants.SHELL_APP_SCHEME = SHELL_APP_SCHEME;
     constants.RELEASE_CHANNEL = RELEASE_CHANNEL;
     constants.SHOW_LOADING_VIEW_IN_SHELL_APP = SHOW_LOADING_VIEW_IN_SHELL_APP;

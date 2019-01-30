@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		18067E2021D9C9BC007DC2AD /* launch_background_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 18067E1F21D9C9BC007DC2AD /* launch_background_image.png */; };
 		B501732B1DC01252003445D9 /* EXShell.plist in Resources */ = {isa = PBXBuildFile; fileRef = B501732A1DC01252003445D9 /* EXShell.plist */; };
 		B56386491DB9693800A0598C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B56386481DB9693800A0598C /* AppDelegate.m */; };
 		B56386511DB9693800A0598C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B56386501DB9693800A0598C /* Assets.xcassets */; };
 		B56386611DB96A5E00A0598C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B563865E1DB96A5E00A0598C /* main.m */; };
 		B56386671DB9994300A0598C /* EXSDKVersions.plist in Resources */ = {isa = PBXBuildFile; fileRef = B56386661DB9994300A0598C /* EXSDKVersions.plist */; };
 		B5693E8E1FABD16A00307FA4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5693E8D1FABD16A00307FA4 /* LaunchScreen.xib */; };
+		B5693E911FABD46800307FA4 /* launch_background_image.png in Resources */ = {isa = PBXBuildFile; fileRef = B5693E8F1FABD46800307FA4 /* launch_background_image.png */; };
 		B5693E921FABD46800307FA4 /* launch_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B5693E901FABD46800307FA4 /* launch_icon.png */; };
 		B5CFBF4F1EDE419400B4BE24 /* EXBuildConstants.plist in Resources */ = {isa = PBXBuildFile; fileRef = B5CFBF4E1EDE419400B4BE24 /* EXBuildConstants.plist */; };
 		B5DB04801F3A684600E91581 /* shell-app-manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = B5DB047E1F3A684600E91581 /* shell-app-manifest.json */; };
@@ -22,7 +22,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		18067E1F21D9C9BC007DC2AD /* launch_background_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch_background_image.png; sourceTree = "<group>"; };
 		2C1548D9E4CB1AEFA5CCAE6D /* Pods-doable.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-doable.debug.xcconfig"; path = "Pods/Target Support Files/Pods-doable/Pods-doable.debug.xcconfig"; sourceTree = "<group>"; };
 		A47FE4D7F70906B7DC8CE39B /* Pods-doable.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-doable.release.xcconfig"; path = "Pods/Target Support Files/Pods-doable/Pods-doable.release.xcconfig"; sourceTree = "<group>"; };
 		B501732A1DC01252003445D9 /* EXShell.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EXShell.plist; sourceTree = "<group>"; };
@@ -34,6 +33,7 @@
 		B563865E1DB96A5E00A0598C /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B56386661DB9994300A0598C /* EXSDKVersions.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EXSDKVersions.plist; sourceTree = "<group>"; };
 		B5693E8D1FABD16A00307FA4 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
+		B5693E8F1FABD46800307FA4 /* launch_background_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch_background_image.png; sourceTree = "<group>"; };
 		B5693E901FABD46800307FA4 /* launch_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch_icon.png; sourceTree = "<group>"; };
 		B5CFBF4E1EDE419400B4BE24 /* EXBuildConstants.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EXBuildConstants.plist; sourceTree = "<group>"; };
 		B5DB047E1F3A684600E91581 /* shell-app-manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "shell-app-manifest.json"; sourceTree = "<group>"; };
@@ -53,26 +53,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		181BE5DB21D48B72001B5548 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Recovered References";
-			sourceTree = "<group>";
-		};
 		1A42804E64B7E9E0AB8B6799 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				C4A88D15726AD99E8A257BC7 /* libPods-doable.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		4C2122C5138B4BE29227756D /* Libraries */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Libraries;
 			sourceTree = "<group>";
 		};
 		5B29BC350A332C58878A9F13 /* Pods */ = {
@@ -91,8 +77,6 @@
 				B56386421DB9693800A0598C /* Products */,
 				5B29BC350A332C58878A9F13 /* Pods */,
 				1A42804E64B7E9E0AB8B6799 /* Frameworks */,
-				4C2122C5138B4BE29227756D /* Libraries */,
-				181BE5DB21D48B72001B5548 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -118,7 +102,7 @@
 		B563865B1DB96A5E00A0598C /* Supporting */ = {
 			isa = PBXGroup;
 			children = (
-				18067E1F21D9C9BC007DC2AD /* launch_background_image.png */,
+				B5693E8F1FABD46800307FA4 /* launch_background_image.png */,
 				B5693E901FABD46800307FA4 /* launch_icon.png */,
 				B5693E8D1FABD16A00307FA4 /* LaunchScreen.xib */,
 				B5DB047E1F3A684600E91581 /* shell-app-manifest.json */,
@@ -162,7 +146,7 @@
 		B56386391DB9693800A0598C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 900;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "650 Industries, Inc.";
 				TargetAttributes = {
 					B56386401DB9693800A0598C = {
@@ -195,12 +179,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5693E911FABD46800307FA4 /* launch_background_image.png in Resources */,
 				B501732B1DC01252003445D9 /* EXShell.plist in Resources */,
 				B5CFBF4F1EDE419400B4BE24 /* EXBuildConstants.plist in Resources */,
 				B56386671DB9994300A0598C /* EXSDKVersions.plist in Resources */,
 				B5693E921FABD46800307FA4 /* launch_icon.png in Resources */,
 				B5693E8E1FABD16A00307FA4 /* LaunchScreen.xib in Resources */,
-				18067E2021D9C9BC007DC2AD /* launch_background_image.png in Resources */,
 				B5DB04801F3A684600E91581 /* shell-app-manifest.json in Resources */,
 				B5DB04811F3A684600E91581 /* shell-app.bundle in Resources */,
 				B56386511DB9693800A0598C /* Assets.xcassets in Resources */,
@@ -222,7 +206,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -eo pipefail\n\nif [ \"$CONFIGURATION\" == \"Debug\" ]; then\n  echo \"Skipping asset bundling in debug mode.\"\n  exit 0\nfi\n\npushd \"${SRCROOT}/..\"\nvalue=\"$(cat ~/.expo/PATH)\"\ndest=\"$CONFIGURATION_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH\"\nPATH=\"$PATH:$value\" expo bundle-assets --platform ios --dest \"$dest\"\npopd\n";
+			shellScript = "set -eo pipefail\n\nif [ \"$CONFIGURATION\" == \"Debug\" ]; then\n  echo \"Skipping asset bundling in debug mode.\"\n  exit 0\nfi\n\npushd \"${SRCROOT}/..\"\nexport PATH=\"$(if [ -f ~/.expo/PATH ]; then echo $PATH:$(cat ~/.expo/PATH); else echo $PATH; fi)\"\ndest=\"$CONFIGURATION_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH\"\nexpo bundle-assets --platform ios --dest \"$dest\"\npopd\n";
 		};
 		23539343DCC44EF8449429EE /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -256,7 +240,6 @@
 				"${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle",
 				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/Stripe/Stripe.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -267,7 +250,6 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FacebookSDKStrings.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Stripe.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -286,7 +268,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "set -eo pipefail\n\npushd \"${SRCROOT}/..\"\nvalue=\"$(cat ~/.expo/PATH)\"\nPATH=\"$PATH:$value\" expo prepare-detached-build --platform ios\npopd\n";
+			shellScript = "set -eo pipefail\n\npushd \"${SRCROOT}/..\"\nexport PATH=\"$(if [ -f ~/.expo/PATH ]; then echo $PATH:$(cat ~/.expo/PATH); else echo $PATH; fi)\"\nexpo prepare-detached-build --platform ios\npopd\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -350,7 +332,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -398,7 +380,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -411,71 +393,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 4VDW5N6453;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/A0Auth0\"",
-					"\"${PODS_ROOT}/Headers/Public/Amplitude-iOS\"",
-					"\"${PODS_ROOT}/Headers/Public/Analytics\"",
-					"\"${PODS_ROOT}/Headers/Public/AppAuth\"",
-					"\"${PODS_ROOT}/Headers/Public/Bolts\"",
-					"\"${PODS_ROOT}/Headers/Public/Branch\"",
-					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
-					"\"${PODS_ROOT}/Headers/Public/Crashlytics\"",
-					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
-					"\"${PODS_ROOT}/Headers/Public/EXAdsAdMob\"",
-					"\"${PODS_ROOT}/Headers/Public/EXBarCodeScanner\"",
-					"\"${PODS_ROOT}/Headers/Public/EXBarCodeScannerInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXCamera\"",
-					"\"${PODS_ROOT}/Headers/Public/EXCameraInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXConstants\"",
-					"\"${PODS_ROOT}/Headers/Public/EXConstantsInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXContacts\"",
-					"\"${PODS_ROOT}/Headers/Public/EXCore\"",
-					"\"${PODS_ROOT}/Headers/Public/EXFaceDetectorInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXFileSystem\"",
-					"\"${PODS_ROOT}/Headers/Public/EXFileSystemInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXFont\"",
-					"\"${PODS_ROOT}/Headers/Public/EXFontInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXGL\"",
-					"\"${PODS_ROOT}/Headers/Public/EXGL-CPP\"",
-					"\"${PODS_ROOT}/Headers/Public/EXImageLoaderInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXLocalAuthentication\"",
-					"\"${PODS_ROOT}/Headers/Public/EXLocalization\"",
-					"\"${PODS_ROOT}/Headers/Public/EXLocation\"",
-					"\"${PODS_ROOT}/Headers/Public/EXMediaLibrary\"",
-					"\"${PODS_ROOT}/Headers/Public/EXPaymentsStripe\"",
-					"\"${PODS_ROOT}/Headers/Public/EXPermissions\"",
-					"\"${PODS_ROOT}/Headers/Public/EXPermissionsInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXPrint\"",
-					"\"${PODS_ROOT}/Headers/Public/EXReactNativeAdapter\"",
-					"\"${PODS_ROOT}/Headers/Public/EXSMS\"",
-					"\"${PODS_ROOT}/Headers/Public/EXSegment\"",
-					"\"${PODS_ROOT}/Headers/Public/EXSensors\"",
-					"\"${PODS_ROOT}/Headers/Public/EXSensorsInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/ExpoKit\"",
-					"\"${PODS_ROOT}/Headers/Public/FBAudienceNetwork\"",
-					"\"${PODS_ROOT}/Headers/Public/FBSDKCoreKit\"",
-					"\"${PODS_ROOT}/Headers/Public/FBSDKLoginKit\"",
-					"\"${PODS_ROOT}/Headers/Public/FBSDKShareKit\"",
-					"\"${PODS_ROOT}/Headers/Public/Fabric\"",
-					"\"${PODS_ROOT}/Headers/Public/GTMSessionFetcher\"",
-					"\"${PODS_ROOT}/Headers/Public/Google-Maps-iOS-Utils\"",
-					"\"${PODS_ROOT}/Headers/Public/Google-Mobile-Ads-SDK\"",
-					"\"${PODS_ROOT}/Headers/Public/GoogleMaps\"",
-					"\"${PODS_ROOT}/Headers/Public/GoogleSignIn\"",
-					"\"${PODS_ROOT}/Headers/Public/GoogleToolboxForMac\"",
-					"\"${PODS_ROOT}/Headers/Public/JKBigInteger2\"",
-					"\"${PODS_ROOT}/Headers/Public/React\"",
-					"\"${PODS_ROOT}/Headers/Public/Stripe\"",
-					"\"${PODS_ROOT}/Headers/Public/glog\"",
-					"\"${PODS_ROOT}/Headers/Public/lottie-ios\"",
-					"\"${PODS_ROOT}/Headers/Public/yoga\"",
-					"\"$(SRCROOT)/../node_modules/react-native/Libraries/LinkingIOS\"",
-				);
 				INFOPLIST_FILE = "$(SRCROOT)/doable/Supporting/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.venepe.doable;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -488,71 +407,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 4VDW5N6453;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/A0Auth0\"",
-					"\"${PODS_ROOT}/Headers/Public/Amplitude-iOS\"",
-					"\"${PODS_ROOT}/Headers/Public/Analytics\"",
-					"\"${PODS_ROOT}/Headers/Public/AppAuth\"",
-					"\"${PODS_ROOT}/Headers/Public/Bolts\"",
-					"\"${PODS_ROOT}/Headers/Public/Branch\"",
-					"\"${PODS_ROOT}/Headers/Public/CocoaLumberjack\"",
-					"\"${PODS_ROOT}/Headers/Public/Crashlytics\"",
-					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
-					"\"${PODS_ROOT}/Headers/Public/EXAdsAdMob\"",
-					"\"${PODS_ROOT}/Headers/Public/EXBarCodeScanner\"",
-					"\"${PODS_ROOT}/Headers/Public/EXBarCodeScannerInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXCamera\"",
-					"\"${PODS_ROOT}/Headers/Public/EXCameraInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXConstants\"",
-					"\"${PODS_ROOT}/Headers/Public/EXConstantsInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXContacts\"",
-					"\"${PODS_ROOT}/Headers/Public/EXCore\"",
-					"\"${PODS_ROOT}/Headers/Public/EXFaceDetectorInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXFileSystem\"",
-					"\"${PODS_ROOT}/Headers/Public/EXFileSystemInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXFont\"",
-					"\"${PODS_ROOT}/Headers/Public/EXFontInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXGL\"",
-					"\"${PODS_ROOT}/Headers/Public/EXGL-CPP\"",
-					"\"${PODS_ROOT}/Headers/Public/EXImageLoaderInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXLocalAuthentication\"",
-					"\"${PODS_ROOT}/Headers/Public/EXLocalization\"",
-					"\"${PODS_ROOT}/Headers/Public/EXLocation\"",
-					"\"${PODS_ROOT}/Headers/Public/EXMediaLibrary\"",
-					"\"${PODS_ROOT}/Headers/Public/EXPaymentsStripe\"",
-					"\"${PODS_ROOT}/Headers/Public/EXPermissions\"",
-					"\"${PODS_ROOT}/Headers/Public/EXPermissionsInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/EXPrint\"",
-					"\"${PODS_ROOT}/Headers/Public/EXReactNativeAdapter\"",
-					"\"${PODS_ROOT}/Headers/Public/EXSMS\"",
-					"\"${PODS_ROOT}/Headers/Public/EXSegment\"",
-					"\"${PODS_ROOT}/Headers/Public/EXSensors\"",
-					"\"${PODS_ROOT}/Headers/Public/EXSensorsInterface\"",
-					"\"${PODS_ROOT}/Headers/Public/ExpoKit\"",
-					"\"${PODS_ROOT}/Headers/Public/FBAudienceNetwork\"",
-					"\"${PODS_ROOT}/Headers/Public/FBSDKCoreKit\"",
-					"\"${PODS_ROOT}/Headers/Public/FBSDKLoginKit\"",
-					"\"${PODS_ROOT}/Headers/Public/FBSDKShareKit\"",
-					"\"${PODS_ROOT}/Headers/Public/Fabric\"",
-					"\"${PODS_ROOT}/Headers/Public/GTMSessionFetcher\"",
-					"\"${PODS_ROOT}/Headers/Public/Google-Maps-iOS-Utils\"",
-					"\"${PODS_ROOT}/Headers/Public/Google-Mobile-Ads-SDK\"",
-					"\"${PODS_ROOT}/Headers/Public/GoogleMaps\"",
-					"\"${PODS_ROOT}/Headers/Public/GoogleSignIn\"",
-					"\"${PODS_ROOT}/Headers/Public/GoogleToolboxForMac\"",
-					"\"${PODS_ROOT}/Headers/Public/JKBigInteger2\"",
-					"\"${PODS_ROOT}/Headers/Public/React\"",
-					"\"${PODS_ROOT}/Headers/Public/Stripe\"",
-					"\"${PODS_ROOT}/Headers/Public/glog\"",
-					"\"${PODS_ROOT}/Headers/Public/lottie-ios\"",
-					"\"${PODS_ROOT}/Headers/Public/yoga\"",
-					"\"$(SRCROOT)/../node_modules/react-native/Libraries/LinkingIOS\"",
-				);
 				INFOPLIST_FILE = "$(SRCROOT)/doable/Supporting/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.venepe.doable;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
