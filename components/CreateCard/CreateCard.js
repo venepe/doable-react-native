@@ -42,6 +42,13 @@ const WORDS_TO_INDEX = {
   BACK_TEXT: [],
 };
 
+function clearEditingValues() {
+  STATUSES.FRONT_TEXT = {};
+  STATUSES.BACK_TEXT = {};
+  WORDS_TO_INDEX.FRONT_TEXT = [];
+  WORDS_TO_INDEX.BACK_TEXT = [];
+}
+
 let BACKGROUND_COLOR = {
   FRONT_TEXT: '#00B0FF',
   BACK_TEXT: '#FF8A80',
@@ -131,6 +138,7 @@ class CreateCard extends Component {
   goBack() {
     this.props.clearBackText();
     this.props.clearFrontText();
+    clearEditingValues();
     this.props.navigation.goBack();
   }
 

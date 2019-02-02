@@ -21,8 +21,7 @@ function toQueryString(params) {
 
 export const logonUser = () => {
   const redirectUrl = AuthSession.getRedirectUrl();
-  console.log(`Redirect URL (add this to Auth0): ${redirectUrl}`);
-
+  const returnUrl = Platform.OS === 'ios' ? `com.venepe.doable://d0able.auth0.com/${Platform.OS}/com.venepe.doable/callback` : '';
   return AuthSession.startAsync({
     authUrl: `${auth0Domain}/authorize` + toQueryString({
       client_id: auth0ClientId,
@@ -31,9 +30,8 @@ export const logonUser = () => {
       redirect_uri: redirectUrl,
       nonce: randomString(),
     }),
-    returnUrl: `com.venepe.doable://d0able.auth0.com/${Platform.OS}/com.venepe.doable/callback`,
+    returnUrl,
     }).then((result) => {
-      console.log(result);
       const { params = {} } = result;
       const { id_token = '' } = params;
       const decodedToken = jwtDecoder(id_token);
@@ -52,6 +50,5 @@ export const logonUser = () => {
     .then(({ data }) => {
       const uid = data.logonUser.user.uid;
       store.dispatch(setUID({ payload: { uid  } }));
-      console.log('reload');
     });
 };

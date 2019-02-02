@@ -9,12 +9,9 @@ export const logoutUser = () => {
   const returnUrl = AuthSession.getRedirectUrl();;
   return fetch(`https://d0able.auth0.com/v2/logout?client_id=${auth0ClientId}&returnTo=${returnUrl}`)
     .then((result) => {
-      console.log('result');
-      console.log(result);
       return SecureStore.setItemAsync(Keys.TOKEN_KEY, '')
     })
     .then(() => {
-      console.log('asdf');
       store.dispatch(setUID({ payload: { uid: null  } }));
     });
 };

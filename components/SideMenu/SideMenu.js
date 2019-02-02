@@ -12,7 +12,6 @@ class SideMenu extends Component {
   }
 
   onPress() {
-    console.log('onPress');
     logoutUser().then(() => {
       this.props.navigation.closeDrawer();
       this.navigateToWelcome();

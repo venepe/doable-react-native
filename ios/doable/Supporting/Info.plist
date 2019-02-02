@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.3</string>
+	<string>1.0.4</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -35,18 +35,18 @@
 			</array>
 		</dict>
 		<dict>
-        <key>CFBundleTypeRole</key>
-        <string>None</string>
-        <key>CFBundleURLName</key>
-        <string>auth0</string>
-        <key>CFBundleURLSchemes</key>
-        <array>
-            <string>com.venepe.doable</string>
-        </array>
-    </dict>
+			<key>CFBundleTypeRole</key>
+			<string>None</string>
+			<key>CFBundleURLName</key>
+			<string>auth0</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.venepe.doable</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>5</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -79,7 +79,7 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow Doable to access your microphone</string>
 	<key>NSMotionUsageDescription</key>
-	<string>Allow Doable to access your device's accelerometer</string>
+	<string>Allow Doable to access your device&apos;s accelerometer</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Give Doable permission to save photos</string>
 	<key>NSPhotoLibraryUsageDescription</key>

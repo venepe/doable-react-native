@@ -65,14 +65,11 @@ class CreateDeck extends Component {
       <Mutation
           mutation={CREATE_DECK}
           update={(cache, { data: { createDeck } }) => {
-            console.log(uid);
             const { userByUid } = cache.readQuery({ query: DECKS_BY_USER_UID, variables: {
               uid,
               first: GraphQLValues.FIRST,
               after: null,
             } });
-            console.log('userByUid');
-            console.log(userByUid);
             userByUid.decksByUserUid.edges.unshift({ __typename: 'DecksEdge', node: createDeck.deck });
             cache.writeQuery({
               query: DECKS_BY_USER_UID,
