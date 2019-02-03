@@ -37,6 +37,7 @@ export const CREATE_CARD = gql`
         id
         frontText
         backText
+        createdAt
       }
     }
   }

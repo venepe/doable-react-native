@@ -148,19 +148,29 @@ class CreateCard extends Component {
       const { backText, frontText } = this.state;
       const documentId = navigation.getParam('documentId');
       const deckId = navigation.getParam('deckId');
+      const frontTextIndexes = [{
+        documentId,
+        wordIndexes: WORDS_TO_INDEX.FRONT_TEXT,
+      }];
+      const backTextIndexes = [{
+        documentId,
+        wordIndexes: WORDS_TO_INDEX.BACK_TEXT,
+      }];
+
       this.props.client.mutate({
         mutation: CREATE_CARD,
         variables: { input: { card: {
           deckId,
-          documentId,
           frontText,
           backText,
+          frontTextIndexes: JSON.stringify(frontTextIndexes),
+          backTextIndexes: JSON.stringify(backTextIndexes),
         }}},
         update: ((cache, { data: { createCard } }) => {
           const { deckById } = cache.readQuery({ query: CARDS_BY_DECK_NODEID, variables: {
             id: deckId,
           } });
-          deckById.cardsByDeckId.edges.unshift({ node: createCard.card })
+          deckById.cardsByDeckId.edges.unshift({ __typename: 'CardsEdge', node: createCard.card })
           cache.writeQuery({
             query: CARDS_BY_DECK_NODEID,
             data: { deckById },
