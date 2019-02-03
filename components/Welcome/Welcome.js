@@ -89,25 +89,25 @@ const styles = StyleSheet.create({
 const slides = [
   {
     key: 'capture',
-    title: 'Capture Your Card',
+    title: 'Point and Snap',
     text: '',
     image: require('../../assets/camera.png'),
     imageStyle: styles.image200,
     backgroundColor: '#651FFF',
   },
   {
-    key: 'ai',
-    title: 'We Identify The Text',
+    key: 'select',
+    title: 'Select and Study',
     text: '',
-    image: require('../../assets/wand.png'),
+    image: require('../../assets/list.png'),
     imageStyle: styles.image200,
     backgroundColor: '#2979FF',
   },
   {
-    key: 'select',
-    title: 'Make Your Card',
+    key: 'wow',
+    title: '...And Done',
     text: '',
-    image: require('../../assets/list.png'),
+    image: require('../../assets/open_mouth.png'),
     imageStyle: styles.image200,
     backgroundColor: '#00BFA5',
   }
