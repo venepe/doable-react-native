@@ -128,7 +128,7 @@ DocumentList.navigationOptions = (props) => {
   const deckId = navigation.getParam('deckId');
 
   return {
-    title: 'Documents',
+    title: 'Slides',
     headerStyle: {
       backgroundColor: '#000D11',
     },
