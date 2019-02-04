@@ -167,12 +167,13 @@ export const removeBackTextWordAtIndex = payload => ({
   ...payload,
 });
 
-export const clearFrontText = () => ({
-  type: CardBuilderTypes.CLEAR_FRONT_TEXT_WORD,
+export const setCardEditingStatus = payload => ({
+  type: CardBuilderTypes.SET_CARD_EDITING_STATUSES,
+  ...payload,
 });
 
-export const clearBackText = () => ({
-  type: CardBuilderTypes.CLEAR_BACK_TEXT_WORD,
+export const clearCardEditing = () => ({
+  type: CardBuilderTypes.CLEAR_CARD_EDITING,
 });
 
 const actions = {
@@ -182,8 +183,8 @@ const actions = {
   onUploadProgress,
   addFrontTextWord,
   addBackTextWord,
-  clearFrontText,
-  clearBackText,
+  setCardEditingStatus,
+  clearCardEditing,
 };
 
 export default actions;

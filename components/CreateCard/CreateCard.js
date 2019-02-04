@@ -18,41 +18,16 @@ import BackText from '../BackText';
 import FrontText from '../FrontText';
 import { CREATE_CARD } from '../../mutations';
 import { DOCUMENT_BY_ID, CARDS_BY_DECK_NODEID } from '../../queries';
-import { getBackText, getFrontText, getUID } from '../../reducers';
 import {
-  addFrontTextWord,
-  addBackTextWord,
-  clearFrontText,
-  clearBackText,
-  removeFrontTextWordAtIndex,
-  removeBackTextWordAtIndex,
-  } from '../../actions';
-const EDITING = {
-  FRONT_TEXT: 'FRONT_TEXT',
-  BACK_TEXT: 'BACK_TEXT',
-};
-
-let STATUSES = {
-  FRONT_TEXT: {},
-  BACK_TEXT: {},
-};
-
-const WORDS_TO_INDEX = {
-  FRONT_TEXT: [],
-  BACK_TEXT: [],
-};
-
-function clearEditingValues() {
-  STATUSES.FRONT_TEXT = {};
-  STATUSES.BACK_TEXT = {};
-  WORDS_TO_INDEX.FRONT_TEXT = [];
-  WORDS_TO_INDEX.BACK_TEXT = [];
-}
-
-let BACKGROUND_COLOR = {
-  FRONT_TEXT: '#00B0FF',
-  BACK_TEXT: '#FF8A80',
-};
+  getBackText,
+  getFrontText,
+  getUID,
+  getFrontTextIndexes,
+  getBackTextIndexes,
+  getCardEditingStatus,
+} from '../../reducers';
+import { clearCardEditing, setCardEditingStatus } from '../../actions';
+import { EDITING } from '../../constants/Enums';
 
 class CreateCard extends Component {
   static propTypes = {
@@ -77,6 +52,7 @@ class CreateCard extends Component {
           return {
             backText: nextProps.backText,
             frontText: nextProps.frontText,
+            cardEditingStatus: nextProps.cardEditingStatus,
           }
       }
 
@@ -85,13 +61,13 @@ class CreateCard extends Component {
     this.goBack = this.goBack.bind(this);
     this.onPressSubmit = this.onPressSubmit.bind(this);
     this.isDisabled = this.isDisabled.bind(this);
-    this.onPressWord = this.onPressWord.bind(this);
     this.setEditingText = this.setEditingText.bind(this);
     this.state = {
       uid: props.uid,
       backText: props.backText,
       frontText: props.frontText,
-      editingText: EDITING.FRONT_TEXT,
+      cardEditingStatus: props.cardEditingStatus,
+      documentId: props.navigation.getParam('documentId')
     }
   }
 
@@ -107,54 +83,30 @@ class CreateCard extends Component {
         frontText: props.frontText,
       });
     }
-  }
-
-  onPressWord({ index, word, isActive }) {
-    const { frontText, backText } = this.props;
-    const { editingText } = this.state;
-    STATUSES[editingText][index] = isActive;
-    const indexToRemove = WORDS_TO_INDEX[editingText].findIndex((elm) => {
-      return elm === index;
-    });
-    if (editingText === EDITING.FRONT_TEXT) {
-      if (isActive) {
-        WORDS_TO_INDEX[editingText].push(index);
-        this.props.addFrontTextWord( { payload: { frontTextWord: word } });
-      } else {
-        WORDS_TO_INDEX[editingText].splice(indexToRemove, 1);
-        this.props.removeFrontTextWordAtIndex( { payload: { index: indexToRemove } });
-      }
-    } else {
-      if (isActive) {
-        WORDS_TO_INDEX[editingText].push(index);
-        this.props.addBackTextWord( { payload: { backTextWord: word } });
-      } else {
-        WORDS_TO_INDEX[editingText].splice(indexToRemove, 1);
-        this.props.removeBackTextWordAtIndex( { payload: { index: indexToRemove } });
-      }
+    if (props.cardEditingStatus !== prevProps.cardEditingStatus) {
+      this.setState({
+        cardEditingStatus: props.cardEditingStatus,
+      });
     }
   }
 
   goBack() {
-    this.props.clearBackText();
-    this.props.clearFrontText();
-    clearEditingValues();
+    this.props.clearCardEditing();
     this.props.navigation.goBack();
   }
 
   onPressSubmit() {
     if (!this.isDisabled()) {
-      const { navigation } = this.props;
-      const { backText, frontText } = this.state;
-      const documentId = navigation.getParam('documentId');
+      const { navigation, frontTextIndexes, backTextIndexes } = this.props;
+      const { backText, frontText, documentId } = this.state;
       const deckId = navigation.getParam('deckId');
-      const frontTextIndexes = [{
+      const frontTextIndexesOnDocument = [{
         documentId,
-        wordIndexes: WORDS_TO_INDEX.FRONT_TEXT,
+        wordIndexes: frontTextIndexes,
       }];
-      const backTextIndexes = [{
+      const backTextIndexesOnDocument = [{
         documentId,
-        wordIndexes: WORDS_TO_INDEX.BACK_TEXT,
+        wordIndexes: backTextIndexes,
       }];
 
       this.props.client.mutate({
@@ -163,8 +115,8 @@ class CreateCard extends Component {
           deckId,
           frontText,
           backText,
-          frontTextIndexes: JSON.stringify(frontTextIndexes),
-          backTextIndexes: JSON.stringify(backTextIndexes),
+          frontTextIndexes: JSON.stringify(frontTextIndexesOnDocument),
+          backTextIndexes: JSON.stringify(backTextIndexesOnDocument),
         }}},
         update: ((cache, { data: { createCard } }) => {
           const { deckById } = cache.readQuery({ query: CARDS_BY_DECK_NODEID, variables: {
@@ -191,19 +143,16 @@ class CreateCard extends Component {
     return true;
   }
 
-  setEditingText(editingText) {
-    this.setState({
-      editingText,
-    });
+  setEditingText(cardEditingStatus) {
+    this.props.setCardEditingStatus({ payload: { cardEditingStatus } });
   }
 
   render() {
-    const { navigation, backText, frontText } = this.props;
-    let { editingText } = this.state;
-    const documentId = navigation.getParam('documentId');
-    let checkCircleColor = this.isDisabled() ? '#616161' : '#FAFAFA'
-    let isFrontLabelActive = editingText === EDITING.FRONT_TEXT;
-    let isBackLabelActive = editingText === EDITING.BACK_TEXT;
+    const { documentId, cardEditingStatus, backText, frontText } = this.state;
+    const { navigation } = this.props;
+    let checkCircleColor = this.isDisabled() ? '#616161' : '#FAFAFA';
+    let isFrontLabelActive = cardEditingStatus === EDITING.FRONT_TEXT;
+    let isBackLabelActive = cardEditingStatus === EDITING.BACK_TEXT;
 
     return (
       <View style={styles.root}>
@@ -234,11 +183,10 @@ class CreateCard extends Component {
             {
               words.map((word, idx) => {
                 return (
-                  <WordButton key={idx}
-                    isActive={STATUSES[editingText][idx] === true}
-                    backgroundColor={BACKGROUND_COLOR[editingText]}
-                    word={word} index={idx}
-                    onPress={this.onPressWord}
+                  <WordButton
+                    key={idx}
+                    word={word}
+                    index={idx}
                     />
                 )
               })
@@ -346,16 +294,15 @@ const mapStateToProps = state => ({
   backText: getBackText(state),
   frontText: getFrontText(state),
   uid: getUID(state),
+  frontTextIndexes: getFrontTextIndexes(state),
+  backTextIndexes: getBackTextIndexes(state),
+  cardEditingStatus: getCardEditingStatus(state),
 });
 
 export default withApollo(connect(
   mapStateToProps,
   {
-    addFrontTextWord,
-    addBackTextWord,
-    clearBackText,
-    clearFrontText,
-    removeFrontTextWordAtIndex,
-    removeBackTextWordAtIndex,
+    clearCardEditing,
+    setCardEditingStatus,
   },
 )(CreateCard));
