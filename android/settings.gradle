@@ -1,3 +1,7 @@
 include ':app'
+include ':react-native-fast-image-expo'
+project(':react-native-fast-image-expo').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fast-image-expo/android')
+include ':react-native-fast-image-expo'
+project(':react-native-fast-image-expo').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fast-image-expo/android')
 include ':react-native-auth0'
 project(':react-native-auth0').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-auth0/android')

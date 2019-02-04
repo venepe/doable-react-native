@@ -23,8 +23,8 @@ android {
     applicationId 'com.venepe.doable'
     minSdkVersion 21
     targetSdkVersion 26
-    versionCode 6
-    versionName '1.0.5'
+    versionCode 7
+    versionName '1.0.6'
     ndk {
       abiFilters 'armeabi-v7a', 'x86'
     }
@@ -104,6 +104,7 @@ apply from: 'expo.gradle'
 // WHEN_PREPARING_SHELL_REMOVE_TO_HERE
 
 dependencies {
+    compile project(':react-native-fast-image-expo')
     compile project(':react-native-auth0')
   implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -112,7 +113,7 @@ dependencies {
   // Our dependencies
   implementation 'com.android.support:appcompat-v7:27.1.1'
 
-  // Our dependencies from ExpoView
+    // Our dependencies from ExpoView
   // DON'T ADD ANYTHING HERE THAT ISN'T IN EXPOVIEW. ONLY COPY THINGS FROM EXPOVIEW TO HERE.
   implementation 'com.android.support:appcompat-v7:27.1.1'
   implementation 'com.facebook.android:facebook-android-sdk:4.37.0'

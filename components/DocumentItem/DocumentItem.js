@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import FastImage from 'react-native-fast-image-expo';
 import gql from 'graphql-tag';
 import { propType } from 'graphql-anywhere';
 import styles from './styles';
@@ -41,9 +42,16 @@ class DocumentItem extends Component {
     return (
         <TouchableOpacity onPress={() => this.props.onPress({ id: documentItem.id })}>
           <View style={[styles.document, styles.container, { opacity }]}>
-            <Image style={styles.image} source={{uri: imageUri}}></Image>
+            <FastImage
+              style={styles.image}
+              source={{
+                uri: imageUri,
+                priority: FastImage.priority.normal,
+              }}
+              resizeMode={FastImage.resizeMode.stretch}
+            />
             <View style={styles.infoContainer}>
-                <Text numberOfLines={3} style={[styles.title]}>{text}</Text>
+                <Text numberOfLines={4} style={[styles.title]}>{text}</Text>
             </View>
           </View>
         </TouchableOpacity>

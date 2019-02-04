@@ -27,10 +27,8 @@ class DocumentList extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.isLoading.length > 0) {
-          return {
-            isLoading: nextProps.isLoading,
-          }
+        return {
+          isLoading: nextProps.isLoading,
         }
       }
 
@@ -40,9 +38,12 @@ class DocumentList extends Component {
     this.onPressRow = this.onPressRow.bind(this);
     this.onDone = this.onDone.bind(this);
     this.renderActivityIndicator = this.renderActivityIndicator.bind(this);
+    const { navigation } = this.props;
+    const deckId = navigation.getParam('deckId');
 
     this.state = {
       isLoading: props.isLoading,
+      deckId,
     }
   }
 
@@ -81,12 +82,14 @@ class DocumentList extends Component {
       return (
         <DocumentUploadIndicator />
       );
+    } else {
+      return null;
     }
   }
 
   render() {
-    const { navigation } = this.props;
-    const deckId = navigation.getParam('deckId');
+
+    const { deckId } = this.state;
 
     return (
       <View style={styles.root}>
@@ -107,6 +110,7 @@ class DocumentList extends Component {
                   data={list}
                   keyExtractor={(node) => node.nodeId}
                   renderItem={this.renderItem}
+                  removeClippedSubviews={true}
                 />
               </View>
             )

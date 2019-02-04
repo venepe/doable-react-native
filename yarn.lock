@@ -4839,6 +4839,11 @@ react-native-elements@^0.19.1:
     opencollective "^1.0.3"
     prop-types "^15.5.8"
 
+react-native-fast-image-expo@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-fast-image-expo/-/react-native-fast-image-expo-0.0.5.tgz#162ef0e3006c5d9c3d166195161abb8fa9f7a4db"
+  integrity sha512-O2ZmyVepxtPhdKPjwB3CniH1TuHPRWsrNer9v6izyW6YMPECD8tL+t/COzvVwZF4/0AHePtWWzwVy9uQrrSvgA==
+
 react-native-gesture-handler@1.0.14:
   version "1.0.14"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.0.14.tgz#0e79fcc7175c9bb2e550917a35488100eec8738b"
