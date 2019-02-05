@@ -1,6 +1,8 @@
 package host.exp.exponent;
 
 
+import com.auth0.react.A0Auth0Package;
+import com.dylanvann.fastimage.FastImageViewPackage;
 import com.facebook.react.ReactPackage;
 
 import java.util.Arrays;
@@ -34,9 +36,6 @@ import expolib_v1.okhttp3.OkHttpClient;
 
 // Needed for `react-native link`
 // import com.facebook.react.ReactApplication;
-import com.dylanvann.fastimage.FastImageViewPackage;
-import com.dylanvann.fastimage.FastImageViewPackage;
-import com.auth0.react.A0Auth0Package;
 
 public class MainApplication extends ExpoApplication implements AppLoaderPackagesProviderInterface<ReactPackage> {
 

@@ -16,6 +16,10 @@ repositories {
   maven { url 'https://maven.fabric.io/public' }
 }
 
+project.ext {
+    excludeAppGlideModule = true
+}
+
 android {
   compileSdkVersion 27
 
@@ -23,8 +27,8 @@ android {
     applicationId 'com.venepe.doable'
     minSdkVersion 21
     targetSdkVersion 26
-    versionCode 7
-    versionName '1.0.6'
+    versionCode 13
+    versionName '1.0.10'
     ndk {
       abiFilters 'armeabi-v7a', 'x86'
     }

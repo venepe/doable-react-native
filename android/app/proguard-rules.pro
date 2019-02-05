@@ -16,6 +16,12 @@
 #   public *;
 #}
 
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.module.AppGlideModule
+-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
 
 # THIS IS VERY VERY BAD. REMOVE AS SOON AS VERSIONING IS FIXED
 -dontwarn **
