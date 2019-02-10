@@ -326,12 +326,12 @@ const styles = StyleSheet.create({
   rightButtonContainer: {
     position: 'absolute',
     alignSelf: 'flex-end',
-    top: '50%',
+    top: '55%',
   },
   leftButtonContainer: {
     position: 'absolute',
     alignSelf: 'flex-start',
-    top: '50%',
+    top: '55%',
   },
   fetchButton: {
     height:60,
