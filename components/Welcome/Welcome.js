@@ -9,6 +9,7 @@ import AppIntroSlider from 'react-native-app-intro-slider';
 import { connect } from 'react-redux';
 import { getUID } from '../../reducers';
 import LogonButton from '../LogonButton';
+import { logonUser } from '../../helpers/logon';
 
 class Welcome extends Component {
 
@@ -21,6 +22,7 @@ class Welcome extends Component {
   constructor(props) {
     super(props);
     this.navigateToDeckList = this.navigateToDeckList.bind(this);
+    this.onDone = this.onDone.bind(this);
 
     this.state = {
       uid: props.uid,
@@ -45,6 +47,13 @@ class Welcome extends Component {
     this.props.navigation.dispatch(resetAction);
   }
 
+  onDone() {
+    logonUser()
+      .then(() => {
+        this.navigateToDeckList();
+      });
+  }
+
   render() {
     const { uid } = this.state;
     if (uid && uid.length > 0) {
@@ -53,7 +62,7 @@ class Welcome extends Component {
 
     return (
       <View style={styles.root}>
-        <AppIntroSlider slides={slides} />
+        <AppIntroSlider slides={slides} onDone={() => this.onDone()}/>
         <View style={{height: 50}}>
           <LogonButton didLogin={this.navigateToDeckList} />
         </View>

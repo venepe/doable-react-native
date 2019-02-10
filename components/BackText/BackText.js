@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     color: '#FF8A80',
     fontSize: 28,
     fontWeight: '400',
-    padding: 5,
+    padding: 10,
     // fontFamily: 'Roboto-Thin',
   },
 });
