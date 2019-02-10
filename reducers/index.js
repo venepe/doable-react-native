@@ -4,22 +4,38 @@ import NetworkTypes from '../constants/NetworkTypes';
 import UserTypes from '../constants/UserTypes';
 import { EDITING } from '../constants/Enums';
 
+// frontTextIndexesOnDocument = {
+//   documentId,
+//   wordIndexes: frontTextIndexes,
+// }];
+
+// frontText = [
+//   documentIndexKey: `${documentId}:${index}`,
+//   word,
+// ]
+
 const initialState = {
   activeCard: {},
   activeCards: [],
   uid: null,
   isLoading: false,
-  frontText: '',
-  backText: '',
-  frontTextIndexes: [],
-  backTextIndexes: [],
+  frontText: [],
+  backText: [],
   cardEditingStatus: EDITING.FRONT_TEXT,
   uploadProgress: 0,
+  frontTextIndexesOnDocument: {},
+  backTextIndexesOnDocument: {},
 };
 
 function getIndexToRemove(textIndexes, index) {
   return textIndexes.findIndex((elm) => {
     return elm === index;
+  });
+}
+
+function getDocumentKeyIndexToRemove(textArray, documentIndexKeyToRemove) {
+  return textArray.findIndex(({ documentIndexKey }) => {
+    return documentIndexKey === documentIndexKeyToRemove;
   });
 }
 
@@ -90,56 +106,80 @@ const reducer = (state = initialState, action) => {
     }
     case CardBuilderTypes.ADD_FRONT_TEXT_WORD:
     {
-      const { frontTextWord, frontTextIndex } = action.payload;
-      let { frontText, frontTextIndexes } = state;
-      frontText = `${frontText} ${frontTextWord.trim()}`;
-      frontTextIndexes.push(frontTextIndex);
+      const { frontTextWord, documentId, wordIndex } = action.payload;
+      let { frontText, frontTextIndexesOnDocument } = state;
+      frontText.push({
+        documentIndexKey: `${documentId}:${wordIndex}`,
+        word: frontTextWord.trim(),
+      });
+
+      if (!frontTextIndexesOnDocument[documentId]) {
+        frontTextIndexesOnDocument[documentId] = [];
+      }
+      frontTextIndexesOnDocument[documentId].push(wordIndex);
       return {
         ...state,
-        frontText,
-        frontTextIndexes,
+        frontText: [...frontText],
+        frontTextIndexesOnDocument,
       };
     }
     case CardBuilderTypes.ADD_BACK_TEXT_WORD:
     {
-      const { backTextWord, backTextIndex } = action.payload;
-      let { backText, backTextIndexes } = state;
-      backText = `${backText} ${backTextWord.trim()}`;
-      backTextIndexes.push(backTextIndex);
+      const { backTextWord, documentId, wordIndex } = action.payload;
+      let { backText, backTextIndexesOnDocument } = state;
+      backText.push({
+        documentIndexKey: `${documentId}:${wordIndex}`,
+        word: backTextWord.trim(),
+      });
+
+      if (!backTextIndexesOnDocument[documentId]) {
+        backTextIndexesOnDocument[documentId] = [];
+      }
+      backTextIndexesOnDocument[documentId].push(wordIndex);
       return {
         ...state,
-        backText,
-        backTextIndexes,
+        backText: [...backText],
+        backTextIndexesOnDocument,
       };
     }
     case CardBuilderTypes.REMOVE_FRONT_TEXT_WORD_AT_INDEX:
     {
-      const { index } = action.payload;
-      let { frontText, frontTextIndexes } = state;
-      let indexToRemove = getIndexToRemove(frontTextIndexes, index);
-      let words = frontText.trim().split(' ');
-      words.splice(indexToRemove, 1);
-      frontText = words.join(' ');
-      frontTextIndexes.splice(indexToRemove, 1);
+      const { index, documentId } = action.payload;
+      let { frontText, frontTextIndexesOnDocument } = state;
+      if (!frontTextIndexesOnDocument[documentId]) {
+        return;
+      }
+
+      const documentIndexKey = `${documentId}:${index}`;
+      let indexesOnDocumentToRemove = getIndexToRemove(frontTextIndexesOnDocument[documentId], index);
+      let indexOnFrontTextToRemove = getDocumentKeyIndexToRemove(frontText, documentIndexKey);
+      frontTextIndexesOnDocument[documentId].splice(indexesOnDocumentToRemove, 1);
+      frontText.splice(indexOnFrontTextToRemove, 1);
+
       return {
         ...state,
-        frontText,
-        frontTextIndexes,
+        frontText: [...frontText],
+        frontTextIndexesOnDocument,
       };
     }
     case CardBuilderTypes.REMOVE_BACK_TEXT_WORD_AT_INDEX:
     {
-      const { index } = action.payload;
-      let { backText, backTextIndexes } = state;
-      let indexToRemove = getIndexToRemove(backTextIndexes, index);
-      let words = backText.trim().split(' ');
-      words.splice(indexToRemove, 1);
-      backText = words.join(' ');
-      backTextIndexes.splice(indexToRemove, 1);
+      const { index, documentId } = action.payload;
+      let { backText, backTextIndexesOnDocument } = state;
+      if (!backTextIndexesOnDocument[documentId]) {
+        return;
+      }
+
+      const documentIndexKey = `${documentId}:${index}`;
+      let indexesOnDocumentToRemove = getIndexToRemove(backTextIndexesOnDocument[documentId], index);
+      let indexOnFrontTextToRemove = getDocumentKeyIndexToRemove(backText, documentIndexKey);
+      backTextIndexesOnDocument[documentId].splice(indexesOnDocumentToRemove, 1);
+      backText.splice(indexOnFrontTextToRemove, 1);
+
       return {
         ...state,
-        backText,
-        backTextIndexes,
+        backText: [...backText],
+        backTextIndexesOnDocument,
       };
     }
     case CardBuilderTypes.SET_CARD_EDITING_STATUSES:
@@ -154,10 +194,10 @@ const reducer = (state = initialState, action) => {
     {
       return {
         ...state,
-        frontText: '',
-        backText: '',
-        frontTextIndexes: [],
-        backTextIndexes: [],
+        frontText: [],
+        backText: [],
+        frontTextIndexesOnDocument: {},
+        backTextIndexesOnDocument: {},
         cardEditingStatus: EDITING.FRONT_TEXT,
       };
     }
@@ -171,8 +211,8 @@ export const getUploadProgress = state => state.uploadProgress;
 export const getUID = state => state.uid;
 export const getFrontText = state => state.frontText;
 export const getBackText = state => state.backText;
-export const getFrontTextIndexes = state => state.frontTextIndexes;
-export const getBackTextIndexes = state => state.backTextIndexes;
+export const getFrontTextIndexesOnDocument = state => state.frontTextIndexesOnDocument;
+export const getBackTextIndexesOnDocument = state => state.backTextIndexesOnDocument;
 export const getActiveCard = state => state.activeCard;
 export const getActiveCards = state => state.activeCards;
 export const getCardEditingStatus = state => state.cardEditingStatus;

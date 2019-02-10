@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { getFrontText } from '../../reducers';
+import { getDisplayText } from '../../utilities';
 const PLACEHOLDER = 'Front Text Here';
 
 class FrontText extends Component {
@@ -22,7 +23,7 @@ class FrontText extends Component {
     super(props);
 
     this.state = {
-      frontText: '',
+      frontText: [],
       isActive: props.isActive,
     };
   }
@@ -43,14 +44,15 @@ class FrontText extends Component {
 
   render() {
     let { frontText, isActive } = this.state;
-    if (frontText.length < 1) {
-      frontText = PLACEHOLDER;
+    let displayText = getDisplayText(frontText);
+    if (displayText.length < 1) {
+      displayText = PLACEHOLDER;
     }
     let opacity = isActive ? 1.0 : .5;
     let fontSize = isActive ? 28 : 20;
     return (
       <View style={[styles.root, {opacity}]}>
-        <Text style={[styles.text, {fontSize}]}>{frontText}</Text>
+        <Text style={[styles.text, {fontSize}]}>{displayText}</Text>
       </View>
     );
   }

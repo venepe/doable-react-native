@@ -17,16 +17,17 @@ import WordButton from '../WordButton';
 import BackText from '../BackText';
 import FrontText from '../FrontText';
 import { CREATE_CARD } from '../../mutations';
-import { DOCUMENT_BY_ID, CARDS_BY_DECK_NODEID } from '../../queries';
+import { DOCUMENT_BY_ID, CARDS_BY_DECK_NODEID, DOCUMENT_BY_CARD_NODEID } from '../../queries';
 import {
   getBackText,
   getFrontText,
   getUID,
-  getFrontTextIndexes,
-  getBackTextIndexes,
+  getFrontTextIndexesOnDocument,
+  getBackTextIndexesOnDocument,
   getCardEditingStatus,
 } from '../../reducers';
 import { clearCardEditing, setCardEditingStatus } from '../../actions';
+import { getDisplayText } from '../../utilities';
 import { EDITING } from '../../constants/Enums';
 
 class CreateCard extends Component {
@@ -59,6 +60,8 @@ class CreateCard extends Component {
   constructor(props) {
     super(props);
     this.goBack = this.goBack.bind(this);
+    this.onNext = this.onNext.bind(this);
+    this.onPrevious = this.onPrevious.bind(this);
     this.onPressSubmit = this.onPressSubmit.bind(this);
     this.isDisabled = this.isDisabled.bind(this);
     this.setEditingText = this.setEditingText.bind(this);
@@ -95,26 +98,65 @@ class CreateCard extends Component {
     this.props.navigation.goBack();
   }
 
+  onNext() {
+    const { navigation } = this.props;
+    const { documentId } = this.state;
+    const deckId = navigation.getParam('deckId');
+    const { deckById } = this.props.client.readQuery({ query: DOCUMENT_BY_CARD_NODEID, variables: {
+      id: deckId,
+    } });
+    const documentEdges = deckById.documentsByDeckId.edges;
+    if (documentEdges.length > 0) {
+      let currentDocumentIndex = documentEdges.findIndex(({ node }) => {
+        return node.id === documentId;
+      });
+      let nextDocumentIndex = currentDocumentIndex + 1;
+      if (nextDocumentIndex >= documentEdges.length) {
+        nextDocumentIndex = 0;
+      }
+      let nextDocumentId = documentEdges[nextDocumentIndex].node.id;
+      this.setState({
+        documentId: nextDocumentId,
+      });
+    }
+  }
+
+  onPrevious() {
+    const { navigation } = this.props;
+    const { documentId } = this.state;
+    const deckId = navigation.getParam('deckId');
+    const { deckById } = this.props.client.readQuery({ query: DOCUMENT_BY_CARD_NODEID, variables: {
+      id: deckId,
+    } });
+    const documentEdges = deckById.documentsByDeckId.edges;
+    if (documentEdges.length > 0) {
+      let currentDocumentIndex = documentEdges.findIndex(({ node }) => {
+        return node.id === documentId;
+      });
+      let previousDocumentIndex = currentDocumentIndex + -1;
+      if (previousDocumentIndex <= 0) {
+        previousDocumentIndex = documentEdges.length - 1;
+      }
+      let previousDocumentId = documentEdges[previousDocumentIndex].node.id;
+      this.setState({
+        documentId: previousDocumentId,
+      });
+    }
+  }
+
+
   onPressSubmit() {
     if (!this.isDisabled()) {
-      const { navigation, frontTextIndexes, backTextIndexes } = this.props;
+      const { navigation, frontTextIndexesOnDocument, backTextIndexesOnDocument } = this.props;
       const { backText, frontText, documentId } = this.state;
       const deckId = navigation.getParam('deckId');
-      const frontTextIndexesOnDocument = [{
-        documentId,
-        wordIndexes: frontTextIndexes,
-      }];
-      const backTextIndexesOnDocument = [{
-        documentId,
-        wordIndexes: backTextIndexes,
-      }];
 
       this.props.client.mutate({
         mutation: CREATE_CARD,
         variables: { input: { card: {
           deckId,
-          frontText,
-          backText,
+          frontText: getDisplayText(frontText),
+          backText: getDisplayText(backText),
           frontTextIndexes: JSON.stringify(frontTextIndexesOnDocument),
           backTextIndexes: JSON.stringify(backTextIndexesOnDocument),
         }}},
@@ -185,6 +227,7 @@ class CreateCard extends Component {
                 return (
                   <WordButton
                     key={idx}
+                    documentId={documentId}
                     word={word}
                     index={idx}
                     />
@@ -195,6 +238,16 @@ class CreateCard extends Component {
           )
         }}
         </Query>
+      </View>
+      <View style={styles.leftButtonContainer}>
+        <TouchableOpacity style={styles.fetchButton} onPress={this.onPrevious}>
+          <MaterialIcons name="keyboard-arrow-left" size={40} color="#FAFAFA" />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.rightButtonContainer}>
+        <TouchableOpacity style={styles.fetchButton} onPress={this.onNext}>
+          <MaterialIcons name="keyboard-arrow-right" size={40} color="#FAFAFA" />
+        </TouchableOpacity>
       </View>
       </View>
     )
@@ -269,7 +322,25 @@ const styles = StyleSheet.create({
     maxHeight:  72,
     flexDirection: 'row',
     justifyContent: 'space-between',
-  }
+  },
+  rightButtonContainer: {
+    position: 'absolute',
+    alignSelf: 'flex-end',
+    top: '50%',
+  },
+  leftButtonContainer: {
+    position: 'absolute',
+    alignSelf: 'flex-start',
+    top: '50%',
+  },
+  fetchButton: {
+    height:60,
+    width: 60,
+    borderRadius: 40,
+    backgroundColor: '#000000',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 CreateCard.defaultProps = {};
@@ -294,8 +365,8 @@ const mapStateToProps = state => ({
   backText: getBackText(state),
   frontText: getFrontText(state),
   uid: getUID(state),
-  frontTextIndexes: getFrontTextIndexes(state),
-  backTextIndexes: getBackTextIndexes(state),
+  frontTextIndexesOnDocument: getFrontTextIndexesOnDocument(state),
+  backTextIndexesOnDocument: getBackTextIndexesOnDocument(state),
   cardEditingStatus: getCardEditingStatus(state),
 });
 

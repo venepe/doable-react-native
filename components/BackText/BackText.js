@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { getBackText } from '../../reducers';
+import { getDisplayText } from '../../utilities';
 const PLACEHOLDER = 'Back Text Here';
 
 class BackText extends Component {
@@ -21,7 +22,7 @@ class BackText extends Component {
     super(props);
 
     this.state = {
-      backText: '',
+      backText: [],
       isActive: props.isActive,
     };
   }
@@ -43,15 +44,16 @@ class BackText extends Component {
   render() {
 
     let { backText, isActive } = this.state;
-    if (backText.length < 1) {
-      backText = PLACEHOLDER;
+    let displayText = getDisplayText(backText);
+    if (displayText.length < 1) {
+      displayText = PLACEHOLDER;
     }
 
     let opacity = isActive ? 1.0 : .5;
     let fontSize = isActive ? 28 : 20;
     return (
       <View style={[styles.root, {opacity}]}>
-        <Text style={[styles.text, {fontSize}]}>{backText}</Text>
+        <Text style={[styles.text, {fontSize}]}>{displayText}</Text>
       </View>
     );
   }

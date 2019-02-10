@@ -34,3 +34,18 @@ export function randomString(length) {
   let result = uuid.v4();
     return result;
 }
+
+
+// @param
+// [
+//   documentIndexKey,
+//   word
+// ]
+
+export function getDisplayText(textMap) {
+  let displayText = '';
+  textMap.map(({ word }) => {
+    displayText = `${displayText} ${word}`;
+  });
+  return displayText;
+}
