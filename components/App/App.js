@@ -7,6 +7,7 @@ import DocumentList from '../DocumentList';
 import Welcome from '../Welcome';
 import Display from '../Display';
 import SideMenu from '../SideMenu';
+import Memory from '../Memory';
 
 const MainStack = createStackNavigator({
   DeckList: { screen: DeckList },
@@ -33,6 +34,9 @@ const RootStack = createStackNavigator(
     },
     DisplayModal: {
       screen: Display,
+    },
+    MemoryModal: {
+      screen: Memory,
     },
     CreateCardModal: {
       screen: CreateCard,

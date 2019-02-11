@@ -13,10 +13,6 @@ export default StyleSheet.create({
   backContainer: {
     flex: 1,
   },
-  playerContainer: {
-    flex: 1,
-    marginBottom: 20,
-  },
   topButtonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -32,27 +28,28 @@ export default StyleSheet.create({
     fontWeight: '400',
     // fontFamily: 'Roboto-Thin',
   },
-  interactiveContainer: {
+  rowContainer: {
+    flexDirection: 'row',
+    alignItems: 'stretch',
+  },
+  columnContainer: {
     flex: 1,
-    justifyContent: 'center',
-    margin: 20,
-  },
-  controlGroup: {
-    alignItems: 'center',
-  },
-  controlTopGroup: {
-    flexDirection: 'row',
-  },
-  controlBottomGroup: {
-    flexDirection: 'row',
-    alignSelf: 'stretch',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
+    alignItems: 'stretch',
   },
   topButton: {
-    backgroundColor: 'transparent',
+    margin: 4,
+    padding: 20,
+    backgroundColor: 'red',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  bottomButton: {
-    backgroundColor: 'transparent',
+  text: {
+    color: '#FAFAFA',
+    fontSize: 20,
+    fontWeight: '400',
+    // fontFamily: 'Roboto-Thin',
+    textAlign: 'center',
+    alignSelf: 'stretch',
   },
 });

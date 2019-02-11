@@ -29,6 +29,19 @@ export const getRandomIndex = (currentIndex, length) => {
   return randomInt;
 }
 
+export const getThreeRandomIndexes = (length) => {
+  const defaultLength = 3;
+  var randomIndexes = [];
+  length = length < defaultLength + 1 ? defaultLength + 1 : length;
+  while(randomIndexes.length < defaultLength) {
+    let randomInt = getRandomInt(length);
+    if(randomIndexes.indexOf(randomInt) === -1 && randomInt > -1) {
+      randomIndexes.push(randomInt);
+    }
+  }
+  return randomIndexes;
+}
+
 
 export function randomString(length) {
   let result = uuid.v4();

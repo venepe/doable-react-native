@@ -11,11 +11,12 @@ import { MaterialIcons } from '@expo/vector-icons/index';
 import Query from '../Query';
 import { connect } from 'react-redux';
 import { removeActiveCardAtIndexAndSetActiveCard, setActiveCard } from '../../actions'
-import { getActiveCard, getActiveCards } from '../../reducers';
-import { getHeaderButtonColor, getRandomIndex, getRandomInt } from '../../utilities';
+import { getActiveCard, getActiveCards, getPotentialCards } from '../../reducers';
+import { getHeaderButtonColor, getRandomIndex, getRandomInt, getThreeRandomIndexes } from '../../utilities';
 import styles from './styles';
+const THREE = 3;
 
-class Display extends Component {
+class Memory extends Component {
 
   static propTypes = {
     navigation: PropTypes.shape({
@@ -45,27 +46,29 @@ class Display extends Component {
   constructor(props) {
     super(props);
     this.goBack = this.goBack.bind(this);
-    this.goToMemoryGame = this.goToMemoryGame.bind(this);
-    this.onShow = this.onShow.bind(this);
-    this.renderAnswer = this.renderAnswer.bind(this);
+    this.goToFlashcardGame = this.goToFlashcardGame.bind(this);
+    this.onGuess = this.onGuess.bind(this);
     this.onCorrect = this.onCorrect.bind(this);
     this.onWrong = this.onWrong.bind(this);
+    this.randomize = this.randomize.bind(this);
     this.getCurrentCardIndex = this.getCurrentCardIndex.bind(this);
 
+    const potentialCards = props.potentialCards;
     this.state = {
       activeCard: props.activeCard,
       activeCards: props.activeCards,
-      show: false,
+      potentialCards: potentialCards,
+      randomIndexes: getThreeRandomIndexes(potentialCards.length),
+      randomIndex: getRandomIndex(-1, THREE),
+      availableAnswers: potentialCards.length,
     };
   }
 
   componentDidUpdate(prevProps) {
     const props = this.props;
     if (props.activeCard !== prevProps.activeCard) {
-      // hidden logic... look at show
       this.setState({
         activeCard: props.activeCard,
-        show: false,
       });
     }
     if (props.activeCards !== prevProps.activeCards) {
@@ -75,39 +78,39 @@ class Display extends Component {
     }
   }
 
+  randomize() {
+    const { availableAnswers } = this.state;
+    this.setState({
+      randomIndexes: getThreeRandomIndexes(availableAnswers),
+      randomIndex: getRandomIndex(-1, THREE),
+    });
+
+  }
+
   goBack() {
     this.props.navigation.goBack();
   }
 
-  goToMemoryGame() {
-    this.props.navigation.replace('MemoryModal');
+  goToFlashcardGame() {
+    this.props.navigation.replace('DisplayModal');
   }
 
-  renderAnswer() {
-    const { activeCard, show } = this.state;
-    if (show) {
-      return (
-        <Text style={styles.title}>{this.state.activeCard.backText}</Text>
-      );
+  onGuess(guess) {
+    const { activeCard } = this.state;
+    if (guess === activeCard.backText) {
+      this.onCorrect();
+    } else {
+      this.onWrong();
     }
-  }
-
-  onShow() {
-    let { show } = this.state;
-    show = !show;
-    this.setState({
-      show,
-    });
   }
 
   onCorrect() {
     const { activeCard, activeCards } = this.state;
     if (activeCards.length > 1) {
       const index = this.getCurrentCardIndex();
+
+      this.randomize();
       this.props.removeActiveCardAtIndexAndSetActiveCard({ payload: { index } });
-      this.setState({
-        show: false,
-      });
     } else {
       Alert.alert(
         'Congrats!',
@@ -131,52 +134,74 @@ class Display extends Component {
 
   onWrong() {
     const { activeCard, activeCards } = this.state;
-    const idx = this.getCurrentCardIndex();
+    Alert.alert(
+      activeCard.frontText,
+      activeCard.backText,
+      [
+        { text: 'Okay', onPress: () => {
+          const idx = this.getCurrentCardIndex();
 
-    let nextIdx = getRandomIndex(idx, activeCards.length);
-    let nextCard = activeCards[nextIdx];
-    this.props.setActiveCard({ payload: { activeCard: nextCard } });
-    this.setState({
-      show: false,
-    });
+          let nextIdx = getRandomIndex(idx, activeCards.length);
+          let nextCard = activeCards[nextIdx];
+          this.randomize();
+          this.props.setActiveCard({ payload: { activeCard: nextCard } });
+        }},
+      ],
+      { cancelable: false }
+    );
   }
 
   render() {
     const { navigation } = this.props;
+    const { randomIndexes, randomIndex, potentialCards, activeCard } = this.state;
+    console.log(potentialCards.length);
+    let buttonValues = [];
+    randomIndexes.map((val, ind) => {
+      if (potentialCards[val]) {
+        buttonValues.push(potentialCards[val].backText);
+      } else {
+        buttonValues.push(ind);
+      }
+    });
+    buttonValues.splice(randomIndex, 0, activeCard.backText);
 
     return (
-      <TouchableOpacity style={styles.container} onPress={this.onShow}>
+      <View style={styles.container}>
         <View style={styles.subContainer}>
           <View style={styles.topButtonContainer}>
-            <TouchableOpacity style={styles.button} onPress={this.goBack}>
+            <TouchableOpacity style={styles.backButton} onPress={this.goBack}>
               <MaterialIcons name="keyboard-arrow-down" size={40} color="#FAFAFA" />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={this.goToMemoryGame}>
+            <TouchableOpacity style={styles.gameButton} onPress={this.goToFlashcardGame}>
               <MaterialIcons name="games" size={40} color="#FAFAFA" />
             </TouchableOpacity>
           </View>
             <Text style={styles.title}>{this.state.activeCard.frontText}</Text>
-            { this.renderAnswer() }
         </View>
-        <View style={styles.controlGroup}>
-          <View style={styles.controlTopGroup}>
-            <TouchableOpacity style={styles.topButton} onPress={this.onWrong}>
-              <MaterialIcons name="cancel" size={90} color={'#FF5252'} />
+        <View style={styles.rowContainer}>
+          <View style={styles.columnContainer}>
+            <TouchableOpacity style={[styles.topButton, {backgroundColor: '#7C4DFF'}]} onPress={() => this.onGuess(buttonValues[0])}>
+              <Text style={styles.text}>{buttonValues[0]}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.topButton} onPress={this.onCorrect}>
-              <MaterialIcons name="check-circle" size={90} color={'#69F0AE'} />
+            <TouchableOpacity style={[styles.topButton, {backgroundColor: '#3D5AFE'}]} onPress={() => this.onGuess(buttonValues[1])}>
+              <Text style={styles.text}>{buttonValues[1]}</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.controlBottomGroup}>
-
+          <View style={styles.columnContainer}>
+            <TouchableOpacity style={[styles.topButton, {backgroundColor: '#00B0FF'}]} onPress={() => this.onGuess(buttonValues[2])}>
+              <Text style={styles.text}>{buttonValues[2]}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.topButton, {backgroundColor: '#00B8D4'}]} onPress={() => this.onGuess(buttonValues[3])}>
+              <Text style={styles.text}>{buttonValues[3]}</Text>
+            </TouchableOpacity>
           </View>
         </View>
-      </TouchableOpacity>
+      </View>
     )
   }
 }
 
-Display.navigationOptions = (props) => {
+Memory.navigationOptions = (props) => {
   const { navigation } = props;
   const { navigate } = navigation;
 
@@ -196,16 +221,17 @@ Display.navigationOptions = (props) => {
   };
 };
 
-Display.defaultProps = {
+Memory.defaultProps = {
   activeCard: {},
 };
 
 const mapStateToProps = state => ({
   activeCard: getActiveCard(state),
   activeCards: getActiveCards(state),
+  potentialCards: getPotentialCards(state),
 });
 
 export default connect(
   mapStateToProps,
   { setActiveCard, removeActiveCardAtIndexAndSetActiveCard },
-)(Display);
+)(Memory);

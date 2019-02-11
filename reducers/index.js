@@ -3,6 +3,7 @@ import CardBuilderTypes from '../constants/CardBuilderTypes';
 import NetworkTypes from '../constants/NetworkTypes';
 import UserTypes from '../constants/UserTypes';
 import { EDITING } from '../constants/Enums';
+import { getRandomInt } from '../utilities';
 
 // frontTextIndexesOnDocument = {
 //   documentId,
@@ -17,6 +18,7 @@ import { EDITING } from '../constants/Enums';
 const initialState = {
   activeCard: {},
   activeCards: [],
+  potentialCards: [],
   uid: null,
   isLoading: false,
   frontText: [],
@@ -56,19 +58,20 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         activeCards,
+        potentialCards: activeCards,
       };
     }
-    case CardTypes.REMOVE_CARD_BY_ID:
+    case CardTypes.REMOVE_ACTIVE_CARD_AT_INDEX:
     {
-      const { id } = action.payload;
-      let { activeCards } = state;
-      const idx = activeCards.findIndex((card) => {
-        return card.id === id;
-      });
-      activeCards.splice(idx, 1);
+      const { index } = action.payload;
+      let { activeCards, potentialCards } = state;
+      activeCards.splice(index, 1);
+      let nextIdx = getRandomInt(activeCards.length);
+      let activeCard = activeCards[nextIdx];
       return {
         ...state,
-        activeCards,
+        activeCards: [...activeCards],
+        activeCard,
       };
     }
     case UserTypes.SET_UID:
@@ -215,6 +218,7 @@ export const getFrontTextIndexesOnDocument = state => state.frontTextIndexesOnDo
 export const getBackTextIndexesOnDocument = state => state.backTextIndexesOnDocument;
 export const getActiveCard = state => state.activeCard;
 export const getActiveCards = state => state.activeCards;
+export const getPotentialCards = state => state.potentialCards;
 export const getCardEditingStatus = state => state.cardEditingStatus;
 
 export default reducer;
