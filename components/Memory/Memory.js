@@ -11,7 +11,7 @@ import { MaterialIcons } from '@expo/vector-icons/index';
 import Query from '../Query';
 import { connect } from 'react-redux';
 import { removeActiveCardAtIndexAndSetActiveCard, setActiveCard } from '../../actions'
-import { getActiveCard, getActiveCards, getPotentialCards } from '../../reducers';
+import { getActiveCard, getActiveCards, getPotentialCards, getActiveIndex } from '../../reducers';
 import { getHeaderButtonColor, getRandomIndex, getRandomInt, getThreeRandomIndexes } from '../../utilities';
 import styles from './styles';
 const THREE = 3;
@@ -40,6 +40,7 @@ class Memory extends Component {
         return {
           activeCard: nextProps.activeCard,
           activeCards: nextProps.activeCards,
+          activeIndex: nextProps.activeIndex,
         }
       }
 
@@ -51,14 +52,14 @@ class Memory extends Component {
     this.onCorrect = this.onCorrect.bind(this);
     this.onWrong = this.onWrong.bind(this);
     this.randomize = this.randomize.bind(this);
-    this.getCurrentCardIndex = this.getCurrentCardIndex.bind(this);
 
     const potentialCards = props.potentialCards;
     this.state = {
       activeCard: props.activeCard,
       activeCards: props.activeCards,
+      activeIndex: props.activeIndex,
       potentialCards: potentialCards,
-      randomIndexes: getThreeRandomIndexes(potentialCards.length),
+      randomIndexes: getThreeRandomIndexes(potentialCards.length, props.activeIndex),
       randomIndex: getRandomIndex(-1, THREE),
       availableAnswers: potentialCards.length,
     };
@@ -69,6 +70,7 @@ class Memory extends Component {
     if (props.activeCard !== prevProps.activeCard) {
       this.setState({
         activeCard: props.activeCard,
+        activeIndex: props.activeIndex,
       });
     }
     if (props.activeCards !== prevProps.activeCards) {
@@ -79,10 +81,11 @@ class Memory extends Component {
   }
 
   randomize() {
-    const { availableAnswers } = this.state;
+    const { availableAnswers, activeIndex } = this.state;
+    const randomIndex = getRandomIndex(-1, THREE);
     this.setState({
-      randomIndexes: getThreeRandomIndexes(availableAnswers),
-      randomIndex: getRandomIndex(-1, THREE),
+      randomIndexes: getThreeRandomIndexes(availableAnswers, activeIndex),
+      randomIndex,
     });
 
   }
@@ -107,10 +110,9 @@ class Memory extends Component {
   onCorrect() {
     const { activeCard, activeCards } = this.state;
     if (activeCards.length > 1) {
-      const index = this.getCurrentCardIndex();
-
+      const { activeIndex } = this.state;
+      this.props.removeActiveCardAtIndexAndSetActiveCard({ payload: { index: activeIndex } });
       this.randomize();
-      this.props.removeActiveCardAtIndexAndSetActiveCard({ payload: { index } });
     } else {
       Alert.alert(
         'Congrats!',
@@ -123,15 +125,6 @@ class Memory extends Component {
     }
   }
 
-  getCurrentCardIndex() {
-    const { activeCard, activeCards } = this.state;
-    let id = activeCard.id;
-    const idx = activeCards.findIndex((card) => {
-      return card.id === id;
-    });
-    return idx;
-  }
-
   onWrong() {
     const { activeCard, activeCards } = this.state;
     Alert.alert(
@@ -139,12 +132,12 @@ class Memory extends Component {
       activeCard.backText,
       [
         { text: 'Okay', onPress: () => {
-          const idx = this.getCurrentCardIndex();
+          const { activeIndex } = this.state;
 
-          let nextIdx = getRandomIndex(idx, activeCards.length);
+          let nextIdx = getRandomIndex(activeIndex, activeCards.length);
           let nextCard = activeCards[nextIdx];
+          this.props.setActiveCard({ payload: { activeCard: nextCard, activeIndex: nextIdx } });
           this.randomize();
-          this.props.setActiveCard({ payload: { activeCard: nextCard } });
         }},
       ],
       { cancelable: false }
@@ -154,16 +147,25 @@ class Memory extends Component {
   render() {
     const { navigation } = this.props;
     const { randomIndexes, randomIndex, potentialCards, activeCard } = this.state;
-    console.log(potentialCards.length);
     let buttonValues = [];
+
+    // TODO: big bug with how answer shows up sometimes
+    let hasAnswer = false;
+    let activeBackText = activeCard.backText;
     randomIndexes.map((val, ind) => {
       if (potentialCards[val]) {
-        buttonValues.push(potentialCards[val].backText);
+        let potentialText = potentialCards[val].backText;
+        if (activeBackText === potentialText) {
+          hasAnswer = true;
+        }
+        buttonValues.push(potentialText);
       } else {
         buttonValues.push(ind);
       }
     });
-    buttonValues.splice(randomIndex, 0, activeCard.backText);
+    if (!hasAnswer) {
+      buttonValues.splice(randomIndex, 0, activeBackText);
+    }
 
     return (
       <View style={styles.container}>
@@ -228,6 +230,7 @@ Memory.defaultProps = {
 const mapStateToProps = state => ({
   activeCard: getActiveCard(state),
   activeCards: getActiveCards(state),
+  activeIndex: getActiveIndex(state),
   potentialCards: getPotentialCards(state),
 });
 

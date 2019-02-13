@@ -41,13 +41,17 @@ class CardList extends Component {
   onPressRow(card) {
     const { client, navigation } = this.props;
     const deckId = navigation.getParam('deckId');
+    const cardId = card.id;
     const { deckById } = client.readQuery({ query: CARDS_BY_DECK_NODEID, variables: {
       id: deckId,
     } });
     let cards = deckById.cardsByDeckId.edges.map(({ node }) => {
       return { ...node };
     });
-    this.props.setActiveCard({ payload: { activeCard: card } });
+    const cardIndex = deckById.cardsByDeckId.edges.findIndex(({ node }) => {
+      return node.id === cardId;
+    });
+    this.props.setActiveCard({ payload: { activeCard: card, activeIndex: cardIndex } });
     this.props.setActiveCards({ payload: { activeCards: cards } });
     this.props.navigation.navigate('DisplayModal');
   }
@@ -69,7 +73,7 @@ class CardList extends Component {
           id: deckId,
         } });
         const idx = deckById.cardsByDeckId.edges.findIndex(({ node }) => {
-          return node.id === deckId;
+          return node.id === cardId;
         });
         deckById.cardsByDeckId.edges.splice(idx, 1);
         cache.writeQuery({

@@ -135,7 +135,7 @@ class Display extends Component {
 
     let nextIdx = getRandomIndex(idx, activeCards.length);
     let nextCard = activeCards[nextIdx];
-    this.props.setActiveCard({ payload: { activeCard: nextCard } });
+    this.props.setActiveCard({ payload: { activeCard: nextCard, activeIndex: nextIdx } });
     this.setState({
       show: false,
     });

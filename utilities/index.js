@@ -29,14 +29,24 @@ export const getRandomIndex = (currentIndex, length) => {
   return randomInt;
 }
 
-export const getThreeRandomIndexes = (length) => {
-  const defaultLength = 3;
+export const getThreeRandomIndexes = (length, currentInt) => {
+  const defaultLength = 4;
   var randomIndexes = [];
-  length = length < defaultLength + 1 ? defaultLength + 1 : length;
-  while(randomIndexes.length < defaultLength) {
-    let randomInt = getRandomInt(length);
-    if(randomIndexes.indexOf(randomInt) === -1 && randomInt > -1) {
-      randomIndexes.push(randomInt);
+  if (length > defaultLength) {
+    while(randomIndexes.length < defaultLength) {
+      let randomInt = getRandomInt(length);
+      if(randomIndexes.indexOf(randomInt) === -1 && randomInt !== currentInt) {
+        randomIndexes.push(randomInt);
+      }
+    }
+  } else {
+    let availableInts = [0, 1, 2, 3];
+    availableInts.splice(length, availableInts.length);
+    availableInts.splice(currentInt, 1);
+    while(randomIndexes.length < defaultLength) {
+      let randomInt = getRandomInt(availableInts.length);
+      randomIndexes.push(availableInts[randomInt]);
+      availableInts.splice(randomInt, 1);
     }
   }
   return randomIndexes;

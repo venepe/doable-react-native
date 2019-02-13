@@ -18,6 +18,7 @@ import { getRandomInt } from '../utilities';
 const initialState = {
   activeCard: {},
   activeCards: [],
+  activeIndex: -1,
   potentialCards: [],
   uid: null,
   isLoading: false,
@@ -45,11 +46,12 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case CardTypes.SET_ACTIVE_CARD:
     {
-      const { activeCard } = action.payload;
+      const { activeCard, activeIndex } = action.payload;
 
       return {
         ...state,
         activeCard,
+        activeIndex,
       };
     }
     case CardTypes.SET_ACTIVE_CARDS:
@@ -57,8 +59,8 @@ const reducer = (state = initialState, action) => {
       const { activeCards } = action.payload;
       return {
         ...state,
-        activeCards,
-        potentialCards: activeCards,
+        activeCards: [...activeCards],
+        potentialCards: [...activeCards],
       };
     }
     case CardTypes.REMOVE_ACTIVE_CARD_AT_INDEX:
@@ -72,6 +74,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         activeCards: [...activeCards],
         activeCard,
+        activeIndex: nextIdx,
       };
     }
     case UserTypes.SET_UID:
@@ -218,6 +221,7 @@ export const getFrontTextIndexesOnDocument = state => state.frontTextIndexesOnDo
 export const getBackTextIndexesOnDocument = state => state.backTextIndexesOnDocument;
 export const getActiveCard = state => state.activeCard;
 export const getActiveCards = state => state.activeCards;
+export const getActiveIndex = state => state.activeIndex;
 export const getPotentialCards = state => state.potentialCards;
 export const getCardEditingStatus = state => state.cardEditingStatus;
 
