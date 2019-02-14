@@ -9,8 +9,6 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons/index';
 import { connect } from 'react-redux';
-import { getIsLoading } from '../../reducers';
-import { uploadImage } from '../../actions';
 import { getHeaderButtonColor } from '../../utilities';
 
 class NavDocument extends Component {
