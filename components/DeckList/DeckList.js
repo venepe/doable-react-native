@@ -17,10 +17,11 @@ import Query, { IS_FETCHING_MORE } from '../Query';
 import NavSearchBar from '../NavSearchBar';
 import NavCreateDeck from '../NavCreateDeck';
 import LogonButton from '../LogonButton';
+import DocumentUploadIndicator from '../DocumentUploadIndicator';
 import NavSettingsButton from '../NavSettingsButton';
 import { ARCHIVE_DECK } from '../../mutations';
 import { DECKS_BY_USER_UID } from '../../queries';
-import { getUID } from '../../reducers';
+import { getUID, getIsLoading } from '../../reducers';
 import { getHeaderButtonColor } from '../../utilities';
 import GraphQLValues from '../../constants/GraphQLValues';
 
@@ -35,6 +36,7 @@ class DeckList extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
         return {
           uid: nextProps.uid,
+          isLoading: nextProps.isLoading,
         }
       }
 
@@ -43,10 +45,12 @@ class DeckList extends Component {
     this.renderItem = this.renderItem.bind(this);
     this.onPressRow = this.onPressRow.bind(this);
     this.onDelete = this.onDelete.bind(this);
+    this.renderActivityIndicator = this.renderActivityIndicator.bind(this);
     this.navigateToWelcome = this.navigateToWelcome.bind(this);
 
     this.state = {
       uid: props.uid,
+      isLoading: props.isLoading,
     }
   }
 
@@ -55,6 +59,11 @@ class DeckList extends Component {
     if (props.uid !== prevProps.uid) {
       this.setState({
         uid: props.uid,
+      });
+    }
+    if (props.isLoading !== prevProps.isLoading) {
+      this.setState({
+        isLoading: props.isLoading,
       });
     }
   }
@@ -114,6 +123,16 @@ class DeckList extends Component {
     this.props.navigation.dispatch(resetAction);
   }
 
+  renderActivityIndicator() {
+    if (this.state.isLoading) {
+      return (
+        <DocumentUploadIndicator />
+      );
+    } else {
+      return null;
+    }
+  }
+
   render() {
     let uid = this.state.uid
     if (!uid || uid.length < 1) {
@@ -121,6 +140,7 @@ class DeckList extends Component {
     }
     return (
       <View style={styles.root}>
+        {this.renderActivityIndicator()}
         <Query
         query={DECKS_BY_USER_UID}
         variables={{ uid, first: GraphQLValues.FIRST, after: null }}
@@ -247,6 +267,7 @@ DeckList.propTypes = {}
 
 const mapStateToProps = state => ({
   uid: getUID(state),
+  isLoading: getIsLoading(state),
 });
 
 export default withApollo(connect(

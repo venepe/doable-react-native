@@ -7,15 +7,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { connect } from 'react-redux';
-import AppIntroSlider from 'react-native-app-intro-slider';
-import { uploadDocument } from '../../actions';
 import DocumentItem from '../DocumentItem';
-import NavAddButton from '../NavAddButton';
 import Placeholder from '../Placeholder';
-import DocumentUploadIndicator from '../DocumentUploadIndicator';
 import Query from '../Query';
-import { getIsLoading } from '../../reducers';
 import { DOCUMENT_BY_CARD_NODEID } from '../../queries';
 
 class DocumentList extends Component {
@@ -26,33 +20,15 @@ class DocumentList extends Component {
     }).isRequired,
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-        return {
-          isLoading: nextProps.isLoading,
-        }
-      }
-
   constructor(props) {
     super(props);
     this.renderItem = this.renderItem.bind(this);
     this.onPressRow = this.onPressRow.bind(this);
-    this.onDone = this.onDone.bind(this);
-    this.renderActivityIndicator = this.renderActivityIndicator.bind(this);
     const { navigation } = this.props;
     const deckId = navigation.getParam('deckId');
 
     this.state = {
-      isLoading: props.isLoading,
       deckId,
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    const props = this.props;
-    if (props.isLoading !== prevProps.isLoading) {
-      this.setState({
-        isLoading: props.isLoading,
-      });
     }
   }
 
@@ -71,29 +47,12 @@ class DocumentList extends Component {
     });
   }
 
-  onDone() {
-    const { navigation } = this.props;
-    const deckId = navigation.getParam('deckId');
-    this.props.uploadDocument({ payload: { deckId } });
-  }
-
-  renderActivityIndicator() {
-    if (this.state.isLoading) {
-      return (
-        <DocumentUploadIndicator />
-      );
-    } else {
-      return null;
-    }
-  }
-
   render() {
 
     const { deckId } = this.state;
 
     return (
       <View style={styles.root}>
-        {this.renderActivityIndicator()}
         <Query
         query={DOCUMENT_BY_CARD_NODEID}
         variables={{ id: deckId }}
@@ -114,10 +73,6 @@ class DocumentList extends Component {
                 />
               </View>
             )
-          } else {
-            return (
-              <AppIntroSlider slides={slides} onDone={() => this.onDone()}/>
-            );
           }
         }}
         </Query>
@@ -144,9 +99,6 @@ DocumentList.navigationOptions = (props) => {
     headerBackTitleStyle: {
       color: '#FFFFFF',
     },
-    headerRight: (
-     <NavAddButton deckId={deckId} />
-   ),
   };
 };
 
@@ -176,42 +128,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const slides = [
-  {
-    key: 'capture',
-    title: 'Capture Your Card',
-    text: 'Take a picture of what you are learning.',
-    image: require('../../assets/camera.png'),
-    imageStyle: styles.image200,
-    backgroundColor: '#651FFF',
-  },
-  {
-    key: 'ai',
-    title: 'We Identify Text',
-    text: 'Wait while we we convert your image to text',
-    image: require('../../assets/wand.png'),
-    imageStyle: styles.image200,
-    backgroundColor: '#2979FF',
-  },
-  {
-    key: 'select',
-    title: 'Make Your Card',
-    text: 'Tap the text to the front or back',
-    image: require('../../assets/list.png'),
-    imageStyle: styles.image200,
-    backgroundColor: '#00BFA5',
-  }
-];
-
 DocumentList.defaultProps = {};
 
-DocumentList.propTypes = {}
+DocumentList.propTypes = {};
 
-const mapStateToProps = state => ({
-  isLoading: getIsLoading(state),
-});
-
-export default connect(
-  mapStateToProps,
-  { uploadDocument },
-)(DocumentList);
+export default DocumentList;

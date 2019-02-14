@@ -202,6 +202,8 @@ PODS:
   - lottie-ios (2.5.2)
   - React (0.57.1):
     - React/Core (= 0.57.1)
+  - react-native-document-picker (2.2.0):
+    - React
   - react-native-fast-image-expo (0.0.5):
     - FLAnimatedImage
     - React
@@ -301,6 +303,7 @@ DEPENDENCIES:
   - EXTaskManagerInterface (from `../node_modules/expo-task-manager-interface/ios`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - react-native-document-picker (from `../node_modules/react-native-document-picker`)
   - react-native-fast-image-expo (from `../node_modules/react-native-fast-image-expo`)
   - React/ART (from `../node_modules/react-native`)
   - React/Core (from `../node_modules/react-native`)
@@ -429,6 +432,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   React:
     :path: "../node_modules/react-native"
+  react-native-document-picker:
+    :path: "../node_modules/react-native-document-picker"
   react-native-fast-image-expo:
     :path: "../node_modules/react-native-fast-image-expo"
   yoga:
@@ -504,10 +509,11 @@ SPEC CHECKSUMS:
   JKBigInteger2: e91672035c42328c48b7dd015b66812ddf40ca9b
   lottie-ios: 3fef45d3fabe63e3c7c2eb603dd64ddfffc73062
   React: 1fe0eb13d90b625d94c3b117c274dcfd2e760e11
+  react-native-document-picker: e7934f6a3c898a1b62fa68b1f09371beef6ac51a
   react-native-fast-image-expo: a8efa74018c9c2b52dbef0d0d983885751f6da2f
   SDWebImage: c00ec18ab25d10e5ffac109b0f78d1b4341c9691
   yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
 
-PODFILE CHECKSUM: 4051e55a4932b6c6700b7e9619a4374501f803d0
+PODFILE CHECKSUM: 9cf8ba73726b5b7ef57ea5942c0ee0754d4c2dab
 
 COCOAPODS: 1.5.3
