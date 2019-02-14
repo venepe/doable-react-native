@@ -1,5 +1,5 @@
 import { createStackNavigator, createAppContainer, createDrawerNavigator } from 'react-navigation';
-import CreateDeck from '../CreateDeck';
+import UpdateDeck from '../UpdateDeck';
 import CreateCard from '../CreateCard';
 import DeckList from '../DeckList';
 import CardList from '../CardList';
@@ -29,8 +29,8 @@ const RootStack = createStackNavigator(
     Main: {
       screen: MainStackNav,
     },
-    CreateDeckModal: {
-      screen: CreateDeck,
+    UpdateDeckModal: {
+      screen: UpdateDeck,
     },
     DisplayModal: {
       screen: Display,

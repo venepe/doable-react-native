@@ -45,6 +45,7 @@ class DeckList extends Component {
     this.renderItem = this.renderItem.bind(this);
     this.onPressRow = this.onPressRow.bind(this);
     this.onDelete = this.onDelete.bind(this);
+    this.onEdit = this.onEdit.bind(this);
     this.renderActivityIndicator = this.renderActivityIndicator.bind(this);
     this.navigateToWelcome = this.navigateToWelcome.bind(this);
 
@@ -70,12 +71,21 @@ class DeckList extends Component {
 
   renderItem({ item, index }) {
     return (
-      <DeckItem deckItem={item} key={index} rowID={index} onPress={this.onPressRow} onDelete={this.onDelete} />
+      <DeckItem deckItem={item} key={index} rowID={index} onPress={this.onPressRow}
+        onDelete={this.onDelete} onEdit={this.onEdit} />
     )
   }
 
   onPressRow(item) {
+    console.log(item.id);
     this.props.navigation.navigate('CardList', {
+      deckId: item.id,
+    });
+  }
+
+  onEdit(item) {
+    console.log(item);
+    this.props.navigation.navigate('UpdateDeckModal', {
       deckId: item.id,
     });
   }

@@ -15,13 +15,21 @@ class DeckItem extends Component {
     rowID: PropTypes.number,
     onPress: PropTypes.func,
     onDelete: PropTypes.func,
+    onEdit: PropTypes.func,
   }
 
   static defaultProps = {
     rowID: 0,
     onPress: () => {},
     onDelete: () => {},
+    onEdit: () => {},
   }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+        return {
+          deckItem: nextProps.deckItem,
+        }
+      }
 
   constructor(props) {
     super(props);
@@ -32,9 +40,19 @@ class DeckItem extends Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    const props = this.props;
+    if (props.deckItem !== prevProps.deckItem) {
+      this.setState({
+        deckItem: props.deckItem,
+      });
+    }
+  }
+
   render() {
     let color = '#FF8A80';
     const right = [
+      { text: 'Edit', color: '#FFFFFF', backgroundColor: '#BDBDBD', onPress: () => this.props.onEdit(deckItem) },
       { text: 'Archive', color: '#FFFFFF', backgroundColor: '#FF1744', onPress: () => this.props.onDelete(deckItem) },
     ];
     const deckItem = this.state.deckItem || {};
