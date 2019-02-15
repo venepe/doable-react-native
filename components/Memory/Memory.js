@@ -53,6 +53,7 @@ class Memory extends Component {
     this.onCorrect = this.onCorrect.bind(this);
     this.onWrong = this.onWrong.bind(this);
     this.randomize = this.randomize.bind(this);
+    this.switchKeys = this.switchKeys.bind(this);
 
     const potentialCards = props.potentialCards;
     this.state = {
@@ -63,6 +64,8 @@ class Memory extends Component {
       randomIndexes: getThreeRandomIndexes(potentialCards.length, props.activeIndex),
       randomIndex: getRandomIndex(-1, THREE),
       availableAnswers: potentialCards.length,
+      questionKey: 'frontText',
+      answerKey: 'backText',
     };
   }
 
@@ -101,7 +104,7 @@ class Memory extends Component {
 
   onGuess(guess) {
     const { activeCard } = this.state;
-    if (guess === activeCard.backText) {
+    if (guess === activeCard[this.state.answerKey]) {
       this.onCorrect();
     } else {
       this.onWrong();
@@ -129,8 +132,8 @@ class Memory extends Component {
   onWrong() {
     const { activeCard, activeCards } = this.state;
     Alert.alert(
-      activeCard.frontText,
-      activeCard.backText,
+      activeCard[this.state.questionKey],
+      activeCard[this.state.answerKey],
       [
         { text: 'Okay', onPress: () => {
           const { activeIndex } = this.state;
@@ -145,6 +148,20 @@ class Memory extends Component {
     );
   }
 
+  switchKeys() {
+    if (this.state.questionKey === 'frontText') {
+      this.setState({
+        questionKey: 'backText',
+        answerKey: 'frontText',
+      });
+    } else {
+      this.setState({
+        questionKey: 'frontText',
+        answerKey: 'backText',
+      });
+    }
+  }
+
   render() {
     const { navigation } = this.props;
     const { randomIndexes, randomIndex, potentialCards, activeCard } = this.state;
@@ -152,10 +169,10 @@ class Memory extends Component {
 
     // TODO: big bug with how answer shows up sometimes
     let hasAnswer = false;
-    let activeBackText = activeCard.backText;
+    let activeBackText = activeCard[this.state.answerKey];
     randomIndexes.map((val, ind) => {
       if (potentialCards[val]) {
-        let potentialText = potentialCards[val].backText;
+        let potentialText = potentialCards[val][this.state.answerKey];
         if (activeBackText === potentialText) {
           hasAnswer = true;
         }
@@ -175,8 +192,11 @@ class Memory extends Component {
             <TouchableOpacity style={styles.backButton} onPress={this.goBack}>
               <MaterialIcons name="keyboard-arrow-down" size={40} color="#FAFAFA" />
             </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={this.switchKeys}>
+              <MaterialIcons name="rotate-right" size={40} color="#FAFAFA" />
+            </TouchableOpacity>
           </View>
-            <Text style={styles.title}>{this.state.activeCard.frontText}</Text>
+            <Text style={styles.title}>{this.state.activeCard[this.state.questionKey]}</Text>
         </View>
         <View style={styles.rowContainer}>
           <View style={styles.columnContainer}>
