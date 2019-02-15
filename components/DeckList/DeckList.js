@@ -14,7 +14,6 @@ import { withApollo } from 'react-apollo';
 import DeckItem from '../DeckItem';
 import Placeholder from '../Placeholder';
 import Query, { IS_FETCHING_MORE } from '../Query';
-import NavSearchBar from '../NavSearchBar';
 import NavCreateDeck from '../NavCreateDeck';
 import LogonButton from '../LogonButton';
 import DocumentUploadIndicator from '../DocumentUploadIndicator';

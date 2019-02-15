@@ -15,6 +15,7 @@ import { getActiveCard, getActiveCards, getPotentialCards, getActiveIndex } from
 import { getHeaderButtonColor, getRandomIndex, getRandomInt, getThreeRandomIndexes } from '../../utilities';
 import styles from './styles';
 const THREE = 3;
+const LAST_RESORT = ['zebra', 'panda', 'racoon', 'orca'];
 
 class Memory extends Component {
 
@@ -160,7 +161,7 @@ class Memory extends Component {
         }
         buttonValues.push(potentialText);
       } else {
-        buttonValues.push(ind);
+        buttonValues.push(LAST_RESORT[ind]);
       }
     });
     if (!hasAnswer) {
@@ -173,9 +174,6 @@ class Memory extends Component {
           <View style={styles.topButtonContainer}>
             <TouchableOpacity style={styles.backButton} onPress={this.goBack}>
               <MaterialIcons name="keyboard-arrow-down" size={40} color="#FAFAFA" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.gameButton} onPress={this.goToFlashcardGame}>
-              <MaterialIcons name="games" size={40} color="#FAFAFA" />
             </TouchableOpacity>
           </View>
             <Text style={styles.title}>{this.state.activeCard.frontText}</Text>

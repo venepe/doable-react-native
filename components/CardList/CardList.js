@@ -53,7 +53,7 @@ class CardList extends Component {
     });
     this.props.setActiveCard({ payload: { activeCard: card, activeIndex: cardIndex } });
     this.props.setActiveCards({ payload: { activeCards: cards } });
-    this.props.navigation.navigate('DisplayModal');
+    this.props.navigation.navigate('MemoryModal');
   }
 
   onDelete(item) {
