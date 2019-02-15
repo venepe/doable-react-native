@@ -172,7 +172,7 @@ class CreateCard extends Component {
         }),
       })
       .then(() => {
-        this.goBack();
+        this.props.clearCardEditing();
       });
     }
   }
