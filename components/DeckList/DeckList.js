@@ -76,7 +76,6 @@ class DeckList extends Component {
   }
 
   onPressRow(item) {
-    console.log(item.id);
     this.props.navigation.navigate('CardList', {
       deckId: item.id,
     });

@@ -24,15 +24,10 @@ class NavCreateDeck extends Component {
     DocumentPicker.show({
           filetype: [DocumentPickerUtil.allFiles()],
         }, (error, res) => {
-          const { uri, fileName, type } = res;
-          // Android
-          console.log(
-             res.uri,
-             res.type, // mime type
-             res.fileName,
-             res.fileSize
-          );
-          this.props.uploadDeck({ payload: { uri, type, name: fileName } });
+          if (res && res.fileName) {
+            const { uri, fileName, type } = res;
+            this.props.uploadDeck({ payload: { uri, type, name: fileName } });
+          }
         });
   }
 
