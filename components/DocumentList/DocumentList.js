@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import DocumentItem from '../DocumentItem';
 import Placeholder from '../Placeholder';
+import NavCreateCard from '../NavCreateCard';
 import Query from '../Query';
 import { DOCUMENT_BY_CARD_NODEID } from '../../queries';
 
@@ -24,11 +25,13 @@ class DocumentList extends Component {
     super(props);
     this.renderItem = this.renderItem.bind(this);
     this.onPressRow = this.onPressRow.bind(this);
+    this.updateNavigation = this.updateNavigation.bind(this);
     const { navigation } = this.props;
     const deckId = navigation.getParam('deckId');
 
     this.state = {
       deckId,
+      didUpdateNavigation: false,
     }
   }
 
@@ -47,6 +50,15 @@ class DocumentList extends Component {
     });
   }
 
+  updateNavigation(documentId) {
+    if (!this.state.didUpdateNavigation) {
+      this.props.navigation.setParams({ documentId });
+      this.setState({
+        didUpdateNavigation: true,
+      });
+    }
+  }
+
   render() {
 
     const { deckId } = this.state;
@@ -63,6 +75,7 @@ class DocumentList extends Component {
             let list = deckById.documentsByDeckId.edges.map(({ node }) => {
               return { ...node };
             });
+            {this.updateNavigation(list[0].id)}
             return (
               <View style={styles.container}>
                 <FlatList
@@ -85,6 +98,7 @@ DocumentList.navigationOptions = (props) => {
   const { navigation } = props;
   const { navigate, state } = navigation;
   const deckId = navigation.getParam('deckId');
+  const documentId = navigation.getParam('documentId');
 
   return {
     title: 'Slides',
@@ -99,6 +113,9 @@ DocumentList.navigationOptions = (props) => {
     headerBackTitleStyle: {
       color: '#FFFFFF',
     },
+    headerRight: (
+     <NavCreateCard deckId={deckId} documentId={documentId} navigation={navigation} />
+   ),
   };
 };
 
