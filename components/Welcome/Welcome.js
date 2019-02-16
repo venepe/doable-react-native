@@ -97,16 +97,16 @@ const styles = StyleSheet.create({
 
 const slides = [
   {
-    key: 'capture',
-    title: 'Point and Snap',
+    key: 'upload',
+    title: 'Upload a PowerPoint Deck',
     text: '',
-    image: require('../../assets/camera.png'),
+    image: require('../../assets/upload.png'),
     imageStyle: styles.image200,
     backgroundColor: '#651FFF',
   },
   {
     key: 'select',
-    title: 'Select and Study',
+    title: 'Select What to Study',
     text: '',
     image: require('../../assets/list.png'),
     imageStyle: styles.image200,
@@ -114,9 +114,9 @@ const slides = [
   },
   {
     key: 'wow',
-    title: '...And Done',
+    title: 'Play to Learn',
     text: '',
-    image: require('../../assets/open_mouth.png'),
+    image: require('../../assets/balloons.png'),
     imageStyle: styles.image200,
     backgroundColor: '#00BFA5',
   }
