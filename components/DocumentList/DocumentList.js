@@ -113,9 +113,6 @@ DocumentList.navigationOptions = (props) => {
     headerBackTitleStyle: {
       color: '#FFFFFF',
     },
-    headerRight: (
-     <NavCreateCard deckId={deckId} documentId={documentId} navigation={navigation} />
-   ),
   };
 };
 
