@@ -22,7 +22,7 @@ class NavCreateDeck extends Component {
 
   onPress() {
     DocumentPicker.show({
-          filetype: [DocumentPickerUtil.allFiles()],
+          filetype: [DocumentPickerUtil.pdf()],
         }, (error, res) => {
           if (res && res.fileName) {
             const { uri, fileName, type } = res;

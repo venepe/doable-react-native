@@ -98,9 +98,9 @@ const styles = StyleSheet.create({
 const slides = [
   {
     key: 'upload',
-    title: 'Upload a PowerPoint Deck',
+    title: 'Upload a PDF',
     text: '',
-    image: require('../../assets/upload.png'),
+    image: require('../../assets/upload_pdf.png'),
     imageStyle: styles.image200,
     backgroundColor: '#651FFF',
   },
@@ -114,9 +114,9 @@ const slides = [
   },
   {
     key: 'wow',
-    title: 'Play to Learn',
+    title: 'Earn an Easy A',
     text: '',
-    image: require('../../assets/balloons.png'),
+    image: require('../../assets/ribbon.png'),
     imageStyle: styles.image200,
     backgroundColor: '#00BFA5',
   }

@@ -14,8 +14,8 @@ import { DECKS_BY_USER_UID } from '../queries';
 
 export const uploadDeck = payload =>
   (dispatch, getState) => {
-    let { payload: { uri, type, name } } = payload;
-    console.log(payload);
+    let { payload: { uri, name } } = payload;
+    const type = 'application/pdf';
     const { uid } = getState();
 
     name = uri.match(/\w+(?:\.\w+)*$/g)[0];
