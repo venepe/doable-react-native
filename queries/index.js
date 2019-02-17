@@ -41,7 +41,7 @@ export const CARDS_BY_DECK_NODEID = gql`
 export const DOCUMENT_BY_CARD_NODEID = gql`
   query deckById($id: Int!) {
     deckById(id: $id) {
-      documentsByDeckId(orderBy: PRIMARY_KEY_DESC) {
+      documentsByDeckId(orderBy: PRIMARY_KEY_ASC) {
         edges {
           node {
             ...DocumentItem

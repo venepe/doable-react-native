@@ -133,8 +133,8 @@ class CreateCard extends Component {
       let currentDocumentIndex = documentEdges.findIndex(({ node }) => {
         return node.id === documentId;
       });
-      let previousDocumentIndex = currentDocumentIndex + -1;
-      if (previousDocumentIndex <= 0) {
+      let previousDocumentIndex = currentDocumentIndex - 1;
+      if (previousDocumentIndex < 0) {
         previousDocumentIndex = documentEdges.length - 1;
       }
       let previousDocumentId = documentEdges[previousDocumentIndex].node.id;
