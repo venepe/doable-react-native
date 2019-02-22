@@ -114,7 +114,7 @@ const slides = [
   },
   {
     key: 'wow',
-    title: 'Earn the A',
+    title: 'Take the Test',
     text: '',
     image: require('../../assets/ribbon.png'),
     imageStyle: styles.image200,

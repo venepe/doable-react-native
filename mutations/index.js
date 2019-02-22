@@ -20,7 +20,6 @@ export const UPDATE_DECK = gql`
     updateDeckById(input: $input) {
       deck {
         nodeId
-        id
         title
         description
         createdAt

@@ -82,7 +82,6 @@ class DeckList extends Component {
   }
 
   onEdit(item) {
-    console.log(item);
     this.props.navigation.navigate('UpdateDeckModal', {
       deckId: item.id,
     });

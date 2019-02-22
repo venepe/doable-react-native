@@ -94,7 +94,6 @@ class UpdateDeck extends Component {
                 }
               }]}
               update={(cache, { data: { updateDeckById } }) => {
-                console.log(updateDeckById);
                 const { userByUid } = cache.readQuery({ query: DECKS_BY_USER_UID, variables: {
                   uid,
                   first: GraphQLValues.FIRST,
@@ -104,10 +103,18 @@ class UpdateDeck extends Component {
                   return node.id === deckId;
                 });
                 userByUid.decksByUserUid.edges[idx].node = updateDeckById.deck;
-                console.log(userByUid);
                 cache.writeQuery({
                   query: DECKS_BY_USER_UID,
                   data: { userByUid },
+                });
+
+                const { deckById } = cache.readQuery({ query: DECK_BY_ID, variables: {
+                  id: deckId,
+                } });
+                cache.writeQuery({
+                  query: DECK_BY_ID,
+                  variables: { id: deckId },
+                  data: { deckById: updateDeckById.deck },
                 });
               }}
               onCompleted={({ updateDeckById: { deck: { title }}}) => this.goBack()}
@@ -116,10 +123,10 @@ class UpdateDeck extends Component {
                 <Fragment>
                   <View style={styles.root}>
                     <View style={styles.topContainer}>
-                      <TouchableOpacity style={styles.buttonContainer} onPress={this.goBack}>
+                      <TouchableOpacity style={styles.buttonContainerLeft} onPress={this.goBack}>
                         <MaterialIcons name="keyboard-arrow-down" size={40} color="#F5F5F5" />
                       </TouchableOpacity>
-                      <TouchableOpacity style={styles.buttonContainer} onPress={() => {
+                      <TouchableOpacity style={styles.buttonContainerRight} onPress={() => {
                           if (!this.isDisabled()) {
                             mutate({ variables: {
                               input: {
@@ -196,9 +203,15 @@ const styles = StyleSheet.create({
   textContainer: {
     margin: 0,
   },
-  buttonContainer: {
+  buttonContainerLeft: {
     backgroundColor: 'transparent',
     width: 58,
+  },
+  buttonContainerRight: {
+    backgroundColor: 'transparent',
+    width: 58,
+    marginTop: 5,
+    alignItems: 'flex-end',
   },
 });
 

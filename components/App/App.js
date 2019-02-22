@@ -1,4 +1,4 @@
-import { createStackNavigator, createAppContainer, createDrawerNavigator } from 'react-navigation';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 import UpdateDeck from '../UpdateDeck';
 import CreateCard from '../CreateCard';
 import DeckList from '../DeckList';
@@ -6,7 +6,6 @@ import CardList from '../CardList';
 import DocumentList from '../DocumentList';
 import Welcome from '../Welcome';
 import Display from '../Display';
-import SideMenu from '../SideMenu';
 import Memory from '../Memory';
 
 const MainStack = createStackNavigator({
@@ -16,18 +15,10 @@ const MainStack = createStackNavigator({
   Welcome: { screen: Welcome },
 });
 
-const MainStackNav = createDrawerNavigator({
-  MainStack: MainStack,
-  },
-{
-  contentComponent: SideMenu,
-  drawerPosition: 'left'
-});
-
 const RootStack = createStackNavigator(
   {
     Main: {
-      screen: MainStackNav,
+      screen: MainStack,
     },
     UpdateDeckModal: {
       screen: UpdateDeck,
