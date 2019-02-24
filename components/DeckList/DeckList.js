@@ -153,7 +153,7 @@ class DeckList extends Component {
         variables={{ uid, first: GraphQLValues.FIRST, after: null }}
         notifyOnNetworkStatusChange={true}
       >
-        {({ data: { userByUid: { decksByUserUid } }, fetchMore, networkStatus}) => {
+        {({ data, data: { userByUid: { decksByUserUid } }, fetchMore, networkStatus, refetch}) => {
 
           if (decksByUserUid.edges.length < 1) {
             return (
@@ -168,6 +168,8 @@ class DeckList extends Component {
             <View style={styles.container}>
               <FlatList
                 data={list}
+                refreshing={data.networkStatus === 4}
+                onRefresh={() => refetch()}
                 keyExtractor={(node) => node.nodeId}
                 renderItem={this.renderItem}
                 ListFooterComponent={() => {

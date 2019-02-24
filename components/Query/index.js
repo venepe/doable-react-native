@@ -29,7 +29,7 @@ export const QueryWrapper = ({ children, ...rest }) => (
         );
       }
 
-      return children({ loading, error, data, fetchMore, networkStatus })
+      return children({ loading, error, data, fetchMore, networkStatus, refetch })
     }}
   </Query>
 )
