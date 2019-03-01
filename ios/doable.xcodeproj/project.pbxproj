@@ -156,6 +156,9 @@
 						DevelopmentTeam = 4VDW5N6453;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 0;
+							};
 							com.apple.iCloud = {
 								enabled = 1;
 							};

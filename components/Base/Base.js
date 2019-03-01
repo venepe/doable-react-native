@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import jwtDecoder from 'jwt-decode';
 import App from '../App';
-import { setUID } from '../../actions';
+import { setUID, didLoadUID } from '../../actions';
 import { logonUser } from '../../helpers/logon';
 import Keys from '../../constants/Keys';
 
@@ -16,6 +16,10 @@ class Base extends Component {
         const decodedToken = jwtDecoder(id_token);
         const uid = decodedToken.sub;
         this.props.setUID({ payload: { uid  } })
+        this.props.didLoadUID();
+      })
+      .catch(() => {
+        this.props.didLoadUID();
       })
   }
 
@@ -28,5 +32,5 @@ class Base extends Component {
 
 export default connect(
   null,
-  { setUID },
+  { setUID, didLoadUID },
 )(Base);

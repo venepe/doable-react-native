@@ -21,6 +21,7 @@ const initialState = {
   activeIndex: -1,
   potentialCards: [],
   uid: null,
+  didLoadUid: false,
   isLoading: false,
   frontText: [],
   backText: [],
@@ -83,6 +84,13 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         uid,
+      };
+    }
+    case UserTypes.DID_LOAD_UID:
+    {
+      return {
+        ...state,
+        didLoadUid: true,
       };
     }
     case NetworkTypes.BEGIN_UPLOAD:
@@ -215,6 +223,7 @@ const reducer = (state = initialState, action) => {
 export const getIsLoading = state => state.isLoading;
 export const getUploadProgress = state => state.uploadProgress;
 export const getUID = state => state.uid;
+export const getDidLoadUID = state => state.didLoadUid;
 export const getFrontText = state => state.frontText;
 export const getBackText = state => state.backText;
 export const getFrontTextIndexesOnDocument = state => state.frontTextIndexesOnDocument;

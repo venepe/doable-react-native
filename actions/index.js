@@ -84,6 +84,10 @@ export const setUID = payload => ({
   ...payload,
 });
 
+export const didLoadUID = () => ({
+  type: UserTypes.DID_LOAD_UID,
+});
+
 export const setActiveCard = payload => ({
   type: CardTypes.SET_ACTIVE_CARD,
   ...payload,
